@@ -4,7 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="CardConfigs", menuName = "Cards/CardConfigs")]
 public class CardConfigs : MonoBehaviour
 {
-   public List<CardConfig> configs;
+    [Header("List Config for Cards")]
+    public List<CardConfig> configs;
+    [Header("Card Protecter")]
+    public Sprite _card_protecter;
 }
 [System.Serializable]
 public class CardConfig
