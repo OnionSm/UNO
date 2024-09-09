@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICard 
+public interface IDrawable 
 {
-    void Play();
+    void Draw(int amount);
 }

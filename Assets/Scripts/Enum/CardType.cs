@@ -4,8 +4,7 @@ using UnityEngine;
 
 public enum CardType
 {
-    Normal,
+    Number,
     Action,
-    Effect
-
+    Wild
 }

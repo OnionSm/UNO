@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class GameController : MonoBehaviour
 {
     private int _turn_direction;
-    [SerializeField] private List<int> _enemy;
+    [SerializeField] private List<GameObject> _list_player;
     private int _player_count;
     private int _current_turn;
-    private List<ICard> _deck;
-    private List<ICard> _list_card_played;
+    private List<BaseCard> _deck;
+    private List<BaseCard> _list_card_played;
     [SerializeField] private GameObject _card_holder;
-    private ICard _current_card;
+    private BaseCard _current_card;
     private void Start()
     {
         
@@ -23,8 +24,22 @@ public class GameController : MonoBehaviour
     }
     public void ChangeTurn(int value)
     {
-        _current_turn += (value * 2);
-        _current_turn %= _player_count;
+        _current_turn = GetNextTurn(value);
+    }
+    public int GetNextTurn(int value)
+    {
+        int temp = _current_turn +  (value * 2 * _turn_direction);
+        if (temp < 0)
+        {
+            temp += _player_count;
+        }
+        temp %= _player_count;
+        return temp;
+    }
+    public GameObject GetNextTurnPlayer()
+    {
+        int next_turn = GetNextTurn(1);
+        return _list_player[next_turn];
     }
     public void EndMatch()
     {
@@ -34,19 +49,23 @@ public class GameController : MonoBehaviour
     {
         _turn_direction *= -1;
     }
-    public void DrawCard(int value)
+    public void DrawCard(int amount, int offset)
     {
-        ChangeTurn(1);
-        // người chơi tiếp theo draw value card
-        ChangeTurn(1);
+        GameObject player = GetNextTurnPlayer();
+        player.GetComponent<IDrawable>()?.Draw(amount);
     }
-    public void PlayCard(ICard card)
+    public void PlayCard(BaseCard card)
     {
         _list_card_played.Add(card);
         
     }
-    public ICard GetLatestCard()
+    /*public ICard GetLatestCard()
     {
         return _current_card;
+    }*/
+
+    public void PlayNumberCard(BaseCard card)
+    {
+
     }
 }
