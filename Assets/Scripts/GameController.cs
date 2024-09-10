@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour
     private List<GameObject> _list_card_played;
     [SerializeField] private GameObject _card_holder;
     private GameObject _current_card;
+
+    private ICardFactory _cardFactory;
     private void Start()
     {
         
