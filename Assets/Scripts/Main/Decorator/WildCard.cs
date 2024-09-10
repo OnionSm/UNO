@@ -6,7 +6,7 @@ public class WildCard : BaseCard
 {
     public override bool CanPlay()
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 
     public override void Play()

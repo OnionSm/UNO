@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e51d766a3f06154ca6d594e0391b825, type: 3}
+  m_Name: DeckConfigs
+  m_EditorClassIdentifier: 
+  _deck_configs:
+  - card_id: 0
+    amount: 1
+  - card_id: 1
+    amount: 1
+  - card_id: 2
+    amount: 1
+  - card_id: 3
+    amount: 1
+  - card_id: 4
+    amount: 2
+  - card_id: 5
+    amount: 2
+  - card_id: 6
+    amount: 2
+  - card_id: 7
+    amount: 2
+  - card_id: 8
+    amount: 2
+  - card_id: 9
+    amount: 2
+  - card_id: 10
+    amount: 2
+  - card_id: 11
+    amount: 2
+  - card_id: 12
+    amount: 2
+  - card_id: 13
+    amount: 2
+  - card_id: 14
+    amount: 2
+  - card_id: 15
+    amount: 2
+  - card_id: 16
+    amount: 2
+  - card_id: 17
+    amount: 2
+  - card_id: 18
+    amount: 2
+  - card_id: 19
+    amount: 2
+  - card_id: 20
+    amount: 2
+  - card_id: 21
+    amount: 2
+  - card_id: 22
+    amount: 2
+  - card_id: 23
+    amount: 2
+  - card_id: 24
+    amount: 2
+  - card_id: 25
+    amount: 2
+  - card_id: 26
+    amount: 2
+  - card_id: 27
+    amount: 2
+  - card_id: 28
+    amount: 2
+  - card_id: 29
+    amount: 2
+  - card_id: 30
+    amount: 2
+  - card_id: 31
+    amount: 2
+  - card_id: 32
+    amount: 2
+  - card_id: 33
+    amount: 2
+  - card_id: 34
+    amount: 2
+  - card_id: 35
+    amount: 2
+  - card_id: 36
+    amount: 2
+  - card_id: 37
+    amount: 2
+  - card_id: 38
+    amount: 2
+  - card_id: 39
+    amount: 2
+  - card_id: 40
+    amount: 2
+  - card_id: 41
+    amount: 2
+  - card_id: 42
+    amount: 2
+  - card_id: 43
+    amount: 2
+  - card_id: 44
+    amount: 2
+  - card_id: 45
+    amount: 2
+  - card_id: 46
+    amount: 2
+  - card_id: 47
+    amount: 2
+  - card_id: 48
+    amount: 2
+  - card_id: 49
+    amount: 2
+  - card_id: 50
+    amount: 2
+  - card_id: 51
+    amount: 2
+  - card_id: 52
+    amount: 4
+  - card_id: 53
+    amount: 4

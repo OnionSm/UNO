@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface INumber 
 {
-    CardNumber card_number { get; set; }
+    public CardNumber card_number { get; set; }
 }

@@ -12,7 +12,7 @@ public class DeckConfigs : ScriptableObject
 public class CardDeck
 {
     [Header("Card ID")]
-    string card_id;
+    public string card_id;
     [Header("Card Amount")]
-    int amount;
+    public int amount;
 }

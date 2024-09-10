@@ -16,7 +16,6 @@ public class CardConfig
     public string card_id;
     public CardColor card_color;
     public CardType card_type;
-    public int card_number; 
     public Sprite card_image;
 
 }

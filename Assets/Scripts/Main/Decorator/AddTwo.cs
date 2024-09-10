@@ -22,7 +22,7 @@ public class AddTwo : BaseCard
 
     public override void Play()
     {
-        //Controller.SetCurrentAttributes(Color, Type, CardNumber.None);
+        Controller.SetCurrentAttributes(gameObject);
         Controller.DrawCard(2,1);
         Controller.ChangeTurn(2);
     }

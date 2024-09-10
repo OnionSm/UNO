@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class Spawner : MonoBehaviour
         }
     }
     
-    public void Spawn(string obj_name, CardColor color, CardType type)
+    public void Spawn(string obj_name, CardColor color, CardType type, CardNumber number, Sprite card_image)
     {
         Transform transform = GetObjectFromPool(obj_name);
         if(transform == null)
@@ -43,7 +44,7 @@ public class Spawner : MonoBehaviour
             Debug.Log("Can not spawn object");
             return;
         }
-
+        ConfigCard(transform, color, type, number, card_image);
     }
 
     private Transform GetObjectFromPool(string obj_name)
@@ -68,8 +69,25 @@ public class Spawner : MonoBehaviour
         }
         return null;
     }
-    private void ConfigCard(CardColor color, CardType type)
+    private void ConfigCard(Transform card, CardColor color, CardType type, CardNumber number, Sprite card_image)
     {
+        BaseCard basecard = card.GetComponent<BaseCard>();
 
+        if (basecard != null)
+        {
+            basecard.Color = color;
+            basecard.Type = type;
+        }
+
+        if (number != CardNumber.None)
+        {
+            card.GetComponent<INumber>().card_number = number;
+        }
+
+        Image image = card.GetComponent<Image>();
+        if(image != null)
+        {
+            image.sprite = card_image;
+        }
     }
 }
