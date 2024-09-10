@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum CardNumber 
 {
+    None,
     Zero = 0,
     One = 1,
     Two = 2,

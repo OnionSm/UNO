@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NumberCard : BaseCard
+public class NumberCard : BaseCard, INumber
 {
-    private CardNumber _card_number;
-    public CardNumber cardNumber
-    {  
-        get { return _card_number; } 
-        set { _card_number = value; }
-    }
+    public CardNumber card_number { get ; set ; }
 
+    public override bool CanPlay()
+    {
+        if(Controller.CurrentColor != Color || Controller.CurrentNumber != card_number)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public override void Play()
     {
-        
+        Controller.PlayNumberCard(gameObject);
     }
 
     

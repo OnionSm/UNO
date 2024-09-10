@@ -1,19 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
 public class GameController : MonoBehaviour
 {
     private int _turn_direction;
+    public int TurnDirection
+    {
+        get { return _turn_direction; }
+        set { _turn_direction = value; }
+    }
+    public CardColor CurrentColor { get; set; }
+    public CardType CurrentType { get; set; }
+    public CardNumber CurrentNumber { get; set; }
     [SerializeField] private List<GameObject> _list_player;
     private int _player_count;
     private int _current_turn;
-    private List<BaseCard> _deck;
-    private List<BaseCard> _list_card_played;
+    private List<GameObject> _deck;
+    private List<GameObject> _list_card_played;
     [SerializeField] private GameObject _card_holder;
-    private BaseCard _current_card;
+    private GameObject _current_card;
     private void Start()
     {
         
@@ -54,18 +64,35 @@ public class GameController : MonoBehaviour
         GameObject player = GetNextTurnPlayer();
         player.GetComponent<IDrawable>()?.Draw(amount);
     }
-    public void PlayCard(BaseCard card)
+    public void PlayCard(GameObject card)
     {
         _list_card_played.Add(card);
         
     }
-    /*public ICard GetLatestCard()
+    public GameObject GetLatestCard()
     {
         return _current_card;
-    }*/
+    }
 
-    public void PlayNumberCard(BaseCard card)
+    public void PlayNumberCard(GameObject card)
+    {
+        _list_card_played.Add(card);
+        SetCurrentAttributes(card);
+    }
+
+    public void SetCurrentAttributes(GameObject card)
     {
 
+        CurrentColor = card.GetComponent<BaseCard>().Color;
+        CurrentType = card.GetComponent<BaseCard>().Type;
+        INumber number = card.GetComponent<INumber>();
+        if(number != null)
+        {
+            CurrentNumber = number.card_number;
+        }
+        else
+        {
+            CurrentNumber = CardNumber.None;
+        }
     }
 }

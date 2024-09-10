@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class TurnBan : BaseCard
 {
+    public override bool CanPlay()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void Play()
     {
         
