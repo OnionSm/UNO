@@ -4,35 +4,62 @@ using System.Drawing;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
 
 public class GameController : MonoBehaviour
 {
+    public CardColor CurrentColor { get; set; }
+    public CardType CurrentType { get; set; }
+
     private int _turn_direction;
     public int TurnDirection
     {
         get { return _turn_direction; }
         set { _turn_direction = value; }
     }
-    public CardColor CurrentColor { get; set; }
-    public CardType CurrentType { get; set; }
-    public CardNumber CurrentNumber { get; set; }
+    
     [SerializeField] private List<GameObject> _list_player;
-    private int _player_count;
-    private int _current_turn;
+    [SerializeField] private GameObject _card_holder;
+    [SerializeField] private string _card_name_prefabs;
+
     private List<GameObject> _deck;
     private List<GameObject> _list_card_played;
-    [SerializeField] private GameObject _card_holder;
+
+    private int _player_count;
+    private int _current_turn;
     private GameObject _current_card;
 
     private ICardFactory _cardFactory;
+
+    [SerializeField] private List<CardConfig> _list_card_configs = new List<CardConfig>();
+    [SerializeField] private List<CardDeck> _deck_config = new List<CardDeck>();
+
     private void Start()
     {
-        
+        this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
+        this._deck_config = GameManager.Instance.GetDecks();
     }
     private void Update()
     {
         
+    }
+
+    private void InitCardDeck()
+    {
+        foreach(CardDeck card in _deck_config) 
+        {
+            foreach (CardConfig card_config in _list_card_configs)
+            {
+                if(card_config.card_id == card.card_id)
+                {
+                    for(int i = 0; i < card.amount; i++)
+                    {
+                        //CardSpawner.Instance.Spawn()
+                    }
+                }
+            }
+        }
     }
     public void ChangeTurn(int value)
     {
@@ -87,14 +114,7 @@ public class GameController : MonoBehaviour
 
         CurrentColor = card.GetComponent<BaseCard>().Color;
         CurrentType = card.GetComponent<BaseCard>().Type;
-        INumber number = card.GetComponent<INumber>();
-        if(number != null)
-        {
-            CurrentNumber = number.card_number;
-        }
-        else
-        {
-            CurrentNumber = CardNumber.None;
-        }
+        
+        
     }
 }
