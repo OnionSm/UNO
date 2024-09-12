@@ -36,15 +36,16 @@ public class Spawner : MonoBehaviour
         }
     }
     
-    public void Spawn(string obj_name, CardColor color, CardType type, CardNumber number, Sprite card_image)
+    public Transform Spawn(string obj_name, CardColor color, CardType type, Sprite card_image)
     {
         Transform transform = GetObjectFromPool(obj_name);
         if(transform == null)
         {
             Debug.Log("Can not spawn object");
-            return;
+            return null;
         }
-        ConfigCard(transform, color, type, number, card_image);
+        ConfigCard(transform, color, type, card_image);
+        return transform;
     }
 
     private Transform GetObjectFromPool(string obj_name)
@@ -69,7 +70,7 @@ public class Spawner : MonoBehaviour
         }
         return null;
     }
-    private void ConfigCard(Transform card, CardColor color, CardType type, CardNumber number, Sprite card_image)
+    private void ConfigCard(Transform card, CardColor color, CardType type, Sprite card_image)
     {
         BaseCard basecard = card.GetComponent<BaseCard>();
 
@@ -77,11 +78,6 @@ public class Spawner : MonoBehaviour
         {
             basecard.Color = color;
             basecard.Type = type;
-        }
-
-        if (number != CardNumber.None)
-        {
-            card.GetComponent<INumber>().card_number = number;
         }
 
         Image image = card.GetComponent<Image>();
