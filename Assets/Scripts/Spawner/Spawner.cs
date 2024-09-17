@@ -36,7 +36,7 @@ public class Spawner : MonoBehaviour
         }
     }
     
-    public Transform Spawn(string obj_name, CardColor color, CardType type, Sprite card_image)
+    public Transform Spawn(string obj_name)
     {
         Transform transform = GetObjectFromPool(obj_name);
         if(transform == null)
@@ -44,7 +44,6 @@ public class Spawner : MonoBehaviour
             Debug.Log("Can not spawn object");
             return null;
         }
-        ConfigCard(transform, color, type, card_image);
         return transform;
     }
 

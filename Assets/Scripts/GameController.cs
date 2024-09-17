@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        LoadComponent();
         this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
         this._deck_config = GameManager.Instance.GetDecks();
         InitCardDeck();
@@ -45,7 +46,10 @@ public class GameController : MonoBehaviour
     {
         
     }
-
+    private void LoadComponent()
+    {
+        this._card_name_prefabs = "Card";
+    }
     private void InitCardDeck()
     {
         foreach(CardDeck card in _deck_config) 
@@ -56,14 +60,11 @@ public class GameController : MonoBehaviour
                 {
                     for(int i = 0; i < card.amount; i++)
                     {
-                        Transform new_card = CardSpawner.Instance.Spawn(_card_name_prefabs, card_config.card_color,
-                          card_config.card_type, card_config.card_image);
-                        if(new_card == null)
-                        {
-                            return;
-                        }
-                        BaseCard baseCard = UnoCardFactorySelector.GetFactory(card_config.card_type).CreateCard();
-                        new_card.gameObject.AddComponent(baseCard.GetType());
+                        Transform new_card = UnoCardFactorySelector.GetFactory(card_config.card_type).CreateCard();
+                        BaseCard basecard = new_card.GetComponent<BaseCard>();
+                        basecard.Color = card_config.card_color;
+                        basecard.Type = card_config.card_type;
+                        Debug.Log($"Generated {card_config.card_type}");
                     }
                 }
             }

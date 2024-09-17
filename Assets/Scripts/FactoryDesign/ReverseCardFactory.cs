@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class ReverseCardFactory : ICardFactory
 {
-    public BaseCard CreateCard()
+    public Transform CreateCard()
     {
-        return new Reverse();
+        Transform new_card = CardSpawner.Instance.Spawn("Card");
+        new_card.gameObject.AddComponent<Reverse>();
+        return new_card;
     }
 }

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class WildCardFactory : ICardFactory
 {
-    public BaseCard CreateCard()
+    public Transform CreateCard()
     {
-        return new WildCard();
+        Transform new_card = CardSpawner.Instance.Spawn("Card");
+        new_card.gameObject.AddComponent<WildCard>();
+        return new_card;
     }
 }

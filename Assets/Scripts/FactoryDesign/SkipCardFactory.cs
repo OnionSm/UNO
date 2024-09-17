@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class SkipCardFactory : ICardFactory
 {
-    public BaseCard CreateCard()
+    public Transform  CreateCard()
     {
-        return new TurnBan();
+        Transform new_card = CardSpawner.Instance.Spawn("Card");
+        new_card.gameObject.AddComponent<TurnBan>();
+        return new_card;
     }
 }

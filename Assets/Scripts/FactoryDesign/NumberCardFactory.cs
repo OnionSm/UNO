@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class NumberCardFactory : ICardFactory
 {
-    public BaseCard CreateCard()
+    public Transform CreateCard()
     {
-        return new NumberCard();
+        Transform new_card = CardSpawner.Instance.Spawn("Card");
+        new_card.gameObject.AddComponent<NumberCard>();
+        return new_card;
     }
 }

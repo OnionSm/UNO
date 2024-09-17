@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ICardFactory 
 {
-    BaseCard CreateCard();
+    Transform CreateCard();
 }

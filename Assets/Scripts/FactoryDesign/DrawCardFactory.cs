@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class DrawCardFactory : ICardFactory
 {
-    public BaseCard CreateCard()
+    public Transform CreateCard()
     {
-        return new AddTwo();
+        Transform new_card = CardSpawner.Instance.Spawn("Card");
+        new_card.gameObject.AddComponent<AddTwo>();
+        return new_card;
     }
 }
