@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnemyCore : MonoBehaviour, IDrawable
 {
-    private List<BaseCard> _list_card_in_enemy_hand;
+    public List<Transform> _list_card_in_hand { get; set; }
 
     public void Draw(int amount)
     {
-        
+        throw new System.NotImplementedException();
     }
 }

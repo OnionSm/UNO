@@ -51,10 +51,10 @@ public class Spawner : MonoBehaviour
     {
         foreach(Transform obj in _pool)
         {
-            if(obj.name == obj_name)
+            if(obj.name == obj_name+"Clone")
             {
                 return obj;
-            }
+            }   
         }
         return GenerateNewObj(obj_name);  
     }
@@ -64,10 +64,15 @@ public class Spawner : MonoBehaviour
         {
             if(prefab.name == obj_name)
             {
-                return prefab;
+                Transform new_obj =Instantiate(prefab);
+                return new_obj;
             }
         }
         return null;
+    }
+    public void Despawn(Transform obj)
+    {
+        _pool.Add(obj);
     }
     private void ConfigCard(Transform card, CardColor color, CardType type, Sprite card_image)
     {

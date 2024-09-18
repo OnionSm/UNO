@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IDrawable
 {
+    public List<Transform> _list_card_in_hand { get; set; }
+
     public void Draw(int amount)
     {
-        
+        throw new System.NotImplementedException();
     }
 }

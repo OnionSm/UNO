@@ -6,9 +6,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
+using System.Linq;
 
 public class GameController : MonoBehaviour
 {
+    [Header("Game Controller UI Manager")]
+    [SerializeField] private GameControllerUIManager _game_controller_ui_manager;
+
+    [Header("Card Dealer")]
+    [SerializeField] private CardDealer _card_dealer;
     public CardColor CurrentColor { get; set; }
     public CardType CurrentType { get; set; }
 
@@ -21,9 +27,8 @@ public class GameController : MonoBehaviour
     
     [SerializeField] private List<GameObject> _list_player;
     [SerializeField] private GameObject _card_holder;
-    [SerializeField] private string _card_name_prefabs;
 
-    private List<GameObject> _deck;
+    [SerializeField] private List<Transform> _deck;
     private List<GameObject> _list_card_played;
 
     private int _player_count;
@@ -37,7 +42,6 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        LoadComponent();
         this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
         this._deck_config = GameManager.Instance.GetDecks();
         InitCardDeck();
@@ -46,10 +50,7 @@ public class GameController : MonoBehaviour
     {
         
     }
-    private void LoadComponent()
-    {
-        this._card_name_prefabs = "Card";
-    }
+    
     private void InitCardDeck()
     {
         foreach(CardDeck card in _deck_config) 
@@ -61,14 +62,34 @@ public class GameController : MonoBehaviour
                     for(int i = 0; i < card.amount; i++)
                     {
                         Transform new_card = UnoCardFactorySelector.GetFactory(card_config.card_type).CreateCard();
+                        new_card.gameObject.SetActive(true);
                         BaseCard basecard = new_card.GetComponent<BaseCard>();
                         basecard.Color = card_config.card_color;
                         basecard.Type = card_config.card_type;
-                        Debug.Log($"Generated {card_config.card_type}");
+                        _deck.Add(new_card);
+                        //Debug.Log($"Generated {card_config.card_type}");
                     }
                 }
             }
         }
+        SuffleDeck();
+        _game_controller_ui_manager.SetCardAmountText(_deck.Count);
+        foreach (var obj in _deck)
+        {
+            // Lấy component BaseCard từ GameObject
+            BaseCard baseCard = obj.GetComponent<BaseCard>();
+
+            // Kiểm tra nếu BaseCard không null (đã tồn tại trên obj)
+            if (baseCard != null)
+            {
+                Debug.Log(baseCard);
+            }
+            else
+            {
+                Debug.Log("No BaseCard component found on " + obj.name);
+            }
+        }
+
     }
     public void ChangeTurn(int value)
     {
@@ -126,4 +147,9 @@ public class GameController : MonoBehaviour
         
         
     }
+    public void SuffleDeck()
+    {
+        _deck = _deck.OrderBy(go => Random.value).ToList();
+    }
+    
 }

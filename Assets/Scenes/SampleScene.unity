@@ -1469,6 +1469,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &652076965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 652076966}
+  - component: {fileID: 652076967}
+  m_Layer: 0
+  m_Name: CardDealer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &652076966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652076965}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1551789351}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &652076967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652076965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17451a2bcf7c7bf40a20edec76a74388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &657724959
 GameObject:
   m_ObjectHideFlags: 0
@@ -3611,6 +3655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1551789351}
   - component: {fileID: 1551789350}
+  - component: {fileID: 1551789352}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -3630,9 +3675,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a75e71f5aea652f4480b6033174004f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _game_controller_ui_manager: {fileID: 1551789352}
+  _card_dealer: {fileID: 652076967}
   _list_player: []
-  _card_holder: {fileID: 0}
-  _card_name_prefabs: 
+  _card_holder: {fileID: 415208186}
+  _deck: []
   _list_card_configs: []
   _deck_config: []
 --- !u!4 &1551789351
@@ -3647,9 +3694,23 @@ Transform:
   m_LocalPosition: {x: 2.7656105, y: -0.2678271, z: 0.049148872}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 652076966}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1551789352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551789349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ff07bc233eb3054a8bf5ee3bafc9ef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _card_amount_text: {fileID: 1105859558}
 --- !u!1 &1583231883
 GameObject:
   m_ObjectHideFlags: 0
