@@ -15,6 +15,9 @@ public class GameController : MonoBehaviour
 
     [Header("Card Dealer")]
     [SerializeField] private CardDealer _card_dealer;
+
+    [Header("Deck position")]
+    [SerializeField] private RectTransform _deck_rect;
     public CardColor CurrentColor { get; set; }
     public CardType CurrentType { get; set; }
 
@@ -62,6 +65,8 @@ public class GameController : MonoBehaviour
                     for(int i = 0; i < card.amount; i++)
                     {
                         Transform new_card = UnoCardFactorySelector.GetFactory(card_config.card_type).CreateCard();
+                        RectTransform new_card_rect = new_card.GetComponent<RectTransform>();
+                        SetPositionForCard(new_card_rect, _deck_rect);
                         new_card.gameObject.SetActive(true);
                         BaseCard basecard = new_card.GetComponent<BaseCard>();
                         basecard.Color = card_config.card_color;
@@ -151,5 +156,11 @@ public class GameController : MonoBehaviour
     {
         _deck = _deck.OrderBy(go => Random.value).ToList();
     }
-    
+    public void SetPositionForCard(RectTransform card, RectTransform parent)
+    {
+        card.SetParent(parent, false);
+        card.sizeDelta = parent.sizeDelta;
+
+        card.anchoredPosition = Vector3.zero; 
+    }
 }

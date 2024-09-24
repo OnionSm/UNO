@@ -44,6 +44,7 @@ public class Spawner : MonoBehaviour
             Debug.Log("Can not spawn object");
             return null;
         }
+        transform.gameObject.SetActive(true);
         return transform;
     }
 
