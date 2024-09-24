@@ -38,7 +38,7 @@ public class CardModel : MonoBehaviour
     }
     public void LoadComponent()
     {
-
+        this._card_image_holder.sprite = _card_protecter;
     }
     public void StartFlipDown()
     {

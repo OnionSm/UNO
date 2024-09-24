@@ -42,11 +42,13 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private List<CardConfig> _list_card_configs = new List<CardConfig>();
     [SerializeField] private List<CardDeck> _deck_config = new List<CardDeck>();
+    private Sprite _protecter;
 
     private void Start()
     {
         this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
         this._deck_config = GameManager.Instance.GetDecks();
+        this._protecter = GameManager.Instance.GetProtecter();
         InitCardDeck();
     }
     private void Update()
@@ -68,11 +70,17 @@ public class GameController : MonoBehaviour
                         RectTransform new_card_rect = new_card.GetComponent<RectTransform>();
                         SetPositionForCard(new_card_rect, _deck_rect);
                         new_card.gameObject.SetActive(true);
+
+                        CardModel model = new_card.GetComponentInChildren<CardModel>();
+                        model.card_image = card_config.card_image;
+                        model.card_protecter = _protecter;
+                        model.LoadComponent();
+
                         BaseCard basecard = new_card.GetComponent<BaseCard>();
                         basecard.Color = card_config.card_color;
                         basecard.Type = card_config.card_type;
                         _deck.Add(new_card);
-                        //Debug.Log($"Generated {card_config.card_type}");
+                        
                     }
                 }
             }
