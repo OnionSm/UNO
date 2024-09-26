@@ -18,6 +18,10 @@ public class GameController : MonoBehaviour
 
     [Header("Deck position")]
     [SerializeField] private RectTransform _deck_rect;
+
+    [Header("UI Enemy Object")]
+    [SerializeField] private List<GameObject> _list_enemy_ui_zone;
+
     public CardColor CurrentColor { get; set; }
     public CardType CurrentType { get; set; }
 
@@ -34,7 +38,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<Transform> _deck;
     private List<GameObject> _list_card_played;
 
-    private int _player_count;
+    private int _player_count = 1;
     private int _current_turn;
     private GameObject _current_card;
 
@@ -55,7 +59,14 @@ public class GameController : MonoBehaviour
     {
         
     }
-    
+    private void InitPlayer()
+    {
+        for(int i = 0; i < _player_count; i++)
+        {
+            Transform new_player = EnemySpawner.Instance.Spawn("Enemy");
+
+        }
+    }
     private void InitCardDeck()
     {
         foreach(CardDeck card in _deck_config) 

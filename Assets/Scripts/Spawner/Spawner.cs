@@ -65,7 +65,7 @@ public class Spawner : MonoBehaviour
         {
             if(prefab.name == obj_name)
             {
-                Transform new_obj =Instantiate(prefab);
+                Transform new_obj = Instantiate(prefab);
                 return new_obj;
             }
         }
@@ -74,21 +74,5 @@ public class Spawner : MonoBehaviour
     public void Despawn(Transform obj)
     {
         _pool.Add(obj);
-    }
-    private void ConfigCard(Transform card, CardColor color, CardType type, Sprite card_image)
-    {
-        BaseCard basecard = card.GetComponent<BaseCard>();
-
-        if (basecard != null)
-        {
-            basecard.Color = color;
-            basecard.Type = type;
-        }
-
-        Image image = card.GetComponent<Image>();
-        if(image != null)
-        {
-            image.sprite = card_image;
-        }
     }
 }
