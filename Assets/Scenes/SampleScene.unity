@@ -2825,6 +2825,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1158664604}
+  - component: {fileID: 1158664606}
+  - component: {fileID: 1158664605}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2847,6 +2849,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1926315711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1158664605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158664603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b25ffa294acb0c4b8ccdee006cd3f50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _card_left_text: {fileID: 0}
+  _cash_text: {fileID: 0}
+--- !u!114 &1158664606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158664603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22b723769d2f764fb52a0aa6a8a96e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy_ui: {fileID: 0}
+  _card_pos: {fileID: 0}
 --- !u!1 &1183641318
 GameObject:
   m_ObjectHideFlags: 0
@@ -3744,11 +3774,18 @@ MonoBehaviour:
   _game_controller_ui_manager: {fileID: 1551789352}
   _card_dealer: {fileID: 652076967}
   _deck_rect: {fileID: 2071852243}
-  _list_enemy_ui_zone:
-  - {fileID: 1746659901}
-  - {fileID: 9986897}
-  - {fileID: 1787729662}
-  _list_player: []
+  _list_enemy_ui:
+  - _card_amount: {fileID: 840776285}
+    _deck_pos: {fileID: 987344038}
+    _cash_amount: {fileID: 746532578}
+  - _card_amount: {fileID: 742205109}
+    _deck_pos: {fileID: 1721196538}
+    _cash_amount: {fileID: 418309943}
+  - _card_amount: {fileID: 1692505775}
+    _deck_pos: {fileID: 87161357}
+    _cash_amount: {fileID: 1304029786}
+  _list_player:
+  - {fileID: 1658664193}
   _card_holder: {fileID: 415208186}
   _deck: []
   _list_card_configs: []

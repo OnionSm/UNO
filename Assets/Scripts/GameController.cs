@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private RectTransform _deck_rect;
 
     [Header("UI Enemy Object")]
-    [SerializeField] private List<GameObject> _list_enemy_ui_zone;
+    [SerializeField] private List<EnemyUIAttributes> _list_enemy_ui;
 
     public CardColor CurrentColor { get; set; }
     public CardType CurrentType { get; set; }
@@ -64,7 +64,12 @@ public class GameController : MonoBehaviour
         for(int i = 0; i < _player_count; i++)
         {
             Transform new_player = EnemySpawner.Instance.Spawn("Enemy");
-
+            EnemyUI enemyUI = new_player.gameObject.GetComponent<EnemyUI>();
+            EnemyCore enemyCore = new_player.gameObject.GetComponent<EnemyCore>();
+            enemyUI.Card_Text_Left = _list_enemy_ui[i]._card_amount;
+            enemyUI.Cash_Text = _list_enemy_ui[i]._cash_amount;
+            enemyCore.Card_Pos = _list_enemy_ui[i]._deck_pos;
+            _list_player.Add(new_player.gameObject);
         }
     }
     private void InitCardDeck()
