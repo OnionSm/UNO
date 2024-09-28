@@ -12,11 +12,11 @@ public class CardDealer : MonoBehaviour
         }
         for (int i = 0; i < 7; i++)
         {
-            for (int player_number = 0; i < _list_player.Count; player_number++)
+            for (int player_number = 0; player_number < _list_player.Count; player_number++)
             {
-                Transform card = _deck[0];
-                _deck.Remove(card);
-                _list_player[player_number].GetComponent<IDrawable>()._list_card_in_hand.Add(card);
+                /*Debug.Log(_list_player[player_number]);*/
+                _list_player[player_number].gameObject.GetComponent<IDrawable>().Draw(1);
+                
             }
         }
     }

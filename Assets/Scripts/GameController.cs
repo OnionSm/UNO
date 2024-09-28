@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
 
     [Header("UI Enemy Object")]
     [SerializeField] private List<EnemyUIAttributes> _list_enemy_ui;
+    [SerializeField] private List<GameObject> _list_enemy_ui_zone;
 
     public CardColor CurrentColor { get; set; }
     public CardType CurrentType { get; set; }
@@ -38,7 +39,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<Transform> _deck;
     private List<GameObject> _list_card_played;
 
-    private int _player_count = 1;
+    private int _player_count = 3;
     private int _current_turn;
     private GameObject _current_card;
 
@@ -50,10 +51,13 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        InitPlayer();
         this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
         this._deck_config = GameManager.Instance.GetDecks();
         this._protecter = GameManager.Instance.GetProtecter();
         InitCardDeck();
+        _card_dealer.DistributeCard(_list_player, _deck);
+        _game_controller_ui_manager.SetCardAmountText(_deck.Count);
     }
     private void Update()
     {
@@ -69,6 +73,7 @@ public class GameController : MonoBehaviour
             enemyUI.Card_Text_Left = _list_enemy_ui[i]._card_amount;
             enemyUI.Cash_Text = _list_enemy_ui[i]._cash_amount;
             enemyCore.Card_Pos = _list_enemy_ui[i]._deck_pos;
+            _list_enemy_ui_zone[i].gameObject.SetActive(true);
             _list_player.Add(new_player.gameObject);
         }
     }
@@ -96,7 +101,6 @@ public class GameController : MonoBehaviour
                         basecard.Color = card_config.card_color;
                         basecard.Type = card_config.card_type;
                         _deck.Add(new_card);
-                        
                     }
                 }
             }
@@ -111,7 +115,7 @@ public class GameController : MonoBehaviour
             // Kiểm tra nếu BaseCard không null (đã tồn tại trên obj)
             if (baseCard != null)
             {
-                Debug.Log(baseCard);
+                //Debug.Log(baseCard);
             }
             else
             {
@@ -151,6 +155,22 @@ public class GameController : MonoBehaviour
     {
         GameObject player = GetNextTurnPlayer();
         player.GetComponent<IDrawable>()?.Draw(amount);
+    }
+    public List<Transform> GetCard(int amount)
+    {
+        List<Transform> list_cards_player_get = new List<Transform>();
+        for(int  i = 0; i < amount; i++)
+        {
+            Transform card_get = _deck[0];
+            if (card_get == null)
+            {
+                return null;
+            }
+            list_cards_player_get.Add(card_get);
+            _deck.Remove(card_get);
+            //Debug.Log(_deck.Count);
+        }
+        return list_cards_player_get;
     }
     public void PlayCard(GameObject card)
     {
