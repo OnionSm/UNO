@@ -14,19 +14,21 @@ public class EnemyCore : MonoBehaviour, IDrawable
         set { _card_pos = value; }
     }
     public List<Transform> _list_card_in_hand { get; set; }
-
-    void Start()
+    private void Awake()      
     {
         _list_card_in_hand = new List<Transform>();
+    }
+    void Start()
+    {
         CheckCardsInHand();
     }
 
-    void CheckCardsInHand()
+    void CheckCardsInHand()     
     {
         if (_list_card_in_hand.Count < 7)
         {
-            Invoke(nameof(this.CheckCardsInHand), 0.25f);  
-            return;
+            Invoke(nameof(CheckCardsInHand), 0.25f);  
+            return; 
         }
         _enemy_ui.SetCardLeftText(_list_card_in_hand.Count);
         Debug.Log($"Set up card amount text {_list_card_in_hand.Count} ");
@@ -39,7 +41,8 @@ public class EnemyCore : MonoBehaviour, IDrawable
         {
             list_card_got.ForEach(card =>
             {
-                _list_card_in_hand?.Add(card);  
+                _list_card_in_hand?.Add(card);
+                card.SetParent(_card_pos, false);
             });
         }
         else

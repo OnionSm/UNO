@@ -16,6 +16,7 @@ public class CardDealer : MonoBehaviour
             {
                 /*Debug.Log(_list_player[player_number]);*/
                 _list_player[player_number].gameObject.GetComponent<IDrawable>().Draw(1);
+
                 
             }
         }

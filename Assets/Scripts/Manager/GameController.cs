@@ -107,6 +107,8 @@ public class GameController : MonoBehaviour
         }
         SuffleDeck();
         _game_controller_ui_manager.SetCardAmountText(_deck.Count);
+
+        // This code is used for check all cards which generated
         foreach (var obj in _deck)
         {
             // Lấy component BaseCard từ GameObject
@@ -124,10 +126,13 @@ public class GameController : MonoBehaviour
         }
 
     }
+
+    // Change turn to current turn + value
     public void ChangeTurn(int value)
     {
         _current_turn = GetNextTurn(value);
     }
+    // Get the index player that they has turn
     public int GetNextTurn(int value)
     {
         int temp = _current_turn +  (value * 2 * _turn_direction);
@@ -202,7 +207,7 @@ public class GameController : MonoBehaviour
     }
     public void SetPositionForCard(RectTransform card, RectTransform parent)
     {
-        card.SetParent(parent, false);
+        card.SetParent(parent.transform, false);
         card.sizeDelta = parent.sizeDelta;
 
         card.anchoredPosition = Vector3.zero; 
