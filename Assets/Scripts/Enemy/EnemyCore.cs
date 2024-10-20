@@ -14,6 +14,7 @@ public class EnemyCore : MonoBehaviour, IDrawable
         set { _card_pos = value; }
     }
     public List<Transform> _list_card_in_hand { get; set; }
+    public List<FSMState> _list_states = new List<FSMState>();
     private void Awake()      
     {
         _list_card_in_hand = new List<Transform>();

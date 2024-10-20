@@ -41,6 +41,12 @@ public class GameController : MonoBehaviour
 
     private int _player_count = 3;
     private int _current_turn;
+    public int CurrentTurn
+    {
+        get { return _current_turn; }
+        set { _current_turn = value; }
+    }
+
     private GameObject _current_card;
 
     private ICardFactory _cardFactory;
