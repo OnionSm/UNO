@@ -2824,11 +2824,16 @@ GameObject:
   - component: {fileID: 1158664606}
   - component: {fileID: 1158664605}
   - component: {fileID: 1158664612}
+  - component: {fileID: 1158664614}
   - component: {fileID: 1158664611}
   - component: {fileID: 1158664610}
   - component: {fileID: 1158664609}
   - component: {fileID: 1158664608}
   - component: {fileID: 1158664607}
+  - component: {fileID: 1158664613}
+  - component: {fileID: 1158664617}
+  - component: {fileID: 1158664616}
+  - component: {fileID: 1158664615}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2890,16 +2895,34 @@ MonoBehaviour:
       false_state: Standby
   - _state_name: Standby
     _list_actions: []
-    _list_transitions: []
+    _list_transitions:
+    - decide: {fileID: 1158664611}
+      true_state: Execute
+      false_state: 
+    - decide: {fileID: 1158664612}
+      true_state: Draw
+      false_state: 
   - _state_name: Execute
-    _list_actions: []
-    _list_transitions: []
+    _list_actions:
+    - {fileID: 1158664608}
+    _list_transitions:
+    - decide: {fileID: 1158664617}
+      true_state: End
+      false_state: 
   - _state_name: Draw
-    _list_actions: []
-    _list_transitions: []
+    _list_actions:
+    - {fileID: 1158664609}
+    _list_transitions:
+    - decide: {fileID: 1158664616}
+      true_state: Execute
+      false_state: End
   - _state_name: End
-    _list_actions: []
-    _list_transitions: []
+    _list_actions:
+    - {fileID: 1158664615}
+    _list_transitions:
+    - decide: {fileID: 1158664613}
+      true_state: Waiting
+      false_state: 
 --- !u!114 &1158664607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2962,6 +2985,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2a26eee72584b84db60b21e39654a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controller: {fileID: 0}
+  _enemy_core: {fileID: 0}
 --- !u!114 &1158664612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2972,6 +2997,70 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e82562b8b35021b4b9c3871afd78b815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _controller: {fileID: 0}
+  _enemy_core: {fileID: 0}
+--- !u!114 &1158664613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158664603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0e9d85604e0bf14fb119b78fd96e2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1158664614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158664603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd79ef1e0d6d15443a2aeb3ed1cf300f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1158664615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158664603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b59ff6945ae0594f9f5b5bf293aaa0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1158664616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158664603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0476e5e0949d62b498a2cf7027c67e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _controller: {fileID: 0}
+  _enemy_core: {fileID: 0}
+--- !u!114 &1158664617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158664603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17987da3117ac00458fd1bfdcd4aedda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1166450506
@@ -3821,6 +3910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _card_configs: {fileID: 11400000, guid: 6d8e68dd1261f404fa64b54a5ed9cf3a, type: 2}
   _deck_configs: {fileID: 11400000, guid: 9765c666ca5520a418eaae330464a81f, type: 2}
+  _color_configs: {fileID: 11400000, guid: d55af4d81d373504ca213ac9d2da9d09, type: 2}
 --- !u!4 &1515452520
 Transform:
   m_ObjectHideFlags: 0

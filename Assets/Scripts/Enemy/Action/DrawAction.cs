@@ -4,9 +4,22 @@ using UnityEngine;
 
 public class DrawAction : IFSMAction
 {
+    [Header("Game Controller")]
+    [SerializeField] private GameController _controller;
+
+    [Header("Enemy Core")]
+    [SerializeField] private EnemyCore _enemy_core;
     public override void Action()
     {
-        throw new System.NotImplementedException();
+        if (_controller._card_drawn_amount > 0)
+        {
+            _enemy_core.Draw(_controller._card_drawn_amount);
+            _controller._card_drawn_amount = 0;
+        }
+        else
+        {
+            _enemy_core.Draw(1);
+        }
     }
 
     

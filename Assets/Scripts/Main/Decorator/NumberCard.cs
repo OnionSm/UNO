@@ -11,7 +11,7 @@ public class NumberCard : BaseCard
         {
             return true;
         }
-        if (Color == Controller.CurrentColor || Type == Controller.CurrentType)
+        if (Color == Controller.CurrentColor || Type == Controller.CurrentCardType)
         {
             return true;
         }

@@ -24,8 +24,14 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<GameObject> _list_enemy_ui_zone;
 
     public CardColor CurrentColor { get; set; }
-    public CardType CurrentType { get; set; }
+    public CardType CurrentCardType { get; set; }
+    public CardSymbol CurrentCardSymbol { get; set; }
 
+    public int _card_drawn_amount { get; set; }
+
+    public bool _can_execute_after_draw { get; set; }
+
+    private List<ColorConfig> _list_color_config = new List<ColorConfig>();
     private int _turn_direction;
     public int TurnDirection
     {
@@ -58,6 +64,9 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         InitPlayer();
+        _card_drawn_amount = 0;
+        _can_execute_after_draw = true;
+        this._list_color_config = GameManager.Instance.GetColorConfigs();
         this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
         this._deck_config = GameManager.Instance.GetDecks();
         this._protecter = GameManager.Instance.GetProtecter();
@@ -93,7 +102,7 @@ public class GameController : MonoBehaviour
                 {
                     for(int i = 0; i < card.amount; i++)
                     {
-                        Transform new_card = UnoCardFactorySelector.GetFactory(card_config.card_type).CreateCard();
+                        Transform new_card = UnoCardFactorySelector.GetFactory(card_config.card_symbol).CreateCard();
                         RectTransform new_card_rect = new_card.GetComponent<RectTransform>();
                         SetPositionForCard(new_card_rect, _deck_rect);
                         new_card.gameObject.SetActive(true);
@@ -105,6 +114,7 @@ public class GameController : MonoBehaviour
 
                         BaseCard basecard = new_card.GetComponent<BaseCard>();
                         basecard.Color = card_config.card_color;
+                        basecard.Symbol = card_config.card_symbol;
                         basecard.Type = card_config.card_type;
                         _deck.Add(new_card);
                     }
@@ -203,7 +213,8 @@ public class GameController : MonoBehaviour
     {
 
         CurrentColor = card.GetComponent<BaseCard>().Color;
-        CurrentType = card.GetComponent<BaseCard>().Type;
+        CurrentCardType = card.GetComponent<BaseCard>().Type;
+        CurrentCardSymbol = card.GetComponent<BaseCard>().Symbol;
         
         
     }
@@ -218,4 +229,5 @@ public class GameController : MonoBehaviour
 
         card.anchoredPosition = Vector3.zero; 
     }
+
 }

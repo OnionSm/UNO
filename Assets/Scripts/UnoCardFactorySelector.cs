@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class UnoCardFactorySelector 
 {
-    private static readonly Dictionary<CardType, ICardFactory> factory_map = new Dictionary<CardType, ICardFactory>
+    private static readonly Dictionary<CardSymbol, ICardFactory> factory_map = new Dictionary<CardSymbol, ICardFactory>
     {
-        { CardType.Skip, new SkipCardFactory() },
-        { CardType.Reverse, new ReverseCardFactory() },
-        { CardType.DrawTwo, new DrawCardFactory() },
-        { CardType.Wild, new WildCardFactory() },
-        { CardType.WildDrawFour, new DrawFourCardFactory() }
+        { CardSymbol.Skip, new SkipCardFactory() },
+        { CardSymbol.Reverse, new ReverseCardFactory() },
+        { CardSymbol.DrawTwo, new DrawCardFactory() },
+        { CardSymbol.Wild, new WildCardFactory() },
+        { CardSymbol.WildDrawFour, new DrawFourCardFactory() }
     };
 
-    public static ICardFactory GetFactory(CardType card_type)
+    public static ICardFactory GetFactory(CardSymbol card_type)
     {
-        if (card_type >= CardType.Zero && card_type <= CardType.Nine)
+        if (card_type >= CardSymbol.Zero && card_type <= CardSymbol.Nine)
         {
             return new NumberCardFactory();
         }

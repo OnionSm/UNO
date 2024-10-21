@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private CardConfigs _card_configs;
     [SerializeField] private DeckConfigs _deck_configs;
+    [SerializeField] private ColorConfigs _color_configs;
 
     public static GameManager Instance;
 
@@ -35,5 +36,9 @@ public class GameManager : MonoBehaviour
     public List<CardDeck> GetDecks()
     {
         return _deck_configs._deck_configs;
+    }
+    public List <ColorConfig> GetColorConfigs()
+    {
+        return _color_configs.all_color_configs;
     }
 }

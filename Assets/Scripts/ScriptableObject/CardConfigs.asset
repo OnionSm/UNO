@@ -16,217 +16,271 @@ MonoBehaviour:
   - card_id: 0
     card_color: 0
     card_type: 0
+    card_symbol: 0
     card_image: {fileID: 21300000, guid: 7f4043b9038b695449b83c22a21d3404, type: 3}
   - card_id: 1
     card_color: 1
     card_type: 0
+    card_symbol: 0
     card_image: {fileID: 21300000, guid: 88518a73e1488bb49a20e5ba1711ee1d, type: 3}
   - card_id: 2
     card_color: 2
     card_type: 0
+    card_symbol: 0
     card_image: {fileID: 21300000, guid: 5c7ecf4b3d796a9428814ff6c0d41ef0, type: 3}
   - card_id: 3
     card_color: 3
     card_type: 0
+    card_symbol: 0
     card_image: {fileID: 21300000, guid: 12041dcb0ce048049880c2988e24804d, type: 3}
   - card_id: 4
     card_color: 0
-    card_type: 1
+    card_type: 0
+    card_symbol: 1
     card_image: {fileID: 21300000, guid: 5c0a9c4fd8bdfe84d9ed4895aba055ea, type: 3}
   - card_id: 5
     card_color: 1
-    card_type: 1
+    card_type: 0
+    card_symbol: 1
     card_image: {fileID: 21300000, guid: 8fbecaf94df568e4c998aa47b2f06082, type: 3}
   - card_id: 6
     card_color: 2
-    card_type: 1
+    card_type: 0
+    card_symbol: 1
     card_image: {fileID: 21300000, guid: 6db1799e88e15e047a12e3be734421f7, type: 3}
   - card_id: 7
     card_color: 3
-    card_type: 1
+    card_type: 0
+    card_symbol: 1
     card_image: {fileID: 21300000, guid: 8857f009501a7e34aac78a7b7d365b20, type: 3}
   - card_id: 8
     card_color: 0
-    card_type: 2
+    card_type: 0
+    card_symbol: 2
     card_image: {fileID: 21300000, guid: 0130667ca4d7fa7468edf15c771bd96c, type: 3}
   - card_id: 9
     card_color: 1
-    card_type: 2
+    card_type: 0
+    card_symbol: 2
     card_image: {fileID: 21300000, guid: 3f89adc598144ef478ec3106fe6875f5, type: 3}
   - card_id: 10
     card_color: 2
-    card_type: 2
+    card_type: 0
+    card_symbol: 2
     card_image: {fileID: 21300000, guid: f0e3b20b7a0a592408b32b18eb6ac069, type: 3}
   - card_id: 11
     card_color: 3
-    card_type: 2
+    card_type: 0
+    card_symbol: 2
     card_image: {fileID: 21300000, guid: 51c76de9d5fa88047b1de81668535242, type: 3}
   - card_id: 12
     card_color: 0
-    card_type: 3
+    card_type: 0
+    card_symbol: 3
     card_image: {fileID: 21300000, guid: eb3313456d4c83d45af164be150e7fdc, type: 3}
   - card_id: 13
     card_color: 1
-    card_type: 3
+    card_type: 0
+    card_symbol: 3
     card_image: {fileID: 21300000, guid: 6642df75f7b53e74584a8002f58acddc, type: 3}
   - card_id: 14
     card_color: 2
-    card_type: 3
+    card_type: 0
+    card_symbol: 3
     card_image: {fileID: 21300000, guid: e89862cb248a3dd4ea40fcbecb0d0ec2, type: 3}
   - card_id: 15
     card_color: 3
-    card_type: 3
+    card_type: 0
+    card_symbol: 3
     card_image: {fileID: 21300000, guid: 4db02e6fe19d8164792d327baf0ab0a9, type: 3}
   - card_id: 16
     card_color: 0
-    card_type: 4
+    card_type: 0
+    card_symbol: 4
     card_image: {fileID: 21300000, guid: 8dafbe6ef1ef9b841ab7197abbe30e41, type: 3}
   - card_id: 17
     card_color: 1
-    card_type: 5
+    card_type: 0
+    card_symbol: 4
     card_image: {fileID: 21300000, guid: 00e06e9918c346947881a1a362332647, type: 3}
   - card_id: 18
     card_color: 2
-    card_type: 4
+    card_type: 0
+    card_symbol: 4
     card_image: {fileID: 21300000, guid: dd2380d31cc46834ea0902f06385b78d, type: 3}
   - card_id: 19
     card_color: 3
-    card_type: 4
+    card_type: 0
+    card_symbol: 4
     card_image: {fileID: 21300000, guid: 1b54029361180fe449ed4f1d3cf21167, type: 3}
   - card_id: 20
     card_color: 0
-    card_type: 5
+    card_type: 0
+    card_symbol: 5
     card_image: {fileID: 21300000, guid: 1a5621563ec9a0d4f8b9ddb36c876e08, type: 3}
   - card_id: 21
     card_color: 1
-    card_type: 5
+    card_type: 0
+    card_symbol: 5
     card_image: {fileID: 21300000, guid: b8669c14045160d4d87dbb56d4d25ca3, type: 3}
   - card_id: 22
     card_color: 2
-    card_type: 5
+    card_type: 0
+    card_symbol: 5
     card_image: {fileID: 21300000, guid: 7cfb68bc0327eb2409bce0fa034da191, type: 3}
   - card_id: 23
     card_color: 3
-    card_type: 5
+    card_type: 0
+    card_symbol: 5
     card_image: {fileID: 21300000, guid: 0fc395151f1cdd44e89eaf43abe1249b, type: 3}
   - card_id: 24
     card_color: 0
-    card_type: 6
+    card_type: 0
+    card_symbol: 6
     card_image: {fileID: 21300000, guid: 2caadf63fbc154c488cae9e682205783, type: 3}
   - card_id: 25
     card_color: 1
-    card_type: 6
+    card_type: 0
+    card_symbol: 6
     card_image: {fileID: 21300000, guid: 87eb93ec792c12344ad1def3d8fd7879, type: 3}
   - card_id: 26
     card_color: 2
-    card_type: 6
+    card_type: 0
+    card_symbol: 6
     card_image: {fileID: 21300000, guid: 24ca1f83888e37c41ae17b3d590f9fc2, type: 3}
   - card_id: 27
     card_color: 3
-    card_type: 6
+    card_type: 0
+    card_symbol: 6
     card_image: {fileID: 21300000, guid: e13222f411e258f4c8d7faf859bd99b2, type: 3}
   - card_id: 28
     card_color: 0
-    card_type: 7
+    card_type: 0
+    card_symbol: 7
     card_image: {fileID: 21300000, guid: 713868225c4a20d4c8ba7a6fc5d1ff08, type: 3}
   - card_id: 29
     card_color: 1
-    card_type: 7
+    card_type: 0
+    card_symbol: 7
     card_image: {fileID: 21300000, guid: 7949d80f9504e5d40b75339b4e11a5ce, type: 3}
   - card_id: 30
     card_color: 2
-    card_type: 7
+    card_type: 0
+    card_symbol: 7
     card_image: {fileID: 21300000, guid: 91fec1d20a7b35143a6c52d6c9f81f81, type: 3}
   - card_id: 31
     card_color: 3
-    card_type: 7
+    card_type: 0
+    card_symbol: 7
     card_image: {fileID: 21300000, guid: ad573e45e5634464c980163d48deffa9, type: 3}
   - card_id: 32
     card_color: 0
-    card_type: 8
+    card_type: 0
+    card_symbol: 8
     card_image: {fileID: 21300000, guid: e2358f99b497adc4ebabeaa4e3c1c6ba, type: 3}
   - card_id: 33
     card_color: 1
-    card_type: 8
+    card_type: 0
+    card_symbol: 8
     card_image: {fileID: 21300000, guid: 826a1605a02f8584ea33e2632f13178b, type: 3}
   - card_id: 34
     card_color: 2
-    card_type: 8
+    card_type: 0
+    card_symbol: 8
     card_image: {fileID: 21300000, guid: 03a92c757ef274d438c321d2c20d9f20, type: 3}
   - card_id: 35
     card_color: 3
-    card_type: 8
+    card_type: 0
+    card_symbol: 8
     card_image: {fileID: 21300000, guid: 683304a8a0b155746895503d356b5d45, type: 3}
   - card_id: 36
     card_color: 0
-    card_type: 9
+    card_type: 0
+    card_symbol: 9
     card_image: {fileID: 21300000, guid: 6cca6b58360604c4eba2fde4c4776aaf, type: 3}
   - card_id: 37
     card_color: 1
-    card_type: 9
+    card_type: 0
+    card_symbol: 9
     card_image: {fileID: 21300000, guid: 270c1b60372431b459c2a5b7833557e0, type: 3}
   - card_id: 38
     card_color: 2
-    card_type: 9
+    card_type: 0
+    card_symbol: 9
     card_image: {fileID: 21300000, guid: 497e8e3c4393ba14b906cde79b786177, type: 3}
   - card_id: 39
     card_color: 3
-    card_type: 9
+    card_type: 0
+    card_symbol: 9
     card_image: {fileID: 21300000, guid: 54af3f56025a6c749bae4fc7cddc74ca, type: 3}
   - card_id: 40
     card_color: 0
-    card_type: 10
+    card_type: 1
+    card_symbol: 10
     card_image: {fileID: 21300000, guid: 403f48c5039358a408fab5eec6dbb8cd, type: 3}
   - card_id: 41
     card_color: 1
-    card_type: 10
+    card_type: 1
+    card_symbol: 10
     card_image: {fileID: 21300000, guid: 40a3f08b6caeba84ab6e18ce2263690a, type: 3}
   - card_id: 42
     card_color: 2
-    card_type: 10
+    card_type: 1
+    card_symbol: 10
     card_image: {fileID: 21300000, guid: f53b6f590e6714e4db5967a34a9b7a1d, type: 3}
   - card_id: 43
     card_color: 3
-    card_type: 10
+    card_type: 1
+    card_symbol: 10
     card_image: {fileID: 21300000, guid: 5bddd4e1ee09ae14c880324f26a9a9d4, type: 3}
   - card_id: 44
     card_color: 0
-    card_type: 11
+    card_type: 1
+    card_symbol: 11
     card_image: {fileID: 21300000, guid: 300e07a5bb681f54dad3f974307943df, type: 3}
   - card_id: 45
     card_color: 1
-    card_type: 11
+    card_type: 1
+    card_symbol: 11
     card_image: {fileID: 21300000, guid: 8bd8a3fa34466b4489769c967bcdc670, type: 3}
   - card_id: 46
     card_color: 2
-    card_type: 11
+    card_type: 1
+    card_symbol: 11
     card_image: {fileID: 21300000, guid: dbe9672b0da6f3a45b7b24ed53fb8ec1, type: 3}
   - card_id: 47
     card_color: 3
-    card_type: 11
+    card_type: 1
+    card_symbol: 11
     card_image: {fileID: 21300000, guid: c00fd444b06f66940b169b908cd68a85, type: 3}
   - card_id: 48
     card_color: 0
-    card_type: 12
+    card_type: 1
+    card_symbol: 12
     card_image: {fileID: 21300000, guid: d8aa524bc7e1f614d9545bd827c444d8, type: 3}
   - card_id: 49
     card_color: 1
-    card_type: 12
+    card_type: 1
+    card_symbol: 12
     card_image: {fileID: 21300000, guid: 7a690da63d461be48a656b65ab3caf56, type: 3}
   - card_id: 50
     card_color: 2
-    card_type: 12
+    card_type: 1
+    card_symbol: 12
     card_image: {fileID: 21300000, guid: a9502cf8299a76a45b419dca73e834e3, type: 3}
   - card_id: 51
     card_color: 3
-    card_type: 12
+    card_type: 1
+    card_symbol: 12
     card_image: {fileID: 21300000, guid: 91f68898e491b114b8740e05e3ee7bd2, type: 3}
   - card_id: 52
     card_color: 4
-    card_type: 13
+    card_type: 1
+    card_symbol: 13
     card_image: {fileID: 21300000, guid: 7632e1a882048e842b0f8b4bf9cdc1b7, type: 3}
   - card_id: 53
     card_color: 4
-    card_type: 14
+    card_type: 1
+    card_symbol: 14
     card_image: {fileID: 21300000, guid: c5206e79744dd82468529de000103301, type: 3}
   _card_protecter: {fileID: 21300000, guid: b329e86ad500ee4429f5bb84a3bae3e2, type: 3}
