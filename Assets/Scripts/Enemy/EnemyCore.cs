@@ -1,13 +1,17 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyCore : MonoBehaviour, IDrawable
+public class EnemyCore : MonoBehaviour, IDrawable, IObserver
 {
     [SerializeField] private EnemyUI _enemy_ui;
     [SerializeField] private RectTransform _card_pos;
     [SerializeField] private GameController _game_controller;
+
+
+    private List<GameObject> list_player;
+    private List<CardDeck> _deck_card;
     public RectTransform Card_Pos
     {
         get { return _card_pos; }
@@ -19,9 +23,16 @@ public class EnemyCore : MonoBehaviour, IDrawable
     {
         _list_card_in_hand = new List<Transform>();
     }
+
     void Start()
     {
         CheckCardsInHand();
+    }
+    void LoadComponent()
+    {
+        this.list_player = new List<GameObject>();
+        this._deck_card = new List<CardDeck>();
+        this._deck_card = GameManager.Instance.GetDecks();
     }
 
     void CheckCardsInHand()     
@@ -52,4 +63,50 @@ public class EnemyCore : MonoBehaviour, IDrawable
         }
         //_enemy_ui.SetCardLeftText(_list_card_in_hand.Count);
     }
+
+
+    void GetCardAmountInEachPlayer()
+    {
+        List<GameObject> list_player_temp = new List<GameObject>();
+        list_player_temp = _game_controller.ListPlayer;
+        List<int> list_card_amount  = new List<int>();
+
+        if (list_player == null || list_player.Count <= 0)
+            return;
+
+        foreach (GameObject player in list_player)
+        {
+            EnemyCore core = player.GetComponent<EnemyCore>();
+            if (core != null)
+                return;
+            int amount = core._list_card_in_hand.Count;
+            list_card_amount.Add(amount);
+        }
+        list_player.Clear();
+        list_player = list_player_temp;
+    }
+    void ReCalculateCardDeck()
+    {
+        GameObject latest_card = _game_controller.GetLatestCard();
+        if (latest_card == null)
+            return;
+
+        BaseCard base_card = latest_card.GetComponent<BaseCard>();
+        for(int i = 0; i < _deck_card.Count; i++)
+        {
+            if (_deck_card[i].card_id == base_card.card_id)
+            {
+                _deck_card[i].amount = _deck_card[i].amount > 0 ? _deck_card[i].amount -- : 0;
+            }
+        }
+    }
+    public void Notify()
+    {
+        // Get card amount in each player hand
+        GetCardAmountInEachPlayer();
+        // Calculate the left amount of each card symbol
+        ReCalculateCardDeck();
+    }
 }
+// Nếu trên tay có nhiều hơn 1 lá bài có thể đánh được thì sẽ ưu tiên 
+// chọn lá bài số để đánh vì xác suất gặp số là 1/10 còn gặp màu là 1/4

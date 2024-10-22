@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
 using System.Linq;
 
-public class GameController : MonoBehaviour
+public class GameController : MonoBehaviour, IPublisher
 {
     [Header("Game Controller UI Manager")]
     [SerializeField] private GameControllerUIManager _game_controller_ui_manager;
@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
     [Header("UI Enemy Object")]
     [SerializeField] private List<EnemyUIAttributes> _list_enemy_ui;
     [SerializeField] private List<GameObject> _list_enemy_ui_zone;
+
+    private List<IObserver> _list_observer;
 
     public CardColor CurrentColor { get; set; }
     public CardType CurrentCardType { get; set; }
@@ -40,6 +42,11 @@ public class GameController : MonoBehaviour
     }
     
     [SerializeField] private List<GameObject> _list_player;
+    public List<GameObject> ListPlayer
+    {
+        get { return _list_player; }
+        set { _list_player = value; }
+    }
     [SerializeField] private GameObject _card_holder;
 
     [SerializeField] private List<Transform> _deck;
@@ -64,8 +71,9 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         InitPlayer();
-        _card_drawn_amount = 0;
-        _can_execute_after_draw = true;
+        this._card_drawn_amount = 0;
+        this._can_execute_after_draw = true;
+        this._list_observer = new List<IObserver>();
         this._list_color_config = GameManager.Instance.GetColorConfigs();
         this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
         this._deck_config = GameManager.Instance.GetDecks();
@@ -83,6 +91,8 @@ public class GameController : MonoBehaviour
         for(int i = 0; i < _player_count; i++)
         {
             Transform new_player = EnemySpawner.Instance.Spawn("Enemy");
+            IObserver observer  = new_player.gameObject.GetComponent<IObserver>();
+            _list_observer.Add(observer);
             EnemyUI enemyUI = new_player.gameObject.GetComponent<EnemyUI>();
             EnemyCore enemyCore = new_player.gameObject.GetComponent<EnemyCore>();
             enemyUI.Card_Text_Left = _list_enemy_ui[i]._card_amount;
@@ -113,6 +123,7 @@ public class GameController : MonoBehaviour
                         model.LoadComponent();
 
                         BaseCard basecard = new_card.GetComponent<BaseCard>();
+                        basecard.card_id = card.card_id;
                         basecard.Color = card_config.card_color;
                         basecard.Symbol = card_config.card_symbol;
                         basecard.Type = card_config.card_type;
@@ -215,8 +226,6 @@ public class GameController : MonoBehaviour
         CurrentColor = card.GetComponent<BaseCard>().Color;
         CurrentCardType = card.GetComponent<BaseCard>().Type;
         CurrentCardSymbol = card.GetComponent<BaseCard>().Symbol;
-        
-        
     }
     public void SuffleDeck()
     {
@@ -230,4 +239,18 @@ public class GameController : MonoBehaviour
         card.anchoredPosition = Vector3.zero; 
     }
 
+    public void AddObserver()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void RemoveObserver()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Notify()
+    {
+        
+    }
 }
