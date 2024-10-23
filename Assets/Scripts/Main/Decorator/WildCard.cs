@@ -11,6 +11,6 @@ public class WildCard : BaseCard
 
     public override void Play()
     {
-        
+        // Change color
     }
 }

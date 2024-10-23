@@ -13,6 +13,7 @@ public class DrawDecision : IFSMDecision
     {
         CardType card_type = _controller.CurrentCardType;
         CardSymbol card_symbol = _controller.CurrentCardSymbol;
+        CardColor card_color = _controller.CurrentColor;
         if (card_type == CardType.Number)
         {
             List<Transform> _list_card = new List<Transform>();
@@ -24,7 +25,7 @@ public class DrawDecision : IFSMDecision
             foreach (Transform card in _list_card)
             {
                 BaseCard base_card = card.GetComponent<BaseCard>();
-                if (base_card.Symbol == card_symbol || base_card.Type == card_type)
+                if (base_card.Symbol == card_symbol || base_card.Color == card_color)
                 {
                     return false;
                 }

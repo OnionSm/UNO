@@ -14,6 +14,7 @@ public class ExecuteDecision : IFSMDecision
     {
         CardType card_type = _controller.CurrentCardType;
         CardSymbol card_symbol = _controller.CurrentCardSymbol;
+        CardColor card_color = _controller.CurrentColor;
         List<Transform> _list_card = new List<Transform>();
         _list_card = _enemy_core._list_card_in_hand;
 
@@ -23,23 +24,23 @@ public class ExecuteDecision : IFSMDecision
         }
         if (card_type == CardType.Number)
         {
-            return (HasValidCard(_list_card, card_type, card_symbol));
+            return (HasValidCard(_list_card, card_color, card_symbol));
         }
         else
         {
             // No draw effect card was activated
             if(_controller._card_drawn_amount <=0)
-                return (HasValidCard(_list_card, card_type, card_symbol));
+                return (HasValidCard(_list_card, card_color, card_symbol));
             return false;
         }
     }
 
-    bool HasValidCard(List<Transform> _list_card, CardType card_type, CardSymbol card_symbol)
+    bool HasValidCard(List<Transform> _list_card, CardColor card_color, CardSymbol card_symbol)
     {
         foreach (Transform card in _list_card)
         {
             BaseCard base_card = card.GetComponent<BaseCard>();
-            if (base_card.Symbol == card_symbol || base_card.Type == card_type)
+            if (base_card.Symbol == card_symbol || base_card.Color == card_color)
             {
                 return true;
             }

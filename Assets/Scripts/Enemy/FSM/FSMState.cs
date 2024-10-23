@@ -17,11 +17,25 @@ public class FSMState
 
     public void ExecuteAction(EnemyCore core)
     {
-
+        foreach(IFSMAction action in _list_actions)
+        {
+            action.Action();
+        }
     }
 
     public void ExecuteTransition(EnemyCore core)
     {
-
+        foreach(FSMTransition transition in  _list_transitions)
+        {
+            bool result = transition.decide.Decision();
+            if(result && transition.true_state!= null && transition.true_state.Length > 0 )
+            {
+                core.ChangeState(transition.true_state);
+            }
+            else if (!result && transition.true_state != null && transition.true_state.Length > 0)
+            {
+                core.ChangeState(transition.false_state);
+            }
+        }
     }
 }

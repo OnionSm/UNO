@@ -10,7 +10,8 @@ public class EndAction : IFSMAction
     public override void Action()
     {
         _controller._can_execute_after_draw = true;
-        _controller.ChangeTurn(1);
+        _controller.ChangeTurn(_controller._turn_change);
+        _controller._turn_change = 1;
     }
 
     

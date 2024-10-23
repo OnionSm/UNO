@@ -33,6 +33,8 @@ public class GameController : MonoBehaviour, IPublisher
 
     public bool _can_execute_after_draw { get; set; }
 
+    public int _turn_change {  get; set; }
+
     private List<ColorConfig> _list_color_config = new List<ColorConfig>();
     private int _turn_direction;
     public int TurnDirection
@@ -73,6 +75,7 @@ public class GameController : MonoBehaviour, IPublisher
         InitPlayer();
         this._card_drawn_amount = 0;
         this._can_execute_after_draw = true;
+        this._turn_change = 1;
         this._list_observer = new List<IObserver>();
         this._list_color_config = GameManager.Instance.GetColorConfigs();
         this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
@@ -92,7 +95,7 @@ public class GameController : MonoBehaviour, IPublisher
         {
             Transform new_player = EnemySpawner.Instance.Spawn("Enemy");
             IObserver observer  = new_player.gameObject.GetComponent<IObserver>();
-            _list_observer.Add(observer);
+            //_list_observer.Add(observer);
             EnemyUI enemyUI = new_player.gameObject.GetComponent<EnemyUI>();
             EnemyCore enemyCore = new_player.gameObject.GetComponent<EnemyCore>();
             enemyUI.Card_Text_Left = _list_enemy_ui[i]._card_amount;
@@ -183,11 +186,6 @@ public class GameController : MonoBehaviour, IPublisher
     {
         _turn_direction *= -1;
     }
-    public void DrawCard(int amount, int offset)
-    {
-        GameObject player = GetNextTurnPlayer();
-        player.GetComponent<IDrawable>()?.Draw(amount);
-    }
     public List<Transform> GetCard(int amount)
     {
         List<Transform> list_cards_player_get = new List<Transform>();
@@ -253,4 +251,6 @@ public class GameController : MonoBehaviour, IPublisher
     {
         
     }
+
+    
 }

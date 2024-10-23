@@ -21,6 +21,6 @@ public class TurnBan : BaseCard
 
     public override void Play()
     {
-        Controller.ChangeTurn(2);
+        Controller._turn_change = 2;
     }
 }

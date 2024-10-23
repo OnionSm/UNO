@@ -19,6 +19,11 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver
     }
     public List<Transform> _list_card_in_hand { get; set; }
     public List<FSMState> _list_states = new List<FSMState>();
+
+    private string _current_state_name = "Waiting";
+    private FSMState _current_state;
+
+    public bool _has_drawn_card_this_turn = false;
     private void Awake()      
     {
         _list_card_in_hand = new List<Transform>();
@@ -26,13 +31,25 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver
 
     void Start()
     {
+        LoadComponent();
+        LoadInitState();
         CheckCardsInHand();
+    }
+
+    void Update()
+    {
+        ExecuteState();
     }
     void LoadComponent()
     {
         this.list_player = new List<GameObject>();
         this._deck_card = new List<CardDeck>();
         this._deck_card = GameManager.Instance.GetDecks();
+    }
+
+    void LoadInitState()
+    {
+        _current_state = GetStateByName(_current_state_name);
     }
 
     void CheckCardsInHand()     
@@ -107,6 +124,40 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver
         // Calculate the left amount of each card symbol
         ReCalculateCardDeck();
     }
+
+    private FSMState GetStateByName(string state_name)
+    {
+        foreach(FSMState state in _list_states)
+        {
+            if(state._state_name == state_name)
+            {
+                return state;
+            }
+        }
+        return null;
+    }
+    public void ChangeState(string state_name)
+    {
+        FSMState state = GetStateByName(state_name);
+        if (state != null)
+        {
+            _current_state = state;
+        }
+    }
+    private void ExecuteState()
+    {
+        if(CanExecuteState())
+        {
+            _current_state.ExecuteAction(this);
+        }
+    }
+    private bool CanExecuteState()
+    {
+        return _list_card_in_hand.Count > 0;
+    }
 }
 // Nếu trên tay có nhiều hơn 1 lá bài có thể đánh được thì sẽ ưu tiên 
 // chọn lá bài số để đánh vì xác suất gặp số là 1/10 còn gặp màu là 1/4
+
+// Nếu đối phương bốc bài thì có nghĩa là có 70% đối phương không có lá để đánh,
+// Nếu đối phương bốc bài và không đánh thì có 90% là lá đó không đánh được và 10
