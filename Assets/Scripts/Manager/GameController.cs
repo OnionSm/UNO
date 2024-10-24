@@ -23,6 +23,9 @@ public class GameController : MonoBehaviour, IPublisher
     [SerializeField] private List<EnemyUIAttributes> _list_enemy_ui;
     [SerializeField] private List<GameObject> _list_enemy_ui_zone;
 
+    [Header("Played Zone")]
+    [SerializeField] private RectTransform _played_zone;
+
     private List<IObserver> _list_observer;
 
     public CardColor CurrentColor { get; set; }
@@ -70,6 +73,14 @@ public class GameController : MonoBehaviour, IPublisher
     [SerializeField] private List<CardDeck> _deck_config = new List<CardDeck>();
     private Sprite _protecter;
 
+    private bool _game_started = false;
+    public bool GameStarted
+    {
+        get { return _game_started; }
+        set { _game_started = value; }
+    }
+
+
     private void Start()
     {
         InitPlayer();
@@ -98,6 +109,11 @@ public class GameController : MonoBehaviour, IPublisher
             //_list_observer.Add(observer);
             EnemyUI enemyUI = new_player.gameObject.GetComponent<EnemyUI>();
             EnemyCore enemyCore = new_player.gameObject.GetComponent<EnemyCore>();
+            ITurn turnComponent = new_player.gameObject.GetComponent<ITurn>();
+            if (turnComponent != null)
+            {
+                turnComponent.turn_id = i+1;
+            }
             enemyUI.Card_Text_Left = _list_enemy_ui[i]._card_amount;
             enemyUI.Cash_Text = _list_enemy_ui[i]._cash_amount;
             enemyCore.Card_Pos = _list_enemy_ui[i]._deck_pos;
@@ -233,8 +249,13 @@ public class GameController : MonoBehaviour, IPublisher
     {
         card.SetParent(parent.transform, false);
         card.sizeDelta = parent.sizeDelta;
-
-        card.anchoredPosition = Vector3.zero; 
+        card.anchoredPosition = Vector2.zero;
+        card.anchorMin = parent.anchorMin;
+        card.anchorMax = parent.anchorMax;
+        card.pivot = parent.pivot;
+        card.localRotation = parent.localRotation;
+        card.localScale = parent.localScale;
+        card.localPosition = parent.localPosition;
     }
 
     public void AddObserver()
@@ -251,6 +272,10 @@ public class GameController : MonoBehaviour, IPublisher
     {
         
     }
-
+    
+    IEnumerator StartGame()
+    {
+        yield return new WaitForSeconds(3f);
+    }
     
 }

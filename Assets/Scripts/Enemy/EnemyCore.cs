@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyCore : MonoBehaviour, IDrawable, IObserver
+public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 {
     [SerializeField] private EnemyUI _enemy_ui;
     [SerializeField] private RectTransform _card_pos;
@@ -12,12 +12,17 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver
 
     private List<GameObject> list_player;
     private List<CardDeck> _deck_card;
+    
+
     public RectTransform Card_Pos
     {
         get { return _card_pos; }
         set { _card_pos = value; }
     }
     public List<Transform> _list_card_in_hand { get; set; }
+
+    public int turn_id { get ; set; }
+
     public List<FSMState> _list_states = new List<FSMState>();
 
     private string _current_state_name = "Waiting";
@@ -71,7 +76,8 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver
             list_card_got.ForEach(card =>
             {
                 _list_card_in_hand?.Add(card);
-                card.SetParent(_card_pos, false);
+                RectTransform card_rect = card.gameObject.GetComponent<RectTransform>();
+                _game_controller.SetPositionForCard(card_rect, _card_pos);
             });
         }
         else
@@ -155,6 +161,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver
     {
         return _list_card_in_hand.Count > 0;
     }
+    
 }
 // Nếu trên tay có nhiều hơn 1 lá bài có thể đánh được thì sẽ ưu tiên 
 // chọn lá bài số để đánh vì xác suất gặp số là 1/10 còn gặp màu là 1/4

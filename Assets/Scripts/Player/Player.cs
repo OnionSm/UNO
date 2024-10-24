@@ -4,9 +4,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour, IDrawable
+public class Player : MonoBehaviour, IDrawable, ITurn
 {
     public List<Transform> _list_card_in_hand { get; set; }
+
+    public int turn_id { get; set; } 
+
     [Header("Grid Layout Group")]
     [SerializeField] private GridLayoutGroup _player_hand_group_layout;
 
@@ -36,4 +39,10 @@ public class Player : MonoBehaviour, IDrawable
 
     
     public void Update() { }
+
+    private void LoadComponent()
+    {
+        this.turn_id = 0;
+    }
+
 }
