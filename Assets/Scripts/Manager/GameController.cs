@@ -10,6 +10,14 @@ using System.Linq;
 
 public class GameController : MonoBehaviour, IPublisher
 {
+    [Header("Game Event")]
+    [SerializeField] private GameEvent _display_play_card_button;
+    [SerializeField] private GameEvent _undisplay_play_card_button;
+    [SerializeField] private GameEvent _display_drop_turn_button;
+    [SerializeField] private GameEvent _undisplay_drop_turn_button;
+    [SerializeField] private GameEvent _enable_play_button;
+    [SerializeField] private GameEvent _unenable_play_button;
+
     [Header("Game Controller UI Manager")]
     [SerializeField] private GameControllerUIManager _game_controller_ui_manager;
 
@@ -95,6 +103,11 @@ public class GameController : MonoBehaviour, IPublisher
         InitCardDeck();
         _card_dealer.DistributeCard(_list_player, _deck);
         _game_controller_ui_manager.SetCardAmountText(_deck.Count);
+        if(_current_turn == 0)
+        {
+            _display_drop_turn_button?.RaiseEvent();
+            CheckAvailableCard();
+        }
     }
     private void Update()
     {
@@ -177,7 +190,13 @@ public class GameController : MonoBehaviour, IPublisher
     public void ChangeTurn(int value)
     {
         _current_turn = GetNextTurn(value);
+        if(_current_turn == 0)
+        {
+            _display_drop_turn_button?.RaiseEvent();
+            
+        }
     }
+
     // Get the index player that they has turn
     public int GetNextTurn(int value)
     {
@@ -276,6 +295,11 @@ public class GameController : MonoBehaviour, IPublisher
     IEnumerator StartGame()
     {
         yield return new WaitForSeconds(3f);
+    }
+
+    private void CheckAvailableCard()
+    {
+
     }
     
 }

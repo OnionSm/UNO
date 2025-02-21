@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IDrawable, ITurn
 {
     public List<Transform> _list_card_in_hand { get; set; }
-
+    
     public int turn_id { get; set; } 
 
     [Header("Grid Layout Group")]
@@ -21,10 +22,13 @@ public class Player : MonoBehaviour, IDrawable, ITurn
         {
             list_card_got.ForEach(card =>
             {
+                BaseCard base_card = card.GetComponent<BaseCard>();
+                Debug.Log($"{base_card.Color} {base_card.Type} {base_card.Symbol}");
                 card.GetComponentInChildren<CardModel>()._player_id = 0;
                 _list_card_in_hand?.Add(card);
                 card.SetParent(_player_hand_group_layout.transform, false);
                 card.GetComponentInChildren<CardModel>().StartFlipUp();
+                Debug.Log(card);
             });
         }
         else
@@ -49,6 +53,24 @@ public class Player : MonoBehaviour, IDrawable, ITurn
     public void ClickCard()
     {
 
+    }
+
+    public void CheckAvailbleCard()
+    {
+        
+    }
+    
+    public void CheckNumber()
+    {
+
+    }
+    public void CheckCardType()
+    {
+
+    }
+    public void CheckColor()
+    {
+        
     }
 
 }
