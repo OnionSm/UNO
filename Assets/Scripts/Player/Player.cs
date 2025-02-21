@@ -21,6 +21,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn
         {
             list_card_got.ForEach(card =>
             {
+                card.GetComponentInChildren<CardModel>()._player_id = 0;
                 _list_card_in_hand?.Add(card);
                 card.SetParent(_player_hand_group_layout.transform, false);
                 card.GetComponentInChildren<CardModel>().StartFlipUp();
@@ -43,6 +44,11 @@ public class Player : MonoBehaviour, IDrawable, ITurn
     private void LoadComponent()
     {
         this.turn_id = 0;
+    }
+
+    public void ClickCard()
+    {
+
     }
 
 }

@@ -17,4 +17,8 @@ public class CardAnimation : MonoBehaviour
     {
         animator.SetBool(FlipDown, value);
     }
+    public void SetCardClicked(bool value)
+    {
+
+    }
 }

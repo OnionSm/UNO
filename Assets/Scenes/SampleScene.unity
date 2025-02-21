@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9986898
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4553,7 +4553,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1746659902
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4632,7 +4632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1787729663
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4978,6 +4978,8 @@ GameObject:
   - component: {fileID: 1884256602}
   - component: {fileID: 1884256603}
   - component: {fileID: 1884256604}
+  - component: {fileID: 1884256605}
+  - component: {fileID: 1884256606}
   m_Layer: 5
   m_Name: CardModel
   m_TagString: Untagged
@@ -5092,6 +5094,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1884256602}
+--- !u!114 &1884256605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884256598}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4860574131687dd4dac82226be1eb090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _game_event: {fileID: 11400000, guid: e5b660616ed733d4eb04ba35f97bfa7c, type: 2}
+  _respone:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1884256603}
+        m_TargetAssemblyTypeName: CardModel, Assembly-CSharp
+        m_MethodName: OnCardClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1884256606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884256598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1884256603}
+          m_TargetAssemblyTypeName: CardModel, Assembly-CSharp
+          m_MethodName: OnCardClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1886145877
 GameObject:
   m_ObjectHideFlags: 0
