@@ -11,7 +11,7 @@ public class PlayerTurnEventListener : MonoBehaviour
     {
         _game_event?.ListenEvent(Respone);
     }
-    private void Respone(CardColor color , CardType type , CardNumber number)
+    private void Respone(CardColor color , CardType type , CardSymbol symbol)
     {
 
     }

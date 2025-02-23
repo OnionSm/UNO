@@ -102,12 +102,13 @@ public class GameController : MonoBehaviour, IPublisher
         this._protecter = GameManager.Instance.GetProtecter();
         InitCardDeck();
         _card_dealer.DistributeCard(_list_player, _deck);
-        _game_controller_ui_manager.SetCardAmountText(_deck.Count);
         if(_current_turn == 0)
         {
             _display_drop_turn_button?.RaiseEvent();
             CheckAvailableCard();
         }
+        InitFirstCard();
+        _game_controller_ui_manager.SetCardAmountText(_deck.Count);
     }
     private void Update()
     {
@@ -133,6 +134,19 @@ public class GameController : MonoBehaviour, IPublisher
             _list_enemy_ui_zone[i].gameObject.SetActive(true);
             _list_player.Add(new_player.gameObject);
         }
+    }
+    private void InitFirstCard()
+    {
+        Transform card = _deck[0];
+        BaseCard base_card = card.GetComponent<BaseCard>();
+        CurrentColor = base_card.Color;
+        CurrentCardSymbol = base_card.Symbol;
+        CurrentCardType = base_card.Type;
+        _deck.Remove(card);
+        RectTransform card_rect = card.gameObject.GetComponent<RectTransform>();
+        SetPositionForCard(card_rect, _played_zone);
+        card.GetComponentInChildren<CardModel>().StartFlipUp();
+        Debug.Log($"Current card {CurrentColor} {CurrentCardSymbol} {CurrentCardType}");
     }
     private void InitCardDeck()
     {

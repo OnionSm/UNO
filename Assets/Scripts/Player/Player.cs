@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -55,22 +56,35 @@ public class Player : MonoBehaviour, IDrawable, ITurn
 
     }
 
-    public void CheckAvailbleCard()
+    public void CheckAnyAvailbleCard(CardColor color, CardType type, CardSymbol symbol)
     {
         
     }
     
-    public void CheckNumber()
+    public bool CheckSymbol(CardSymbol symbol)
     {
-
+        foreach (Transform card in _list_card_in_hand)
+        {
+            BaseCard base_card = card.GetComponent<BaseCard>();
+            if (base_card.Symbol == CardSymbol.WildDrawFour || base_card.Symbol == symbol)
+            {
+                return true;
+            }
+        }
+        return false;
     }
-    public void CheckCardType()
+    
+    public bool CheckColor(CardColor color)
     {
-
-    }
-    public void CheckColor()
-    {
-        
+        foreach(Transform card in _list_card_in_hand)
+        {
+            BaseCard base_card = card.GetComponent<BaseCard>();
+            if(base_card.Color == CardColor.Black || base_card.Color == color)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
