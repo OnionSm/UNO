@@ -12,6 +12,7 @@ public class GameControllerUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _card_amount_text;
     [SerializeField] private Button _play_button;
     [SerializeField] private Button _drop_turn_button;
+    [SerializeField] private TextMeshProUGUI _current_turn_text;
     void Start()
     {
         
@@ -57,5 +58,9 @@ public class GameControllerUIManager : MonoBehaviour
         _drop_turn_button.gameObject.SetActive(false);
     }
 
+    public void SetCurrentTurnText(int current_turn)
+    {
+        _current_turn_text.SetText(current_turn.ToString());
+    }
     
 }

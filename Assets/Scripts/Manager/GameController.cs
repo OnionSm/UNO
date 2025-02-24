@@ -11,6 +11,7 @@ using System.Linq;
 public class GameController : MonoBehaviour, IPublisher
 {
     [Header("Game Event")]
+    [SerializeField] private ChangeTurnEvent _change_turn_event;
     [SerializeField] private GameEvent _display_play_card_button;
     [SerializeField] private GameEvent _undisplay_play_card_button;
     [SerializeField] private GameEvent _display_drop_turn_button;
@@ -109,6 +110,7 @@ public class GameController : MonoBehaviour, IPublisher
         }
         InitFirstCard();
         _game_controller_ui_manager.SetCardAmountText(_deck.Count);
+        _change_turn_event?.RaiseEvent(_current_turn);
     }
     private void Update()
     {
@@ -204,10 +206,11 @@ public class GameController : MonoBehaviour, IPublisher
     public void ChangeTurn(int value)
     {
         _current_turn = GetNextTurn(value);
-        if(_current_turn == 0)
+        _change_turn_event?.RaiseEvent(_current_turn);
+        if (_current_turn == 0)
         {
             _display_drop_turn_button?.RaiseEvent();
-            
+           
         }
     }
 

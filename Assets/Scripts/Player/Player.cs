@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IDrawable, ITurn
 {
-    public List<Transform> _list_card_in_hand { get; set; }
+    public List<Transform> _list_card_in_hand { get; set; } = new List<Transform>();
+
     
     public int turn_id { get; set; } 
 
@@ -16,6 +17,10 @@ public class Player : MonoBehaviour, IDrawable, ITurn
     [SerializeField] private GridLayoutGroup _player_hand_group_layout;
 
     [SerializeField] private GameController _game_controller;
+
+    [Header("Event")]
+    [SerializeField] private GameEvent _display_play_btn_ev_listener;
+
     public void Draw(int amount)
     {
         List<Transform> list_card_got = _game_controller?.GetCard(amount);
@@ -56,9 +61,23 @@ public class Player : MonoBehaviour, IDrawable, ITurn
 
     }
 
-    public void CheckAnyAvailbleCard(CardColor color, CardType type, CardSymbol symbol)
+    public void CheckAnyAvailbleCard(int current_turn)
     {
-        
+        Debug.Log("Check Available Card Called");
+        if(current_turn != 0)
+        {
+            return;
+        }
+        if (CheckColor(_game_controller.CurrentColor))
+        {
+            _display_play_btn_ev_listener?.RaiseEvent();
+            return;
+        }
+        if(CheckSymbol(_game_controller.CurrentCardSymbol))
+        {
+            _display_play_btn_ev_listener?.RaiseEvent();
+        }
+
     }
     
     public bool CheckSymbol(CardSymbol symbol)
@@ -86,5 +105,6 @@ public class Player : MonoBehaviour, IDrawable, ITurn
         }
         return false;
     }
+
 
 }
