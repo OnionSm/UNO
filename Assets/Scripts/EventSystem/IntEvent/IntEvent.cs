@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "GameEvent", menuName = "Event/ChangeTurnEvent")]
-public class ChangeTurnEvent : ScriptableObject
+[CreateAssetMenu(fileName = "IntEvent", menuName = "Event/IntEvent")]
+public class IntEvent : ScriptableObject
 {
     private UnityAction<int> _all_action;
     public void ListenEvent(UnityAction<int> action)

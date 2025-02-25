@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn
 
     [Header("Event")]
     [SerializeField] private GameEvent _display_play_btn_ev_listener;
+    [SerializeField] private GameEvent _disable_play_btn_ev_listener;
 
     public void Draw(int amount)
     {
@@ -105,6 +106,12 @@ public class Player : MonoBehaviour, IDrawable, ITurn
         }
         return false;
     }
+    public void CheckSeparateCard(CardColor color, CardType type, CardSymbol symbol)
+    {
+        if(color == CardColor.Black || color == _game_controller.CurrentColor)
+        {
 
+        }
+    }
 
 }

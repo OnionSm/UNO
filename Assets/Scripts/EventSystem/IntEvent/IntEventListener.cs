@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class ChangeTurnEventListener : MonoBehaviour
 {
-    [SerializeField] private ChangeTurnEvent _game_event;
+    [SerializeField] private IntEvent _game_event;
     [SerializeField] private UnityEvent<int> _respones;
     private void OnEnable()
     {

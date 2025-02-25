@@ -11,7 +11,7 @@ using System.Linq;
 public class GameController : MonoBehaviour, IPublisher
 {
     [Header("Game Event")]
-    [SerializeField] private ChangeTurnEvent _change_turn_event;
+    [SerializeField] private IntEvent _change_turn_event;
     [SerializeField] private GameEvent _display_play_card_button;
     [SerializeField] private GameEvent _undisplay_play_card_button;
     [SerializeField] private GameEvent _display_drop_turn_button;

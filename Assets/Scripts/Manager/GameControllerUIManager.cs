@@ -9,10 +9,13 @@ public class GameControllerUIManager : MonoBehaviour
 {
     private int _alpha_enable_button = 255;
     private int _alpha_unenable_button = 100;
+
+    [Header("General UI")]
     [SerializeField] private TextMeshProUGUI _card_amount_text;
     [SerializeField] private Button _play_button;
     [SerializeField] private Button _drop_turn_button;
     [SerializeField] private TextMeshProUGUI _current_turn_text;
+
     void Start()
     {
         
