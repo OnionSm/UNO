@@ -6,7 +6,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "BoolEvent", menuName = "Event/BoolEvent")]
 public class BoolEvent : ScriptableObject
 {
-    private UnityAction<bool> _all_events;
+    public UnityAction<bool> _all_events;
     
     public void ListenEvent(UnityAction<bool> action)
     {

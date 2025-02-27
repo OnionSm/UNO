@@ -11,13 +11,11 @@ using System.Linq;
 public class GameController : MonoBehaviour, IPublisher
 {
     [Header("Game Event")]
-    [SerializeField] private IntEvent _change_turn_event;
-    [SerializeField] private GameEvent _display_play_card_button;
-    [SerializeField] private GameEvent _undisplay_play_card_button;
-    [SerializeField] private GameEvent _display_drop_turn_button;
-    [SerializeField] private GameEvent _undisplay_drop_turn_button;
-    [SerializeField] private GameEvent _enable_play_button;
-    [SerializeField] private GameEvent _unenable_play_button;
+    [SerializeField] private GameEvent _on_player_turn_changed_ev;
+    ////[SerializeField] private IntEvent _change_turn_event;
+    //[SerializeField] private BoolEvent _play_card_btn_appearance_ev;
+    //[SerializeField] private BoolEvent _drop_card_btn_appearance_ev;
+    //[SerializeField] private BoolEvent _available_play_card_btn_ev;
 
     [Header("Game Controller UI Manager")]
     [SerializeField] private GameControllerUIManager _game_controller_ui_manager;
@@ -105,12 +103,12 @@ public class GameController : MonoBehaviour, IPublisher
         _card_dealer.DistributeCard(_list_player, _deck);
         if(_current_turn == 0)
         {
-            _display_drop_turn_button?.RaiseEvent();
+            _on_player_turn_changed_ev?.RaiseEvent();
             CheckAvailableCard();
         }
         InitFirstCard();
         _game_controller_ui_manager.SetCardAmountText(_deck.Count);
-        _change_turn_event?.RaiseEvent(_current_turn);
+        _on_player_turn_changed_ev?.RaiseEvent();
     }
     private void Update()
     {
@@ -206,11 +204,10 @@ public class GameController : MonoBehaviour, IPublisher
     public void ChangeTurn(int value)
     {
         _current_turn = GetNextTurn(value);
-        _change_turn_event?.RaiseEvent(_current_turn);
+        //_change_turn_event?.RaiseEvent(_current_turn);
         if (_current_turn == 0)
         {
-            _display_drop_turn_button?.RaiseEvent();
-           
+            _on_player_turn_changed_ev?.RaiseEvent();
         }
     }
 

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "IntEvent", menuName = "Event/IntEvent")]
 public class IntEvent : ScriptableObject
 {
-    private UnityAction<int> _all_action;
+    public UnityAction<int> _all_action;
     public void ListenEvent(UnityAction<int> action)
     {
         _all_action += action;

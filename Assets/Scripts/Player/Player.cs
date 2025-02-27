@@ -19,8 +19,9 @@ public class Player : MonoBehaviour, IDrawable, ITurn
     [SerializeField] private GameController _game_controller;
 
     [Header("Event")]
-    [SerializeField] private GameEvent _display_play_btn_ev_listener;
-    [SerializeField] private GameEvent _disable_play_btn_ev_listener;
+    [SerializeField] private BoolEvent _on_play_card_appear_btn_ev;
+    [SerializeField] private BoolEvent _on_drop_turn_appear_btn_ev;
+    [SerializeField] private BoolEvent _on_available_play_card_btn_ev;
 
     public void Draw(int amount)
     {
@@ -62,23 +63,19 @@ public class Player : MonoBehaviour, IDrawable, ITurn
 
     }
 
-    public void CheckAnyAvailbleCard(int current_turn)
+    public void OnPlayerTurn()
     {
-        Debug.Log("Check Available Card Called");
-        if(current_turn != 0)
-        {
-            return;
-        }
-        if (CheckColor(_game_controller.CurrentColor))
-        {
-            _display_play_btn_ev_listener?.RaiseEvent();
-            return;
-        }
-        if(CheckSymbol(_game_controller.CurrentCardSymbol))
-        {
-            _display_play_btn_ev_listener?.RaiseEvent();
-        }
+        _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
+        CheckAnyAvailbleCard();
+    }
 
+    public void CheckAnyAvailbleCard()
+    {
+        Debug.Log("Check Available Card Called----------------------------------------------");
+        if (CheckColor(_game_controller.CurrentColor) || CheckSymbol(_game_controller.CurrentCardSymbol))
+        {
+            _on_play_card_appear_btn_ev?.RaiseEvent(true);
+        }
     }
     
     public bool CheckSymbol(CardSymbol symbol)

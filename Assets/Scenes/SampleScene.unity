@@ -4417,9 +4417,10 @@ GameObject:
   - component: {fileID: 1551789351}
   - component: {fileID: 1551789350}
   - component: {fileID: 1551789352}
-  - component: {fileID: 1551789353}
   - component: {fileID: 1551789354}
-  - component: {fileID: 1551789355}
+  - component: {fileID: 1551789356}
+  - component: {fileID: 1551789358}
+  - component: {fileID: 1551789357}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -4439,13 +4440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a75e71f5aea652f4480b6033174004f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _change_turn_event: {fileID: 11400000, guid: 07f2d9c1af6bd4f4080c99cf630bab51, type: 2}
-  _display_play_card_button: {fileID: 11400000, guid: 7572039a8fe193342a0d52d1e50aacbc, type: 2}
-  _undisplay_play_card_button: {fileID: 0}
-  _display_drop_turn_button: {fileID: 11400000, guid: 77891ce0efc5b874cb7884a9499544bf, type: 2}
-  _undisplay_drop_turn_button: {fileID: 0}
-  _enable_play_button: {fileID: 0}
-  _unenable_play_button: {fileID: 0}
+  _on_player_turn_changed_ev: {fileID: 11400000, guid: 1a0c5fac6fc3c164f9e80f26a489f30e, type: 2}
+  _play_card_btn_appearance_ev: {fileID: 0}
+  _drop_card_btn_appearance_ev: {fileID: 11400000, guid: 5be49e07e6c60964c94db76f7bc4297a, type: 2}
+  _available_play_card_btn_ev: {fileID: 0}
   _game_controller_ui_manager: {fileID: 1551789352}
   _card_dealer: {fileID: 652076967}
   _deck_rect: {fileID: 2071852243}
@@ -4499,37 +4497,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _card_amount_text: {fileID: 1105859558}
-  _play_button: {fileID: 1984100169}
+  _play_card_button: {fileID: 1984100169}
   _drop_turn_button: {fileID: 1720562121}
   _current_turn_text: {fileID: 189386966}
---- !u!114 &1551789353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551789349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4860574131687dd4dac82226be1eb090, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _game_event: {fileID: 11400000, guid: 77891ce0efc5b874cb7884a9499544bf, type: 2}
-  _respone:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1551789352}
-        m_TargetAssemblyTypeName: GameControllerUIManager, Assembly-CSharp
-        m_MethodName: DisplayDropTurnButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1551789354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4549,7 +4519,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1551789352}
         m_TargetAssemblyTypeName: GameControllerUIManager, Assembly-CSharp
         m_MethodName: SetCurrentTurnText
-        m_Mode: 3
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4558,7 +4528,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1551789355
+--- !u!114 &1551789356
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4567,17 +4537,73 @@ MonoBehaviour:
   m_GameObject: {fileID: 1551789349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4860574131687dd4dac82226be1eb090, type: 3}
+  m_Script: {fileID: 11500000, guid: aae22a29c9bd07d43b949ef938ac3e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _game_event: {fileID: 11400000, guid: 7572039a8fe193342a0d52d1e50aacbc, type: 2}
-  _respone:
+  _event: {fileID: 11400000, guid: 5be49e07e6c60964c94db76f7bc4297a, type: 2}
+  _respones:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1551789352}
         m_TargetAssemblyTypeName: GameControllerUIManager, Assembly-CSharp
-        m_MethodName: DisplayPlayCardButton
-        m_Mode: 1
+        m_MethodName: SetAppearanceDropTurnButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1551789357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551789349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae22a29c9bd07d43b949ef938ac3e23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 114f4afe34d3e984f92e52a8ef3ab293, type: 2}
+  _respones:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1551789352}
+        m_TargetAssemblyTypeName: GameControllerUIManager, Assembly-CSharp
+        m_MethodName: SetAvailablePlayCardButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1551789358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551789349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae22a29c9bd07d43b949ef938ac3e23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 3dcfc58d2af858d4fb75f8fb3ccd7154, type: 2}
+  _respones:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1551789352}
+        m_TargetAssemblyTypeName: GameControllerUIManager, Assembly-CSharp
+        m_MethodName: SetAppearancePlayCardButton
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5883,7 +5909,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player_hand_group_layout: {fileID: 1221067991}
   _game_controller: {fileID: 1551789350}
-  _display_play_btn_ev_listener: {fileID: 11400000, guid: 7572039a8fe193342a0d52d1e50aacbc, type: 2}
+  _on_play_card_appear_btn_ev: {fileID: 11400000, guid: 3dcfc58d2af858d4fb75f8fb3ccd7154, type: 2}
+  _on_drop_turn_appear_btn_ev: {fileID: 11400000, guid: 5be49e07e6c60964c94db76f7bc4297a, type: 2}
+  _on_available_play_card_btn_ev: {fileID: 11400000, guid: 114f4afe34d3e984f92e52a8ef3ab293, type: 2}
 --- !u!4 &1886145879
 Transform:
   m_ObjectHideFlags: 0
@@ -5908,17 +5936,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1886145877}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32ae23362c5d24b4f9212a1074c27cc7, type: 3}
+  m_Script: {fileID: 11500000, guid: 4860574131687dd4dac82226be1eb090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _game_event: {fileID: 11400000, guid: 07f2d9c1af6bd4f4080c99cf630bab51, type: 2}
-  _respones:
+  _game_event: {fileID: 11400000, guid: 1a0c5fac6fc3c164f9e80f26a489f30e, type: 2}
+  _respone:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1886145878}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: CheckAnyAvailbleCard
-        m_Mode: 3
+        m_MethodName: OnPlayerTurn
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
