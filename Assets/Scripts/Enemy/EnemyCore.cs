@@ -65,7 +65,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             return; 
         }
         _enemy_ui.SetCardLeftText(_list_card_in_hand.Count);
-        Debug.Log($"Set up card amount text {_list_card_in_hand.Count} ");
+        //Debug.Log($"Set up card amount text {_list_card_in_hand.Count} ");
     }
 
     public void Draw(int amount)

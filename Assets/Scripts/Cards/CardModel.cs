@@ -27,8 +27,6 @@ public class CardModel : MonoBehaviour
 
 
     [SerializeField] private CardAnimation _card_animation;
-    public bool _card_selected { get; set; } = false;
-    public int _player_id { get; set; } = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -69,20 +67,16 @@ public class CardModel : MonoBehaviour
     {
         _card_animation.SetBoolFlipUp(false);
     }
-    public void OnCardClicked()
+    public void SetCardStateUI(bool state)
     {
-        if(_player_id == 0)
+        if (state)
         {
-            if (_card_selected)
-            {
-                _card_selected = false; 
-                transform.DOMove(transform.position - new Vector3(0, 1, 0), 0.2f);
-            }
-            else
-            {
-                _card_selected = true;
-                transform.DOMove(transform.position + new Vector3(0, 1, 0), 0.2f);
-            }
+            transform.DOMove(transform.position - new Vector3(0, 1, 0), 0.2f);
+        }
+        else
+        {
+            transform.DOMove(transform.position + new Vector3(0, 1, 0), 0.2f);
         }
     }
+
 }

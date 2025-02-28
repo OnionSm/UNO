@@ -3535,6 +3535,7 @@ GameObject:
   - component: {fileID: 1183641319}
   - component: {fileID: 1183641321}
   - component: {fileID: 1183641320}
+  - component: {fileID: 1183641322}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -3600,6 +3601,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183641318}
   m_CullTransparentMesh: 1
+--- !u!114 &1183641322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183641318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9918d2ea6d56ae84cad4f78769c35b80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _on_valid_card_ev: {fileID: 11400000, guid: 8c653fbe653d82d40987097dbfa8ee9b, type: 2}
 --- !u!1 &1221067989
 GameObject:
   m_ObjectHideFlags: 0
@@ -4441,9 +4455,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _on_player_turn_changed_ev: {fileID: 11400000, guid: 1a0c5fac6fc3c164f9e80f26a489f30e, type: 2}
-  _play_card_btn_appearance_ev: {fileID: 0}
-  _drop_card_btn_appearance_ev: {fileID: 11400000, guid: 5be49e07e6c60964c94db76f7bc4297a, type: 2}
-  _available_play_card_btn_ev: {fileID: 0}
   _game_controller_ui_manager: {fileID: 1551789352}
   _card_dealer: {fileID: 652076967}
   _deck_rect: {fileID: 2071852243}
@@ -5877,6 +5888,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1183641322}
+          m_TargetAssemblyTypeName: CardController, Assembly-CSharp
+          m_MethodName: CheckCardValid
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1886145877
 GameObject:
   m_ObjectHideFlags: 0
@@ -5888,6 +5911,7 @@ GameObject:
   - component: {fileID: 1886145879}
   - component: {fileID: 1886145878}
   - component: {fileID: 1886145880}
+  - component: {fileID: 1886145881}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5947,6 +5971,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: OnPlayerTurn
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1886145881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886145877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a16738312e24284c945ab2c22d74d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _game_event: {fileID: 11400000, guid: 8c653fbe653d82d40987097dbfa8ee9b, type: 2}
+  _respones:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1886145878}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: CheckSeparateCard
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

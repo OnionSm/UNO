@@ -40,7 +40,7 @@ public class GameControllerUIManager : MonoBehaviour
     }
     public void SetAppearancePlayCardButton(bool state)
     {
-        Debug.Log("Play card called");
+        //Debug.Log("Play card called");
         _play_card_button?.gameObject.SetActive(state);
 
     }
