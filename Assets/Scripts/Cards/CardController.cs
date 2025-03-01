@@ -7,9 +7,12 @@ using UnityEngine;
 public class CardController : MonoBehaviour
 {
     [Header("UI")]
+    [SerializeField] private CardModel _card_model;    
 
     [Header("Game Event")]
     [SerializeField] private CardEvent _on_valid_card_ev;
+    [SerializeField] private BoolEvent _on_available_play_card_btn_ev;
+    [SerializeField] private GameEvent _on_unselect_card_ev;
     public bool _card_selected { get; set; } = false;
     public int _player_id { get; set; } = -1;
     // Start is called before the first frame update
@@ -30,13 +33,25 @@ public class CardController : MonoBehaviour
         {
             Debug.Log("base card nullllllllllllllllllllllllll");
         }
-        Debug.Log("Check card called");
-        _on_valid_card_ev?.RaiseEvent(card.Color, card.Type, card.Symbol);
+        _on_valid_card_ev?.RaiseEvent(gameObject, card.Color, card.Type, card.Symbol);
     }
     public void OnCardSelection()
     {
         if (_player_id == 0)
         {
+            if(!_card_selected)
+            {
+                _card_selected = true;
+                _card_model.SetCardStateUI(true);
+                CheckCardValid();
+            }
+            else
+            {
+                _card_selected = false;
+                _card_model.SetCardStateUI(false);
+                _on_unselect_card_ev?.RaiseEvent();
+                _on_available_play_card_btn_ev?.RaiseEvent(false);
+            }
             
         }
     }

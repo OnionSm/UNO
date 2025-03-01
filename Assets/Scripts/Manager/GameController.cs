@@ -33,6 +33,9 @@ public class GameController : MonoBehaviour, IPublisher
     [Header("Played Zone")]
     [SerializeField] private RectTransform _played_zone;
 
+    [Header("Card Color Manager")]
+    [SerializeField] private CardColorManager _card_color_manager;
+
     private List<IObserver> _list_observer;
 
     public CardColor CurrentColor { get; set; }
@@ -139,9 +142,15 @@ public class GameController : MonoBehaviour, IPublisher
     {
         Transform card = _deck[0];
         BaseCard base_card = card.GetComponent<BaseCard>();
-        CurrentColor = base_card.Color;
-        CurrentCardSymbol = base_card.Symbol;
-        CurrentCardType = base_card.Type;
+        if(base_card.Color == CardColor.Black)
+        {
+            int color_index = Random.Range(0, _list_color_config.Count);
+            CardColor  selected_color = _list_color_config[color_index].type_color;
+        }
+        //CurrentColor = base_card.Color;
+        //CurrentCardSymbol = base_card.Symbol;
+        //CurrentCardType = base_card.Type;
+        SetCurrentAttributes(card.gameObject);
         _deck.Remove(card);
         RectTransform card_rect = card.gameObject.GetComponent<RectTransform>();
         SetPositionForCard(card_rect, _played_zone);
@@ -270,9 +279,15 @@ public class GameController : MonoBehaviour, IPublisher
     public void SetCurrentAttributes(GameObject card)
     {
 
-        CurrentColor = card.GetComponent<BaseCard>().Color;
+        SetCurrentColorAttributes(card.GetComponent<BaseCard>().Color);
         CurrentCardType = card.GetComponent<BaseCard>().Type;
         CurrentCardSymbol = card.GetComponent<BaseCard>().Symbol;
+    }
+
+    public void SetCurrentColorAttributes(CardColor card_color)
+    {
+        CurrentColor = card_color;
+        _card_color_manager.UpdateColorPanel(card_color);
     }
     public void SuffleDeck()
     {

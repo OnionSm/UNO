@@ -23,6 +23,9 @@ public class Player : MonoBehaviour, IDrawable, ITurn
     [SerializeField] private BoolEvent _on_drop_turn_appear_btn_ev;
     [SerializeField] private BoolEvent _on_available_play_card_btn_ev;
 
+    [Header("Card Selected")]
+    [SerializeField] private GameObject _current_card_selected;
+
     public void Draw(int amount)
     {
         List<Transform> list_card_got = _game_controller?.GetCard(amount);
@@ -103,18 +106,31 @@ public class Player : MonoBehaviour, IDrawable, ITurn
         }
         return false;
     }
-    public void CheckSeparateCard(CardColor color, CardType type, CardSymbol symbol)
+    public void CheckSeparateCard(GameObject card, CardColor color, CardType type, CardSymbol symbol)
     {
-        if(color == CardColor.Black || color == _game_controller.CurrentColor)
+        ChangeCurrentSelectedCard();
+        _current_card_selected = card;
+        if (color == CardColor.Black || color == _game_controller.CurrentColor)
         {
-            Debug.Log("Card Valid");
-            //_on_available_play_card_btn_ev?.RaiseEvent(true);
+            //Debug.Log("Card Valid");
+            _on_available_play_card_btn_ev?.RaiseEvent(true);
         }
         else
         {
-            Debug.Log("Card UnValid");
-            //_on_available_play_card_btn_ev?.RaiseEvent(false);
+            //Debug.Log("Card UnValid");
+            _on_available_play_card_btn_ev?.RaiseEvent(false);
         }
     }
-
+    private void ChangeCurrentSelectedCard()
+    {
+        if (_current_card_selected != null)
+        {
+            _current_card_selected.GetComponent<CardController>()?.OnCardSelection();
+            UnSelectCard();
+        }
+    }
+    public void UnSelectCard()
+    {
+        _current_card_selected = null;
+    }
 }

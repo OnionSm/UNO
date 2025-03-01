@@ -661,6 +661,7 @@ RectTransform:
   - {fileID: 1658664194}
   - {fileID: 1106650776}
   - {fileID: 189386965}
+  - {fileID: 1240631284}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1682,6 +1683,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &644295139
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 644295140}
+  - component: {fileID: 644295141}
+  m_Layer: 0
+  m_Name: CardColorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &644295140
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644295139}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1551789351}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &644295141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644295139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bf14ec5bb6617a4392dcb7ad1954338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color_panel: {fileID: 1240631285}
 --- !u!1 &652076965
 GameObject:
   m_ObjectHideFlags: 0
@@ -3536,6 +3582,8 @@ GameObject:
   - component: {fileID: 1183641321}
   - component: {fileID: 1183641320}
   - component: {fileID: 1183641322}
+  - component: {fileID: 1183641323}
+  - component: {fileID: 1183641324}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -3613,7 +3661,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9918d2ea6d56ae84cad4f78769c35b80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _card_model: {fileID: 1884256603}
   _on_valid_card_ev: {fileID: 11400000, guid: 8c653fbe653d82d40987097dbfa8ee9b, type: 2}
+  _on_available_play_card_btn_ev: {fileID: 11400000, guid: 114f4afe34d3e984f92e52a8ef3ab293, type: 2}
+  _on_unselect_card_ev: {fileID: 11400000, guid: ee9f6cdac822b4e4aa75661f7a39c5f2, type: 2}
+--- !u!114 &1183641323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183641318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1183641322}
+          m_TargetAssemblyTypeName: CardController, Assembly-CSharp
+          m_MethodName: OnCardSelection
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1183641324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183641318}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484d01801640b914ca823ed7102ddf1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _game_event: {fileID: 11400000, guid: ee9f6cdac822b4e4aa75661f7a39c5f2, type: 2}
+  _respone:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1183641322}
+        m_TargetAssemblyTypeName: CardController, Assembly-CSharp
+        m_MethodName: OnCardSelection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1221067989
 GameObject:
   m_ObjectHideFlags: 0
@@ -3924,6 +4032,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227188800}
+  m_CullTransparentMesh: 1
+--- !u!1 &1240631283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1240631284}
+  - component: {fileID: 1240631286}
+  - component: {fileID: 1240631285}
+  m_Layer: 5
+  m_Name: CurrentColor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1240631284
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240631283}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 93077709}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 190.7, y: 83.8}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1240631285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240631283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.923571, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1240631286
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240631283}
   m_CullTransparentMesh: 1
 --- !u!1 &1304029784
 GameObject:
@@ -4473,6 +4656,7 @@ MonoBehaviour:
   - {fileID: 9986897}
   - {fileID: 1787729662}
   _played_zone: {fileID: 90382918}
+  _card_color_manager: {fileID: 644295141}
   _list_player:
   - {fileID: 1886145877}
   _card_holder: {fileID: 415208186}
@@ -4493,6 +4677,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 652076966}
+  - {fileID: 644295140}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1551789352
@@ -5714,8 +5899,6 @@ GameObject:
   - component: {fileID: 1884256602}
   - component: {fileID: 1884256603}
   - component: {fileID: 1884256604}
-  - component: {fileID: 1884256605}
-  - component: {fileID: 1884256606}
   m_Layer: 5
   m_Name: CardModel
   m_TagString: Untagged
@@ -5831,75 +6014,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1884256602}
   _played_zone: {fileID: 0}
---- !u!114 &1884256605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884256598}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4860574131687dd4dac82226be1eb090, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _game_event: {fileID: 11400000, guid: e5b660616ed733d4eb04ba35f97bfa7c, type: 2}
-  _respone:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1884256603}
-        m_TargetAssemblyTypeName: CardModel, Assembly-CSharp
-        m_MethodName: OnCardClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1884256606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884256598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1884256603}
-          m_TargetAssemblyTypeName: CardModel, Assembly-CSharp
-          m_MethodName: OnCardClicked
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1183641322}
-          m_TargetAssemblyTypeName: CardController, Assembly-CSharp
-          m_MethodName: CheckCardValid
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &1886145877
 GameObject:
   m_ObjectHideFlags: 0
@@ -5912,6 +6026,7 @@ GameObject:
   - component: {fileID: 1886145878}
   - component: {fileID: 1886145880}
   - component: {fileID: 1886145881}
+  - component: {fileID: 1886145882}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5936,6 +6051,7 @@ MonoBehaviour:
   _on_play_card_appear_btn_ev: {fileID: 11400000, guid: 3dcfc58d2af858d4fb75f8fb3ccd7154, type: 2}
   _on_drop_turn_appear_btn_ev: {fileID: 11400000, guid: 5be49e07e6c60964c94db76f7bc4297a, type: 2}
   _on_available_play_card_btn_ev: {fileID: 11400000, guid: 114f4afe34d3e984f92e52a8ef3ab293, type: 2}
+  _current_card_selected: {fileID: 0}
 --- !u!4 &1886145879
 Transform:
   m_ObjectHideFlags: 0
@@ -5999,6 +6115,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: CheckSeparateCard
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1886145882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886145877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4860574131687dd4dac82226be1eb090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _game_event: {fileID: 11400000, guid: ee9f6cdac822b4e4aa75661f7a39c5f2, type: 2}
+  _respone:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1886145878}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: UnSelectCard
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6768,7 +6912,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 191, y: 0}
+  m_AnchoredPosition: {x: 189, y: -17}
   m_SizeDelta: {x: 113, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2131224708

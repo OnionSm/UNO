@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GameControllerUIManager : MonoBehaviour
 {
     private int _alpha_enable_button = 255;
-    private int _alpha_unenable_button = 100;
+    private int _alpha_unenable_button = 150;
 
     [Header("General UI")]
     [SerializeField] private TextMeshProUGUI _card_amount_text;
@@ -42,6 +42,7 @@ public class GameControllerUIManager : MonoBehaviour
     {
         //Debug.Log("Play card called");
         _play_card_button?.gameObject.SetActive(state);
+        SetAvailablePlayCardButton(false);
 
     }
     public void SetAppearanceDropTurnButton(bool state)

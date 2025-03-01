@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Diagnostics;
 
 public class CardModel : MonoBehaviour
 {
@@ -69,13 +70,19 @@ public class CardModel : MonoBehaviour
     }
     public void SetCardStateUI(bool state)
     {
+        StackTrace stackTrace = new StackTrace();
+        
         if (state)
         {
-            transform.DOMove(transform.position - new Vector3(0, 1, 0), 0.2f);
+            UnityEngine.Debug.Log($"Card Selected. Call Stack: \n{stackTrace}");
+            //Debug.Log($"Card selected {state}");
+            transform.DOMove(transform.position + new Vector3(0, 1, 0), 0.2f);
         }
         else
         {
-            transform.DOMove(transform.position + new Vector3(0, 1, 0), 0.2f);
+            UnityEngine.Debug.Log($"Card Unselected  Call Stack: \n{stackTrace}");
+            //Debug.Log($"Card unselected {state}");
+            transform.DOMove(transform.position - new Vector3(0, 1, 0), 0.2f);
         }
     }
 
