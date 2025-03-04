@@ -14,6 +14,7 @@ public class DrawAction : IFSMAction
         if (_controller._card_drawn_amount > 0)
         {
             _enemy_core.Draw(_controller._card_drawn_amount);
+            _enemy_core._has_drawn_card_by_effect = true;
             _controller._card_drawn_amount = 0;
         }
         else

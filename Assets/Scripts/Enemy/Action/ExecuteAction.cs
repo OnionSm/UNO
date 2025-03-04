@@ -17,21 +17,25 @@ public class ExecuteAction : IFSMAction
         CardColor card_color = _controller.CurrentColor;
         List<Transform> list_card = new List<Transform>();
 
-        if (_enemy_core._has_drawn_card_this_turn)
-        {
-            list_card.Add(_enemy_core._list_card_in_hand[_enemy_core._list_card_in_hand.Count -1]);
-        }
-        else
-        {
-            list_card = _enemy_core._list_card_in_hand;   
-        }
+        //if (_enemy_core._has_drawn_card_this_turn)
+        //{
+        //    list_card.Add(_enemy_core._list_card_in_hand[_enemy_core._list_card_in_hand.Count -1]);
+        //}
+        //else
+        //{
+        //    list_card = _enemy_core._list_card_in_hand;   
+        //}
 
-        _enemy_core._has_drawn_card_this_turn = false;
+        //_enemy_core._has_drawn_card_this_turn = false;
+
+
+        list_card = _enemy_core._list_card_in_hand;
 
         List<Transform> list_card_selection = CanPlayThisCard(list_card,card_color, card_symbol);
         if (list_card_selection == null)
             return;
 
+        // Get the list of available card and random a card to play
         int randomIndex = Random.Range(0, list_card_selection.Count);
         list_card_selection[randomIndex].gameObject.GetComponent<BaseCard>().Play();
     }
@@ -47,17 +51,12 @@ public class ExecuteAction : IFSMAction
                 return null;
             }
             
-            if(base_card.Color == CardColor.Black)
+            
+            if(base_card.Color == card_color || base_card.Symbol == card_symbol)
             {
                 list_card_can_choose.Add(card);
             }
-            else
-            {
-                if(base_card.Color == card_color || base_card.Symbol == card_symbol)
-                {
-                    list_card_can_choose.Add(card);
-                }
-            }
+            
         }
         return list_card_can_choose;
     }

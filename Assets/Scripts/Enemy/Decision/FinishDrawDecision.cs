@@ -11,20 +11,22 @@ public class FinishDrawDecision : IFSMDecision
     [SerializeField] private EnemyCore _enemy_core;
     public override bool Decision()
     {
-        if(_controller._can_execute_after_draw)
+        if(!_enemy_core._has_drawn_card_by_effect)
         {
             // Get latest card in hand
             Transform card = _enemy_core._list_card_in_hand[_enemy_core._list_card_in_hand.Count - 1];
 
-            CardType card_type = _controller.CurrentCardType;
             CardSymbol card_symbol = _controller.CurrentCardSymbol;
+            CardColor card_color = _controller.CurrentColor;
             BaseCard base_card = card.GetComponent<BaseCard>();
-            if (base_card.Symbol == card_symbol || base_card.Type == card_type)
+            if (base_card.Symbol == card_symbol || base_card.Color == card_color)
             {
+                // Change to Execute Phase
                 return true;
             }
             else
             {
+                // Change to End Phase
                 return false;
             }
         }

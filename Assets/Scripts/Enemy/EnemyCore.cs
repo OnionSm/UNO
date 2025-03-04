@@ -28,7 +28,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     private string _current_state_name = "Waiting";
     private FSMState _current_state;
 
-    public bool _has_drawn_card_this_turn = false;
+    public bool _has_drawn_card_by_effect { get; set; } = false;
     private void Awake()      
     {
         _list_card_in_hand = new List<Transform>();
