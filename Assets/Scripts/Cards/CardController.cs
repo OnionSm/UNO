@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class CardController : MonoBehaviour
 {
+    [SerializeField] private GameController gameController;
+    
     [Header("UI")]
     [SerializeField] private CardModel _card_model;    
 
@@ -13,9 +15,18 @@ public class CardController : MonoBehaviour
     [SerializeField] private CardEvent _on_valid_card_ev;
     [SerializeField] private BoolEvent _on_available_play_card_btn_ev;
     [SerializeField] private GameEvent _on_unselect_card_ev;
+
+
+
+
     public bool _card_selected { get; set; } = false;
     public int _player_id { get; set; } = -1;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        
+    }
     void Start()
     {
         

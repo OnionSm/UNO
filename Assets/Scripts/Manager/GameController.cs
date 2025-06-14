@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
-using System.Linq;
 
 public class GameController : MonoBehaviour, IPublisher
 {
@@ -65,7 +65,7 @@ public class GameController : MonoBehaviour, IPublisher
     [SerializeField] private GameObject _card_holder;
 
     [SerializeField] private List<Transform> _deck;
-    private List<GameObject> _list_card_played;
+    private List<GameObject> _list_card_played = new List<GameObject>();
 
     private int _player_count = 3;
     private int _current_turn;
@@ -182,6 +182,7 @@ public class GameController : MonoBehaviour, IPublisher
                         basecard.Color = card_config.card_color;
                         basecard.Symbol = card_config.card_symbol;
                         basecard.Type = card_config.card_type;
+                        basecard.Controller = this;
                         _deck.Add(new_card);
                     }
                 }
@@ -193,10 +194,7 @@ public class GameController : MonoBehaviour, IPublisher
         // This code is used for check all cards which generated
         foreach (var obj in _deck)
         {
-            // Lấy component BaseCard từ GameObject
             BaseCard baseCard = obj.GetComponent<BaseCard>();
-
-            // Kiểm tra nếu BaseCard không null (đã tồn tại trên obj)
             if (baseCard != null)
             {
                 //Debug.Log(baseCard);
@@ -282,6 +280,7 @@ public class GameController : MonoBehaviour, IPublisher
         SetCurrentColorAttributes(card.GetComponent<BaseCard>().Color);
         CurrentCardType = card.GetComponent<BaseCard>().Type;
         CurrentCardSymbol = card.GetComponent<BaseCard>().Symbol;
+        SetPositionForCard(card.GetComponent<RectTransform>(), _played_zone);
     }
 
     public void SetCurrentColorAttributes(CardColor card_color)
@@ -289,21 +288,33 @@ public class GameController : MonoBehaviour, IPublisher
         CurrentColor = card_color;
         _card_color_manager.UpdateColorPanel(card_color);
     }
+    public void ChangeColor(int colorIndex)
+    {
+        if (colorIndex < 0 || colorIndex > 3)
+            return;
+        SetCurrentColorAttributes((CardColor)colorIndex);
+    }
     public void SuffleDeck()
     {
         _deck = _deck.OrderBy(go => Random.value).ToList();
     }
     public void SetPositionForCard(RectTransform card, RectTransform parent)
     {
-        card.SetParent(parent.transform, false);
-        card.sizeDelta = parent.sizeDelta;
-        card.anchoredPosition = Vector2.zero;
+        // Bảo đảm thứ tự: gán cha trước, sau đó mới copy các thuộc tính
+        card.SetParent(parent, false);          // worldPositionStays = false
+
+        // Sao chép toàn bộ thông số RectTransform
         card.anchorMin = parent.anchorMin;
         card.anchorMax = parent.anchorMax;
         card.pivot = parent.pivot;
+        card.sizeDelta = parent.sizeDelta;
+        card.anchoredPosition = parent.anchoredPosition;   // Giữ nguyên offset nếu có
+        card.localPosition = parent.localPosition;      // Trường hợp không dùng anchoring
         card.localRotation = parent.localRotation;
         card.localScale = parent.localScale;
-        card.localPosition = parent.localPosition;
+
+
+
     }
 
     public void AddObserver()
@@ -329,6 +340,24 @@ public class GameController : MonoBehaviour, IPublisher
     private void CheckAvailableCard()
     {
 
+    }
+    public void PlayWildCard(CardColor color)
+    {
+        if (_current_turn == 0)
+        {
+            _game_controller_ui_manager.OpenColorSelectionPanel();
+        }
+        else
+        {
+            CardColor new_color = GenerateColor();
+            SetCurrentColorAttributes(new_color);
+        }
+    }
+    public CardColor GenerateColor()
+    {
+        CardColor[] colors = { CardColor.Red, CardColor.Yellow, CardColor.Green, CardColor.Blue };
+        CardColor randomColor = colors[Random.Range(0, colors.Length)];
+        return randomColor;
     }
     
 }

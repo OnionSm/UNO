@@ -30,7 +30,7 @@ public class CardColorManager : MonoBehaviour
             color_mapping[config.type_color] = config.color;
         }
     }
-    public void UpdateColorPanel(CardColor card_color)
+    public void UpdateColorPanel(CardColor card_color)  
     {
         string hex_color = color_mapping[card_color];
         if (UnityEngine.ColorUtility.TryParseHtmlString(hex_color, out Color color))

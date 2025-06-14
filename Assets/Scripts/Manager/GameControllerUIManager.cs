@@ -16,6 +16,10 @@ public class GameControllerUIManager : MonoBehaviour
     [SerializeField] private Button _drop_turn_button;
     [SerializeField] private TextMeshProUGUI _current_turn_text;
 
+    [Header("Panels")]
+    [SerializeField] private Image _color_selection_panel;
+
+
     void Start()
     {
         
@@ -24,7 +28,14 @@ public class GameControllerUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.E)) 
+        { 
+            OpenColorSelectionPanel();
+        }
+        else if(Input.GetKeyDown(KeyCode.C))
+        {
+            CloseColorSelectionPanel();
+        }
     }
     public void SetCardAmountText(int card_amount)
     {
@@ -54,5 +65,16 @@ public class GameControllerUIManager : MonoBehaviour
     {
         _current_turn_text.SetText(current_turn.ToString());
     }
+    
+    public void OpenColorSelectionPanel()
+    {
+        _color_selection_panel.gameObject.SetActive(true);
+    }
+
+    public void CloseColorSelectionPanel()
+    {
+        _color_selection_panel?.gameObject.SetActive(false);
+    }
+
     
 }

@@ -74,13 +74,13 @@ public class CardModel : MonoBehaviour
         
         if (state)
         {
-            UnityEngine.Debug.Log($"Card Selected. Call Stack: \n{stackTrace}");
+            //UnityEngine.Debug.Log($"Card Selected. Call Stack: \n{stackTrace}");
             //Debug.Log($"Card selected {state}");
             transform.DOMove(transform.position + new Vector3(0, 1, 0), 0.2f);
         }
         else
         {
-            UnityEngine.Debug.Log($"Card Unselected  Call Stack: \n{stackTrace}");
+            //UnityEngine.Debug.Log($"Card Unselected  Call Stack: \n{stackTrace}");
             //Debug.Log($"Card unselected {state}");
             transform.DOMove(transform.position - new Vector3(0, 1, 0), 0.2f);
         }
