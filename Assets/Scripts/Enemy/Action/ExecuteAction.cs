@@ -9,6 +9,7 @@ public class ExecuteAction : IFSMAction
 
     [Header("Enemy Core")]
     [SerializeField] private EnemyCore _enemy_core;
+    [SerializeField] private EnemyUI _enemy_ui;
 
     public override void Action()
     {
@@ -32,12 +33,16 @@ public class ExecuteAction : IFSMAction
         list_card = _enemy_core._list_card_in_hand;
 
         List<Transform> list_card_selection = CanPlayThisCard(list_card,card_color, card_symbol);
+        Debug.Log($"Len List Card Selection Player {_enemy_core.turn_id}: {list_card_selection.Count}");
         if (list_card_selection == null)
             return;
 
         // Get the list of available card and random a card to play
         int randomIndex = Random.Range(0, list_card_selection.Count);
         list_card_selection[randomIndex].gameObject.GetComponent<BaseCard>().Play();
+        _enemy_core._list_card_in_hand.Remove(list_card_selection[randomIndex]);
+        _enemy_ui.SetCardLeftText(_enemy_core._list_card_in_hand.Count);
+        
     }
 
     private List<Transform> CanPlayThisCard(List<Transform> list_card, CardColor card_color, CardSymbol card_symbol)

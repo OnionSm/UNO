@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public class GameController : MonoBehaviour, IPublisher
@@ -31,7 +32,7 @@ public class GameController : MonoBehaviour, IPublisher
     [SerializeField] private List<GameObject> _list_enemy_ui_zone;
 
     [Header("Played Zone")]
-    [SerializeField] private RectTransform _played_zone;
+    [SerializeField] private Image _played_zone;
 
     [Header("Card Color Manager")]
     [SerializeField] private CardColorManager _card_color_manager;
@@ -43,10 +44,10 @@ public class GameController : MonoBehaviour, IPublisher
     public CardSymbol CurrentCardSymbol { get; set; }
 
     public int _card_drawn_amount { get; set; }
-
+        
     public bool _can_execute_after_draw { get; set; }
 
-    public int _turn_change {  get; set; }
+    public int turn_change {  get; set; }
 
     private List<ColorConfig> _list_color_config = new List<ColorConfig>();
     private int _turn_direction;
@@ -96,7 +97,8 @@ public class GameController : MonoBehaviour, IPublisher
         InitPlayer();
         this._card_drawn_amount = 0;
         this._can_execute_after_draw = true;
-        this._turn_change = 1;
+        this.turn_change = 1;
+        this._turn_direction = 1;
         this._list_observer = new List<IObserver>();
         this._list_color_config = GameManager.Instance.GetColorConfigs();
         this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
@@ -140,7 +142,19 @@ public class GameController : MonoBehaviour, IPublisher
     }
     private void InitFirstCard()
     {
-        Transform card = _deck[0];
+        Transform card = null;
+        foreach(Transform item in _deck)
+        {
+            if(item.GetComponent<BaseCard>().Color != CardColor.Black)
+            {
+                card = item;
+                break;
+            }
+        }
+        if (card == null)
+        {
+            return;
+        }
         BaseCard base_card = card.GetComponent<BaseCard>();
         if(base_card.Color == CardColor.Black)
         {
@@ -152,10 +166,10 @@ public class GameController : MonoBehaviour, IPublisher
         //CurrentCardType = base_card.Type;
         SetCurrentAttributes(card.gameObject);
         _deck.Remove(card);
-        RectTransform card_rect = card.gameObject.GetComponent<RectTransform>();
-        SetPositionForCard(card_rect, _played_zone);
-        card.GetComponentInChildren<CardModel>().StartFlipUp();
-        Debug.Log($"Current card {CurrentColor} {CurrentCardSymbol} {CurrentCardType}");
+        SetCardSprite(card);
+        //SetPositionForCard(card_rect, _played_zone);
+        //card.GetComponentInChildren<CardModel>().StartFlipUp();
+        //Debug.Log($"Current card {CurrentColor} {CurrentCardSymbol} {CurrentCardType}");
     }
     private void InitCardDeck()
     {
@@ -208,32 +222,34 @@ public class GameController : MonoBehaviour, IPublisher
     }
 
     // Change turn to current turn + value
-    public void ChangeTurn(int value)
+    public void ChangeTurn()
     {
-        _current_turn = GetNextTurn(value);
+        _current_turn = GetNextTurn();
         //_change_turn_event?.RaiseEvent(_current_turn);
         if (_current_turn == 0)
         {
             _on_player_turn_changed_ev?.RaiseEvent();
         }
+        Debug.Log($"Current Turn: {_current_turn}");
     }
 
     // Get the index player that they has turn
-    public int GetNextTurn(int value)
+    public int GetNextTurn()
     {
-        int temp = _current_turn +  (value * 2 * _turn_direction);
+        //Debug.Log($"Player count: {_player_count}");
+        int temp = _current_turn +  (turn_change * _turn_direction);
         if (temp < 0)
         {
-            temp += _player_count;
+            temp += (_player_count + 1);
         }
-        temp %= _player_count;
+        temp %= (_player_count + 1);
         return temp;
     }
-    public GameObject GetNextTurnPlayer()
-    {
-        int next_turn = GetNextTurn(1);
-        return _list_player[next_turn];
-    }
+    //public GameObject GetNextTurnPlayer()
+    //{
+    //    int next_turn = GetNextTurn(1);
+    //    return _list_player[next_turn];
+    //}
     public void EndMatch()
     {
 
@@ -256,12 +272,14 @@ public class GameController : MonoBehaviour, IPublisher
             _deck.Remove(card_get);
             //Debug.Log(_deck.Count);
         }
+        _game_controller_ui_manager.SetCardAmountText(_deck.Count());
         return list_cards_player_get;
     }
     public void PlayCard(GameObject card)
     {
         _list_card_played.Add(card);
         
+
     }
     public GameObject GetLatestCard()
     {
@@ -272,6 +290,7 @@ public class GameController : MonoBehaviour, IPublisher
     {
         _list_card_played.Add(card);
         SetCurrentAttributes(card);
+        Debug.Log($"Current card {CurrentColor} {CurrentCardSymbol} {CurrentCardType}");
     }
 
     public void SetCurrentAttributes(GameObject card)
@@ -280,7 +299,7 @@ public class GameController : MonoBehaviour, IPublisher
         SetCurrentColorAttributes(card.GetComponent<BaseCard>().Color);
         CurrentCardType = card.GetComponent<BaseCard>().Type;
         CurrentCardSymbol = card.GetComponent<BaseCard>().Symbol;
-        SetPositionForCard(card.GetComponent<RectTransform>(), _played_zone);
+        
     }
 
     public void SetCurrentColorAttributes(CardColor card_color)
@@ -314,8 +333,8 @@ public class GameController : MonoBehaviour, IPublisher
         card.localScale = parent.localScale;
 
 
-
     }
+
 
     public void AddObserver()
     {
@@ -358,6 +377,13 @@ public class GameController : MonoBehaviour, IPublisher
         CardColor[] colors = { CardColor.Red, CardColor.Yellow, CardColor.Green, CardColor.Blue };
         CardColor randomColor = colors[Random.Range(0, colors.Length)];
         return randomColor;
+    }
+    public void SetCardSprite(Transform card)
+    {
+        var card_sprite = card.GetComponentInChildren<CardModel>()?.card_image;
+        _played_zone.sprite = card_sprite;
+        CardSpawner.Instance.Despawn(card);
+        card.gameObject.SetActive(false);
     }
     
 }

@@ -12,5 +12,6 @@ public class WildCard : BaseCard
     public override void Play()
     {
         // Change color
+        Controller.SetCardSprite(gameObject.transform);
     }
 }

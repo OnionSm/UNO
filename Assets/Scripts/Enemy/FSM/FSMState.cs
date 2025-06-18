@@ -28,13 +28,21 @@ public class FSMState
         foreach(FSMTransition transition in  _list_transitions)
         {
             bool result = transition.decide.Decision();
-            if(result && transition.true_state!= null && transition.true_state.Length > 0 )
+            //if (!result)
+            //{
+            //    Debug.Log($"Result: {result}");
+            //}
+            //Debug.Log($"False State: {transition.false_state}");
+
+            if (result && transition.true_state!= null && transition.true_state.Length > 0 )
             {
                 core.ChangeState(transition.true_state);
+                //Debug.Log("Change to true state");
             }
-            else if (!result && transition.true_state != null && transition.true_state.Length > 0)
+            else if (!result && transition.false_state != null && transition.false_state.Length > 0)
             {
                 core.ChangeState(transition.false_state);
+                //Debug.Log("Change to false state");
             }
         }
     }
