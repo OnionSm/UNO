@@ -140,7 +140,19 @@ public class GameController : MonoBehaviour, IPublisher
     }
     private void InitFirstCard()
     {
-        Transform card = _deck[0];
+        Transform card = null;
+        foreach(Transform item in _deck)
+        {
+            if(item.GetComponent<BaseCard>().Color != CardColor.Black)
+            {
+                card = item;
+                break;
+            }
+        }
+        if (card == null)
+        {
+            return;
+        }
         BaseCard base_card = card.GetComponent<BaseCard>();
         if(base_card.Color == CardColor.Black)
         {
