@@ -89,7 +89,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn
 
     public void CheckAnyAvailbleCard()
     {
-        Debug.Log("Check Available Card Called----------------------------------------------");
+        //Debug.Log("Check Available Card Called----------------------------------------------");
         if (CheckColor(_game_controller.CurrentColor) || CheckSymbol(_game_controller.CurrentCardSymbol))
         {
             this._can_draw = false;
@@ -171,5 +171,8 @@ public class Player : MonoBehaviour, IDrawable, ITurn
     {
         _game_controller.ChangeTurn();
         _has_drawn = false;
+        _on_drop_turn_appear_btn_ev?.RaiseEvent(false);
+        _on_available_play_card_btn_ev?.RaiseEvent(false);
+        _on_play_card_appear_btn_ev?.RaiseEvent(false);
     }
 }

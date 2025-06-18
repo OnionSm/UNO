@@ -12,5 +12,6 @@ public class WildDrawFour : BaseCard
     public override void Play()
     {
         Controller._card_drawn_amount += 4;
+        Controller.SetCardSprite(gameObject.transform);
     }
 }

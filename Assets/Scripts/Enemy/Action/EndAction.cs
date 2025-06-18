@@ -16,6 +16,4 @@ public class EndAction : IFSMAction
         _controller.ChangeTurn();
         _controller.turn_change = 1;
     }
-
-    
 }

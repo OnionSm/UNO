@@ -22,5 +22,6 @@ public class TurnBan : BaseCard
     public override void Play()
     {
         Controller.turn_change += 1;
+        Controller.SetCardSprite(gameObject.transform);
     }
 }

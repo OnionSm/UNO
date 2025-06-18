@@ -21,7 +21,8 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     }
     public List<Transform> _list_card_in_hand { get; set; }
 
-    public int turn_id { get ; set; }
+    [SerializeField] public int turn_id { get ; set; }
+    [SerializeField] private int TurnID;
 
     public List<FSMState> _list_states = new List<FSMState>();
 
@@ -50,6 +51,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
         this.list_player = new List<GameObject>();
         this._deck_card = new List<CardDeck>();
         this._deck_card = GameManager.Instance.GetDecks();
+        this.TurnID = this.turn_id;
     }
 
     void LoadInitState()
@@ -79,12 +81,12 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
                 RectTransform card_rect = card.gameObject.GetComponent<RectTransform>();
                 _game_controller.SetPositionForCard(card_rect, _card_pos);
             });
+            _enemy_ui.SetCardLeftText(_list_card_in_hand.Count);
         }
         else
         {
             Debug.LogError("list_card_got is null");
         }
-        //_enemy_ui.SetCardLeftText(_list_card_in_hand.Count);
     }
 
 
@@ -144,9 +146,11 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     }
     public void ChangeState(string state_name)
     {
+        //Debug.Log("Change State Called");
         FSMState state = GetStateByName(state_name);
         if (state != null)
         {
+            //Debug.Log($"Change to {state_name} State");
             _current_state = state;
         }
     }
@@ -154,7 +158,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     {
         if(CanExecuteState())
         {
-            _current_state.ExecuteAction(this);
+            _current_state.UpdateState(this);
         }
     }
     private bool CanExecuteState()
