@@ -11,7 +11,9 @@ public class Player : MonoBehaviour, IDrawable, ITurn
     public List<Transform> _list_card_in_hand { get; set; } = new List<Transform>();
 
     
-    public int turn_id { get; set; } 
+    [SerializeField] public int turn_id { get; set; }
+    [SerializeField] private bool _has_drawn = false;
+    [SerializeField] private bool _can_draw = true;
 
     [Header("Grid Layout Group")]
     [SerializeField] private GridLayoutGroup _player_hand_group_layout;
@@ -26,8 +28,14 @@ public class Player : MonoBehaviour, IDrawable, ITurn
     [Header("Card Selected")]
     [SerializeField] private GameObject _current_card_selected;
 
+
+
     public void Draw(int amount)
     {
+        if(_game_controller.CurrentTurn != 0 || _has_drawn || !_can_draw)
+        {
+            return;
+        }
         List<Transform> list_card_got = _game_controller?.GetCard(amount);
         if (list_card_got != null)
         {
@@ -39,6 +47,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn
                 _list_card_in_hand?.Add(card);
                 card.SetParent(_player_hand_group_layout.transform, false);
                 card.GetComponentInChildren<CardModel>().StartFlipUp();
+                _has_drawn = true;
                 //Debug.Log(card);
             });
         }
@@ -47,20 +56,26 @@ public class Player : MonoBehaviour, IDrawable, ITurn
             Debug.LogError("list_card_got is null");
         }
     }
-
+    
     private void Start()
     {
-        
-    }
+        LoadComponent();
 
+    }
+    
     
     public void Update() { }
 
     private void LoadComponent()
     {
         this.turn_id = 0;
+        this._has_drawn = false;
     }
 
+    private void CanDraw()
+    {
+        
+    }
     public void ClickCard()
     {
 
@@ -74,10 +89,17 @@ public class Player : MonoBehaviour, IDrawable, ITurn
 
     public void CheckAnyAvailbleCard()
     {
-        //Debug.Log("Check Available Card Called----------------------------------------------");
+        Debug.Log("Check Available Card Called----------------------------------------------");
         if (CheckColor(_game_controller.CurrentColor) || CheckSymbol(_game_controller.CurrentCardSymbol))
         {
+            this._can_draw = false;
+            Debug.Log("Has card to play");
             _on_play_card_appear_btn_ev?.RaiseEvent(true);
+        }
+        else
+        {
+            Debug.Log("Has not card to play");
+            this._can_draw = true;
         }
     }
     
@@ -110,7 +132,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn
     {
         ChangeCurrentSelectedCard();
         _current_card_selected = card;
-        if (color == CardColor.Black || color == _game_controller.CurrentColor)
+        if (color == CardColor.Black || color == _game_controller.CurrentColor || _game_controller.CurrentCardSymbol == symbol)
         {
             //Debug.Log("Card Valid");
             _on_available_play_card_btn_ev?.RaiseEvent(true);
@@ -140,8 +162,14 @@ public class Player : MonoBehaviour, IDrawable, ITurn
         {
             _current_card_selected.GetComponent<BaseCard>()?.Play();
             Debug.Log("Play card");
+            _current_card_selected = null;
+            EndTurn();
         }
-        _current_card_selected = null;
-
+        
+    }
+    private void EndTurn()
+    {
+        _game_controller.ChangeTurn();
+        _has_drawn = false;
     }
 }

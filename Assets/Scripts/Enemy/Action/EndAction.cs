@@ -13,8 +13,8 @@ public class EndAction : IFSMAction
     public override void Action()
     {
         _enemy_core._has_drawn_card_by_effect = true;
-        _controller.ChangeTurn(_controller._turn_change);
-        _controller._turn_change = 1;
+        _controller.ChangeTurn();
+        _controller.turn_change = 1;
     }
 
     

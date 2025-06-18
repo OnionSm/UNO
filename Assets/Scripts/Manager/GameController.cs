@@ -43,10 +43,10 @@ public class GameController : MonoBehaviour, IPublisher
     public CardSymbol CurrentCardSymbol { get; set; }
 
     public int _card_drawn_amount { get; set; }
-
+        
     public bool _can_execute_after_draw { get; set; }
 
-    public int _turn_change {  get; set; }
+    public int turn_change {  get; set; }
 
     private List<ColorConfig> _list_color_config = new List<ColorConfig>();
     private int _turn_direction;
@@ -96,7 +96,8 @@ public class GameController : MonoBehaviour, IPublisher
         InitPlayer();
         this._card_drawn_amount = 0;
         this._can_execute_after_draw = true;
-        this._turn_change = 1;
+        this.turn_change = 1;
+        this._turn_direction = 1;
         this._list_observer = new List<IObserver>();
         this._list_color_config = GameManager.Instance.GetColorConfigs();
         this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
@@ -220,20 +221,21 @@ public class GameController : MonoBehaviour, IPublisher
     }
 
     // Change turn to current turn + value
-    public void ChangeTurn(int value)
+    public void ChangeTurn()
     {
-        _current_turn = GetNextTurn(value);
+        _current_turn = GetNextTurn();
         //_change_turn_event?.RaiseEvent(_current_turn);
         if (_current_turn == 0)
         {
             _on_player_turn_changed_ev?.RaiseEvent();
         }
+        Debug.Log($"Current Turn: {_current_turn}");
     }
 
     // Get the index player that they has turn
-    public int GetNextTurn(int value)
+    public int GetNextTurn()
     {
-        int temp = _current_turn +  (value * 2 * _turn_direction);
+        int temp = _current_turn +  (turn_change * _turn_direction);
         if (temp < 0)
         {
             temp += _player_count;
@@ -241,11 +243,11 @@ public class GameController : MonoBehaviour, IPublisher
         temp %= _player_count;
         return temp;
     }
-    public GameObject GetNextTurnPlayer()
-    {
-        int next_turn = GetNextTurn(1);
-        return _list_player[next_turn];
-    }
+    //public GameObject GetNextTurnPlayer()
+    //{
+    //    int next_turn = GetNextTurn(1);
+    //    return _list_player[next_turn];
+    //}
     public void EndMatch()
     {
 

@@ -12,7 +12,10 @@ public class WaitTurnDecision : IFSMDecision
     public override bool Decision()
     {
         if (_controller.CurrentTurn != _turn_id)
+        {
             return false;
+        }
+        Debug.Log($"This is player {_turn_id}"); 
         return true;
     }
 
