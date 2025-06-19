@@ -13,5 +13,6 @@ public class WildDrawFour : BaseCard
     {
         Controller._card_drawn_amount += 4;
         Controller.SetCardSprite(gameObject.transform);
+        GameControllerUIManager.OpenColorSelectionPanel();
     }
 }

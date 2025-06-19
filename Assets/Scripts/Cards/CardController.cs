@@ -17,8 +17,6 @@ public class CardController : MonoBehaviour
     [SerializeField] private GameEvent _on_unselect_card_ev;
 
 
-
-
     public bool _card_selected { get; set; } = false;
     public int _player_id { get; set; } = -1;
     // Start is called before the first frame update
