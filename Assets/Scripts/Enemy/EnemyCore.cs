@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
@@ -8,6 +9,12 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     [SerializeField] private EnemyUI _enemy_ui;
     [SerializeField] private RectTransform _card_pos;
     [SerializeField] private GameController _game_controller;
+
+    private int _current_turn;
+
+    [Header("Thinking Time")]
+    [SerializeField] private float _min_thinking_time = 0.5f;
+    [SerializeField] private float _max_thinking_time = 1f;
 
 
     private List<GameObject> list_player;
@@ -44,7 +51,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     void Update()
     {
-        ExecuteState();
+        //ExecuteState();
     }
     void LoadComponent()
     {
@@ -125,12 +132,17 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             }
         }
     }
-    public void Notify()
+    public void Notify(int turn)
     {
         // Get card amount in each player hand
-        GetCardAmountInEachPlayer();
+        //GetCardAmountInEachPlayer();
         // Calculate the left amount of each card symbol
-        ReCalculateCardDeck();
+        //ReCalculateCardDeck();
+        _current_turn = turn;
+        if (turn_id == _current_turn)
+        {
+            StartCoroutine(BotTurnRoutine());
+        }
     }
 
     private FSMState GetStateByName(string state_name)
@@ -165,7 +177,22 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     {
         return _list_card_in_hand.Count > 0;
     }
-    
+
+    private IEnumerator BotTurnRoutine()
+    {
+        while (true)                         
+        {
+            float wait = Random.Range(_min_thinking_time, _max_thinking_time);
+            yield return new WaitForSeconds(wait);
+
+         
+            if (_current_turn != turn_id)
+                yield break;
+
+            ExecuteState();
+            Debug.Log("Execute State");
+        }
+    }
 }
 // Nếu trên tay có nhiều hơn 1 lá bài có thể đánh được thì sẽ ưu tiên 
 // chọn lá bài số để đánh vì xác suất gặp số là 1/10 còn gặp màu là 1/4

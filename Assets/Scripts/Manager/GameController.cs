@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour, IPublisher
     [Header("Card Color Manager")]
     [SerializeField] private CardColorManager _card_color_manager;
 
-    private List<IObserver> _list_observer;
+    private List<IObserver> _list_observer = new List<IObserver>();
 
     #region Properties
     public CardColor CurrentColor { get; set; }
@@ -102,7 +102,7 @@ public class GameController : MonoBehaviour, IPublisher
     {
         InitPlayer();
         LoadComponent();
-        //InitCardDeck();
+        AddObserver();
 
         _card_dealer.DistributeCard(_list_player, _card_in_deck_remain);
         if(_current_turn == 0)
@@ -184,6 +184,7 @@ public class GameController : MonoBehaviour, IPublisher
     }
     private void InitPlayer()
     {
+
         for(int i = 0; i < _player_count; i++)
         {
             Transform new_player = EnemySpawner.Instance.Spawn("Enemy");
@@ -286,7 +287,7 @@ public class GameController : MonoBehaviour, IPublisher
 
         CardModel model = new_card.GetComponentInChildren<CardModel>();
         model.card_image = card_config.card_image;
-        Debug.Log(card_config.card_image.ToString());
+        //Debug.Log(card_config.card_image.ToString());
         model.card_protecter = _protecter;
         model.LoadComponent();
 
@@ -309,10 +310,12 @@ public class GameController : MonoBehaviour, IPublisher
     {
         _current_turn = GetNextTurn();
         //_change_turn_event?.RaiseEvent(_current_turn);
-        if (_current_turn == 0)
-        {
-            _on_player_turn_changed_ev?.RaiseEvent();
-        }
+        //if (_current_turn == 0)
+        //{
+        //    //_on_player_turn_changed_ev?.RaiseEvent();
+        //}
+        Notify(_current_turn);
+
         Debug.Log($"Current Turn: {_current_turn}");
     }
 
@@ -430,7 +433,12 @@ public class GameController : MonoBehaviour, IPublisher
 
     public void AddObserver()
     {
-        throw new System.NotImplementedException();
+        foreach(GameObject player in _list_player)
+        {
+            IObserver observer = player.GetComponent<IObserver>();
+            _list_observer.Add(observer);
+        }   
+        Debug.Log($"Has {_list_observer.Count} Observer");
     }
 
     public void RemoveObserver()
@@ -438,9 +446,10 @@ public class GameController : MonoBehaviour, IPublisher
         throw new System.NotImplementedException();
     }
 
-    public void Notify()
+    public void Notify(int turn)
     {
-        
+        Debug.Log($"Notify current turn: {CurrentTurn} and has {_list_observer.Count} Observer");
+        _list_observer[CurrentTurn].Notify(turn);
     }
     
     IEnumerator StartGame()
