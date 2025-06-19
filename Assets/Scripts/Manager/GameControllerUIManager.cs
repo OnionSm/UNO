@@ -69,11 +69,13 @@ public class GameControllerUIManager : MonoBehaviour
     public void OpenColorSelectionPanel()
     {
         _color_selection_panel.gameObject.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     public void CloseColorSelectionPanel()
     {
         _color_selection_panel?.gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     

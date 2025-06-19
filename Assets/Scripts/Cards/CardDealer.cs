@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class CardDealer : MonoBehaviour
 {
-    public void DistributeCard(List<GameObject> _list_player, List<Transform> _deck)
+
+    public void DistributeCard(List<GameObject> _list_player, List<CardConfig> _card_in_deck_remain)
     {
-        if (_deck.Count <= 0)
+        if (_card_in_deck_remain.Count <= 0)
         {
             return;
         }
@@ -14,8 +15,8 @@ public class CardDealer : MonoBehaviour
         {
             /*Debug.Log(_list_player[player_number]);*/
             _list_player[player_number].gameObject.GetComponent<IDrawable>().Draw(7);
-
-                
         }
     }
+
+
 }

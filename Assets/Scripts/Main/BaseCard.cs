@@ -9,6 +9,7 @@ public abstract class BaseCard : MonoBehaviour
     public CardType Type { get; set; }
     public CardSymbol Symbol { get; set; }
     public GameController Controller { get; set; }
+    public GameControllerUIManager GameControllerUIManager { get; set; }
     public abstract void Play();
     public abstract bool CanPlay();
 }

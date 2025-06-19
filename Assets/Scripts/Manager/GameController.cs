@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+using static UnityEditor.Progress;
 
 public class GameController : MonoBehaviour, IPublisher
 {
@@ -37,8 +35,9 @@ public class GameController : MonoBehaviour, IPublisher
     [Header("Card Color Manager")]
     [SerializeField] private CardColorManager _card_color_manager;
 
-    private List<IObserver> _list_observer;
+    private List<IObserver> _list_observer = new List<IObserver>();
 
+    #region Properties
     public CardColor CurrentColor { get; set; }
     public CardType CurrentCardType { get; set; }
     public CardSymbol CurrentCardSymbol { get; set; }
@@ -49,7 +48,6 @@ public class GameController : MonoBehaviour, IPublisher
 
     public int turn_change {  get; set; }
 
-    private List<ColorConfig> _list_color_config = new List<ColorConfig>();
     private int _turn_direction;
     public int TurnDirection
     {
@@ -65,7 +63,7 @@ public class GameController : MonoBehaviour, IPublisher
     }
     [SerializeField] private GameObject _card_holder;
 
-    [SerializeField] private List<Transform> _deck;
+    //[SerializeField] private List<Transform> _deck;
     private List<GameObject> _list_card_played = new List<GameObject>();
 
     private int _player_count = 3;
@@ -79,10 +77,18 @@ public class GameController : MonoBehaviour, IPublisher
     private GameObject _current_card;
 
     private ICardFactory _cardFactory;
+    #endregion
 
+    #region CardConfig
     [SerializeField] private List<CardConfig> _list_card_configs = new List<CardConfig>();
     [SerializeField] private List<CardDeck> _deck_config = new List<CardDeck>();
+    private List<ColorConfig> _list_color_config = new List<ColorConfig>();
+    private Dictionary<string, CardConfig> _card_config_map = new Dictionary<string, CardConfig>();
+    private Dictionary<string, CardDeck> _deck_config_map = new Dictionary<string, CardDeck>();
     private Sprite _protecter;
+    #endregion
+
+    private List<CardConfig> _card_in_deck_remain = new List<CardConfig>();
 
     private bool _game_started = false;
     public bool GameStarted
@@ -95,32 +101,90 @@ public class GameController : MonoBehaviour, IPublisher
     private void Start()
     {
         InitPlayer();
-        this._card_drawn_amount = 0;
-        this._can_execute_after_draw = true;
-        this.turn_change = 1;
-        this._turn_direction = 1;
-        this._list_observer = new List<IObserver>();
-        this._list_color_config = GameManager.Instance.GetColorConfigs();
-        this._list_card_configs  = GameManager.Instance.GetListCardConfigs();
-        this._deck_config = GameManager.Instance.GetDecks();
-        this._protecter = GameManager.Instance.GetProtecter();
-        InitCardDeck();
-        _card_dealer.DistributeCard(_list_player, _deck);
+        LoadComponent();
+        AddObserver();
+
+        _card_dealer.DistributeCard(_list_player, _card_in_deck_remain);
         if(_current_turn == 0)
         {
             _on_player_turn_changed_ev?.RaiseEvent();
             CheckAvailableCard();
         }
         InitFirstCard();
-        _game_controller_ui_manager.SetCardAmountText(_deck.Count);
+        _game_controller_ui_manager.SetCardAmountText(_card_in_deck_remain.Count);
         _on_player_turn_changed_ev?.RaiseEvent();
     }
     private void Update()
     {
         
     }
+    private void LoadComponent()
+    {
+        this._card_drawn_amount = 0;
+        this._can_execute_after_draw = true;
+        this.turn_change = 1;
+        this._turn_direction = 1;
+        this._list_observer = new List<IObserver>();
+        this._list_color_config = GameManager.Instance.GetColorConfigs();
+        this._list_card_configs = GameManager.Instance.GetListCardConfigs();
+        this._deck_config = GameManager.Instance.GetDecks();
+        this._protecter = GameManager.Instance.GetProtecter();
+
+        LoadCardConfigMap();
+        LoadDeckConfigMap();
+        LoadDeck();
+    }
+    private void LoadCardConfigMap()
+    {
+        if(_list_card_configs == null)
+        {
+            return;
+        }
+        foreach (CardConfig config in _list_card_configs) 
+        {
+            if(!_card_config_map.ContainsKey(config.card_id))
+            {
+                _card_config_map[config.card_id] = config;
+            }
+        }
+    }
+    private void LoadDeckConfigMap()
+    {
+        if(_deck_config == null)
+        { 
+            return; 
+        }
+        foreach(CardDeck cardDeck in _deck_config)
+        {
+            if(!_deck_config_map.ContainsKey(cardDeck.card_id))
+            {
+                _deck_config_map[cardDeck.card_id] = cardDeck;
+            }
+        }
+    }
+    private void LoadDeck()
+    {
+        foreach (CardDeck card in _deck_config)
+        {
+            int amount = card.amount;
+   
+            if(_card_config_map.TryGetValue(card.card_id, out CardConfig card_config))
+            {
+                List<CardConfig> list_insert = new List<CardConfig>(amount);
+                for(int i = 0; i < amount; i++)
+                {
+                    list_insert.Add(card_config);
+                }
+                
+                _card_in_deck_remain.AddRange(list_insert);
+            }
+        }
+        SuffleDeck();
+        //_game_controller_ui_manager.SetCardAmountText(_card_in_deck_remain.Count);
+    }
     private void InitPlayer()
     {
+
         for(int i = 0; i < _player_count; i++)
         {
             Transform new_player = EnemySpawner.Instance.Spawn("Enemy");
@@ -143,93 +207,115 @@ public class GameController : MonoBehaviour, IPublisher
     private void InitFirstCard()
     {
         Transform card = null;
-        foreach(Transform item in _deck)
-        {
-            if(item.GetComponent<BaseCard>().Color != CardColor.Black)
-            {
-                card = item;
-                break;
-            }
-        }
-        if (card == null)
+        if(_card_in_deck_remain.Count <= 0)
         {
             return;
         }
-        BaseCard base_card = card.GetComponent<BaseCard>();
-        if(base_card.Color == CardColor.Black)
+        CardConfig card_config = _card_in_deck_remain[0];
+        card = SpawnCard(card_config);
+        CardColor new_color = card_config.card_color;
+        if (card_config.card_color == CardColor.Black)
         {
             int color_index = Random.Range(0, _list_color_config.Count);
-            CardColor  selected_color = _list_color_config[color_index].type_color;
+            new_color = _list_color_config[color_index].type_color;
         }
-        //CurrentColor = base_card.Color;
-        //CurrentCardSymbol = base_card.Symbol;
-        //CurrentCardType = base_card.Type;
-        SetCurrentAttributes(card.gameObject);
-        _deck.Remove(card);
+        SetCurrentAttributes(new_color, card_config.card_type, card_config.card_symbol);
+        _card_in_deck_remain.Remove(card_config);
         SetCardSprite(card);
         //SetPositionForCard(card_rect, _played_zone);
         //card.GetComponentInChildren<CardModel>().StartFlipUp();
         //Debug.Log($"Current card {CurrentColor} {CurrentCardSymbol} {CurrentCardType}");
     }
-    private void InitCardDeck()
+    //private void InitCardDeck()
+    //{
+    //    foreach(CardDeck card in _deck_config) 
+    //    {
+    //        foreach (CardConfig card_config in _list_card_configs)
+    //        {
+    //            if(card_config.card_id == card.card_id)
+    //            {
+    //                for(int i = 0; i < card.amount; i++)
+    //                {
+    //                    Transform new_card = UnoCardFactorySelector.GetFactory(card_config.card_symbol).CreateCard();
+    //                    RectTransform new_card_rect = new_card.GetComponent<RectTransform>();
+    //                    SetPositionForCard(new_card_rect, _deck_rect);
+    //                    new_card.gameObject.SetActive(true);
+
+    //                    CardModel model = new_card.GetComponentInChildren<CardModel>();
+    //                    model.card_image = card_config.card_image;
+    //                    Debug.Log(card_config.card_image.ToString());
+    //                    model.card_protecter = _protecter;
+    //                    model.LoadComponent();
+
+    //                    BaseCard basecard = new_card.GetComponent<BaseCard>();
+    //                    basecard.card_id = card.card_id;
+    //                    basecard.Color = card_config.card_color;
+    //                    basecard.Symbol = card_config.card_symbol;
+    //                    basecard.Type = card_config.card_type;
+    //                    basecard.Controller = this;
+    //                    basecard.GameControllerUIManager = _game_controller_ui_manager;
+    //                    _deck.Add(new_card);
+                        
+    //                }
+    //            }
+    //        }
+    //    }
+    //    SuffleDeck();
+    //    _game_controller_ui_manager.SetCardAmountText(_deck.Count);
+
+    //    // This code is used for check all cards which generated
+    //    foreach (var obj in _deck)
+    //    {
+    //        BaseCard baseCard = obj.GetComponent<BaseCard>();
+    //        if (baseCard != null)
+    //        {
+    //            //Debug.Log(baseCard);
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("No BaseCard component found on " + obj.name);
+    //        }
+    //    }
+
+    //}
+    private Transform SpawnCard(CardConfig card_config)
     {
-        foreach(CardDeck card in _deck_config) 
-        {
-            foreach (CardConfig card_config in _list_card_configs)
-            {
-                if(card_config.card_id == card.card_id)
-                {
-                    for(int i = 0; i < card.amount; i++)
-                    {
-                        Transform new_card = UnoCardFactorySelector.GetFactory(card_config.card_symbol).CreateCard();
-                        RectTransform new_card_rect = new_card.GetComponent<RectTransform>();
-                        SetPositionForCard(new_card_rect, _deck_rect);
-                        new_card.gameObject.SetActive(true);
+        Transform new_card = UnoCardFactorySelector.GetFactory(card_config.card_symbol).CreateCard();
+        //RectTransform new_card_rect = new_card.GetComponent<RectTransform>();
+        //SetPositionForCard(new_card_rect, _deck_rect);
+        new_card.gameObject.SetActive(true);
 
-                        CardModel model = new_card.GetComponentInChildren<CardModel>();
-                        model.card_image = card_config.card_image;
-                        model.card_protecter = _protecter;
-                        model.LoadComponent();
+        CardModel model = new_card.GetComponentInChildren<CardModel>();
+        model.card_image = card_config.card_image;
+        //Debug.Log(card_config.card_image.ToString());
+        model.card_protecter = _protecter;
+        model.LoadComponent();
 
-                        BaseCard basecard = new_card.GetComponent<BaseCard>();
-                        basecard.card_id = card.card_id;
-                        basecard.Color = card_config.card_color;
-                        basecard.Symbol = card_config.card_symbol;
-                        basecard.Type = card_config.card_type;
-                        basecard.Controller = this;
-                        _deck.Add(new_card);
-                    }
-                }
-            }
-        }
-        SuffleDeck();
-        _game_controller_ui_manager.SetCardAmountText(_deck.Count);
-
-        // This code is used for check all cards which generated
-        foreach (var obj in _deck)
-        {
-            BaseCard baseCard = obj.GetComponent<BaseCard>();
-            if (baseCard != null)
-            {
-                //Debug.Log(baseCard);
-            }
-            else
-            {
-                Debug.Log("No BaseCard component found on " + obj.name);
-            }
-        }
-
+        BaseCard basecard = new_card.GetComponent<BaseCard>();
+        basecard.card_id = card_config.card_id;
+        basecard.Color = card_config.card_color;
+        basecard.Symbol = card_config.card_symbol;
+        basecard.Type = card_config.card_type;
+        basecard.Controller = this;
+        basecard.GameControllerUIManager = _game_controller_ui_manager;
+        //_deck.Add(new_card);
+        return new_card;
     }
+
+    
+
 
     // Change turn to current turn + value
     public void ChangeTurn()
     {
         _current_turn = GetNextTurn();
         //_change_turn_event?.RaiseEvent(_current_turn);
-        if (_current_turn == 0)
-        {
-            _on_player_turn_changed_ev?.RaiseEvent();
-        }
+        //if (_current_turn == 0)
+        //{
+        //    //_on_player_turn_changed_ev?.RaiseEvent();
+        //}
+        Notify(_current_turn);
+
         Debug.Log($"Current Turn: {_current_turn}");
     }
 
@@ -260,21 +346,23 @@ public class GameController : MonoBehaviour, IPublisher
     }
     public List<Transform> GetCard(int amount)
     {
-        List<Transform> list_cards_player_get = new List<Transform>();
-        for(int  i = 0; i < amount; i++)
+        List<Transform> list_cards_player_get = new List<Transform>(amount);
+        for(int i = 0; i < amount; i++)
         {
-            Transform card_get = _deck[0];
-            if (card_get == null)
-            {
+            CardConfig config = _card_in_deck_remain[0];
+            if (config == null)
                 return null;
-            }
-            list_cards_player_get.Add(card_get);
-            _deck.Remove(card_get);
-            //Debug.Log(_deck.Count);
+            Transform new_card = SpawnCard(config);
+            if (new_card == null)
+                return null;
+            list_cards_player_get.Add(new_card);
+            _card_in_deck_remain.Remove(config);
         }
-        _game_controller_ui_manager.SetCardAmountText(_deck.Count());
+        _game_controller_ui_manager.SetCardAmountText(_card_in_deck_remain.Count());
         return list_cards_player_get;
     }
+
+
     public void PlayCard(GameObject card)
     {
         _list_card_played.Add(card);
@@ -295,13 +383,22 @@ public class GameController : MonoBehaviour, IPublisher
 
     public void SetCurrentAttributes(GameObject card)
     {
+        if (!card.TryGetComponent<BaseCard>(out var baseCard))
+        {
+            Debug.LogError($"BaseCard missing on {card.name}");
+            return;
+        }
 
-        SetCurrentColorAttributes(card.GetComponent<BaseCard>().Color);
-        CurrentCardType = card.GetComponent<BaseCard>().Type;
-        CurrentCardSymbol = card.GetComponent<BaseCard>().Symbol;
-        
+        SetCurrentColorAttributes(baseCard.Color);
+        CurrentCardType = baseCard.Type;
+        CurrentCardSymbol = baseCard.Symbol;
     }
-
+    public void SetCurrentAttributes(CardColor color, CardType type, CardSymbol symbol)
+    {
+        SetCurrentColorAttributes(color);
+        CurrentCardType = type;
+        CurrentCardSymbol = symbol;
+    }
     public void SetCurrentColorAttributes(CardColor card_color)
     {
         CurrentColor = card_color;
@@ -315,7 +412,7 @@ public class GameController : MonoBehaviour, IPublisher
     }
     public void SuffleDeck()
     {
-        _deck = _deck.OrderBy(go => Random.value).ToList();
+        _card_in_deck_remain = _card_in_deck_remain.OrderBy(go => Random.value).ToList();
     }
     public void SetPositionForCard(RectTransform card, RectTransform parent)
     {
@@ -331,14 +428,17 @@ public class GameController : MonoBehaviour, IPublisher
         card.localPosition = parent.localPosition;      // Trường hợp không dùng anchoring
         card.localRotation = parent.localRotation;
         card.localScale = parent.localScale;
-
-
     }
 
 
     public void AddObserver()
     {
-        throw new System.NotImplementedException();
+        foreach(GameObject player in _list_player)
+        {
+            IObserver observer = player.GetComponent<IObserver>();
+            _list_observer.Add(observer);
+        }   
+        Debug.Log($"Has {_list_observer.Count} Observer");
     }
 
     public void RemoveObserver()
@@ -346,9 +446,10 @@ public class GameController : MonoBehaviour, IPublisher
         throw new System.NotImplementedException();
     }
 
-    public void Notify()
+    public void Notify(int turn)
     {
-        
+        Debug.Log($"Notify current turn: {CurrentTurn} and has {_list_observer.Count} Observer");
+        _list_observer[CurrentTurn].Notify(turn);
     }
     
     IEnumerator StartGame()

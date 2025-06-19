@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour, IDrawable, ITurn
+public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 {
     public List<Transform> _list_card_in_hand { get; set; } = new List<Transform>();
 
@@ -174,5 +174,11 @@ public class Player : MonoBehaviour, IDrawable, ITurn
         _on_drop_turn_appear_btn_ev?.RaiseEvent(false);
         _on_available_play_card_btn_ev?.RaiseEvent(false);
         _on_play_card_appear_btn_ev?.RaiseEvent(false);
+    }
+
+    public void Notify(int turn)
+    {
+        _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
+        CheckAnyAvailbleCard();
     }
 }
