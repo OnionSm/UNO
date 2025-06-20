@@ -12,7 +12,7 @@ public class EndAction : IFSMAction
     [SerializeField] private EnemyCore _enemy_core;
     public override void Action()
     {
-        Debug.Log("Execute End Action");
+        //Debug.Log("Execute End Action");
         _enemy_core._has_drawn_card_by_effect = true;
         _controller.ChangeTurn();
         _controller.turn_change = 1;

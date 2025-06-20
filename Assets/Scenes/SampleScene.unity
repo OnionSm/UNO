@@ -3733,6 +3733,8 @@ MonoBehaviour:
   _enemy_ui: {fileID: 1158664605}
   _card_pos: {fileID: 0}
   _game_controller: {fileID: 1551789350}
+  _min_thinking_time: 0.5
+  _max_thinking_time: 1
   TurnID: 0
   _list_states:
   - _state_name: Waiting
@@ -5046,7 +5048,6 @@ MonoBehaviour:
   _list_player:
   - {fileID: 1886145877}
   _card_holder: {fileID: 415208186}
-  _deck: []
   _list_card_configs: []
   _deck_config: []
 --- !u!4 &1551789351
@@ -7780,6 +7781,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5994631134417108421, guid: be7cbf004df214c4fbfecd42eecc655c, type: 3}
+      propertyPath: _played_card_zone
+      value: 
+      objectReference: {fileID: 1771192675}
     - target: {fileID: 7100034463156727668, guid: be7cbf004df214c4fbfecd42eecc655c, type: 3}
       propertyPath: m_Name
       value: Card

@@ -161,7 +161,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         if (_current_card_selected != null)
         {
             _current_card_selected.GetComponent<BaseCard>()?.Play();
-            Debug.Log("Play card");
+            //Debug.Log("Play card");
             _current_card_selected = null;
             EndTurn();
         }
