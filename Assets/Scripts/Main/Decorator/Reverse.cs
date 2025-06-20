@@ -21,6 +21,6 @@ public class Reverse : BaseCard
     public override void Play()
     {
         Controller.TurnDirection *= -1;
-        Controller.SetCardSprite(gameObject.transform);
+        Controller.PlayCard(gameObject);
     }
 }

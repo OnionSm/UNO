@@ -13,7 +13,7 @@ public class ExecuteAction : IFSMAction
 
     public override void Action()
     {
-        Debug.Log("Execute Action");
+        //Debug.Log("Execute Action");
         CardType card_type = _controller.CurrentCardType;
         CardSymbol card_symbol = _controller.CurrentCardSymbol;
         CardColor card_color = _controller.CurrentColor;
@@ -34,7 +34,7 @@ public class ExecuteAction : IFSMAction
         list_card = _enemy_core._list_card_in_hand;
 
         List<Transform> list_card_selection = CanPlayThisCard(list_card,card_color, card_symbol);
-        Debug.Log($"Len List Card Selection Player {_enemy_core.turn_id}: {list_card_selection.Count}");
+        //Debug.Log($"Len List Card Selection Player {_enemy_core.turn_id}: {list_card_selection.Count}");
         if (list_card_selection == null)
             return;
 

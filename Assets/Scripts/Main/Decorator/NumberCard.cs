@@ -20,8 +20,7 @@ public class NumberCard : BaseCard
 
     public override void Play()
     {
-        Controller.PlayNumberCard(gameObject);
-        Controller.SetCardSprite(gameObject.transform);
+        Controller.PlayCard(gameObject);
     }
 
     

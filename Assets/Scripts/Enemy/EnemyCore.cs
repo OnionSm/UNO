@@ -187,10 +187,14 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
          
             if (_current_turn != turn_id)
+            {
+                Debug.Log("Coroutine stop");
                 yield break;
+            }
+                
 
             ExecuteState();
-            Debug.Log("Execute State");
+            //Debug.Log("Execute State");
         }
     }
 }
