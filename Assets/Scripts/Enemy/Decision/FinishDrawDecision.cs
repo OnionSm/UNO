@@ -11,7 +11,8 @@ public class FinishDrawDecision : IFSMDecision
     [SerializeField] private EnemyCore _enemy_core;
     public override bool Decision()
     {
-        if(!_enemy_core._has_drawn_card_by_effect)
+        Debug.Log("Finish Draw Decision");
+        if (!_enemy_core._has_drawn_card_by_effect)
         {
             // Get latest card in hand
             Transform card = _enemy_core._list_card_in_hand[_enemy_core._list_card_in_hand.Count - 1];

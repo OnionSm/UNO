@@ -161,6 +161,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         if (_current_card_selected != null)
         {
             _current_card_selected.GetComponent<BaseCard>()?.Play();
+            _list_card_in_hand.Remove(_current_card_selected.transform);
             //Debug.Log("Play card");
             _current_card_selected = null;
             EndTurn();
@@ -178,6 +179,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     public void Notify(int turn)
     {
+        Debug.Log($"Number Card In Player Hand: {_list_card_in_hand.Count}");
         _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
         CheckAnyAvailbleCard();
     }

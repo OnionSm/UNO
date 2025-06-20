@@ -7,6 +7,7 @@ public class StandbyDecision : IFSMDecision
 {
     public override bool Decision()
     {
+        Debug.Log("Standby Decision");
         return true;
     }
 
