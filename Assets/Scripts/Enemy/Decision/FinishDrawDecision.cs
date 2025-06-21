@@ -20,7 +20,7 @@ public class FinishDrawDecision : IFSMDecision
             CardSymbol card_symbol = _controller.CurrentCardSymbol;
             CardColor card_color = _controller.CurrentColor;
             BaseCard base_card = card.GetComponent<BaseCard>();
-            if (base_card.Symbol == card_symbol || base_card.Color == card_color)
+            if (base_card.Symbol == card_symbol || base_card.Color == card_color || base_card.Color == CardColor.Black)
             {
                 // Change to Execute Phase
                 return true;

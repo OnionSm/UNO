@@ -58,7 +58,7 @@ public class ExecuteAction : IFSMAction
             }
             
             
-            if(base_card.Color == card_color || base_card.Symbol == card_symbol)
+            if(base_card.Color == card_color || base_card.Symbol == card_symbol || base_card.Color == CardColor.Black)
             {
                 list_card_can_choose.Add(card);
             }

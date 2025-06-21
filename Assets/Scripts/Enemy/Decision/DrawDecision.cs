@@ -26,7 +26,7 @@ public class DrawDecision : IFSMDecision
             foreach (Transform card in _list_card)
             {
                 BaseCard base_card = card.GetComponent<BaseCard>();
-                if (base_card.Symbol == card_symbol || base_card.Color == card_color)
+                if (base_card.Symbol == card_symbol || base_card.Color == card_color || base_card.Color == CardColor.Black)
                 {
                     return false;
                 }
