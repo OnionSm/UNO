@@ -13,8 +13,8 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     private int _current_turn;
 
     [Header("Thinking Time")]
-    [SerializeField] private float _min_thinking_time = 0.5f;
-    [SerializeField] private float _max_thinking_time = 1f;
+    [SerializeField] private float _min_thinking_time = 1f;
+    [SerializeField] private float _max_thinking_time = 2f;
 
 
     private List<GameObject> list_player;
@@ -200,9 +200,9 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     public void EndTurn()
     {
-        _has_drawn_card_by_effect = true;
+        _has_drawn_card_by_effect = false;
         _game_controller.ChangeTurn();
-        _game_controller.turn_change = 1;
+       
         _list_card_can_play.Clear();
         _list_card_draw_this_turn.Clear();
         if (_bot != null)

@@ -113,10 +113,7 @@ public class GameController : MonoBehaviour, IPublisher
     #region Load Component
     private void LoadComponent()
     {
-        this._card_drawn_amount = 0;
-        this._can_execute_after_draw = true;
-        this.turn_change = 1;
-        this._turn_direction = 1;
+        LoadBasicProperties();
         this._list_observer = new List<IObserver>();
         this._list_color_config = GameManager.Instance.GetColorConfigs();
         this._list_card_configs = GameManager.Instance.GetListCardConfigs();
@@ -126,6 +123,12 @@ public class GameController : MonoBehaviour, IPublisher
         LoadCardConfigMap();
         LoadDeckConfigMap();
         LoadDeck();
+    }
+    public void LoadBasicProperties()
+    {
+        this._card_drawn_amount = 0;
+        this.turn_change = 1;
+        this._turn_direction = 1;
     }
     private void LoadCardConfigMap()
     {
@@ -259,6 +262,7 @@ public class GameController : MonoBehaviour, IPublisher
     public void ChangeTurn()
     {
         _current_turn = GetNextTurn();
+        this.turn_change = 1;
         Notify();
         _game_controller_ui_manager.EnableLightBar(CurrentTurn);
         Debug.Log($"Current Turn: {_current_turn}");
