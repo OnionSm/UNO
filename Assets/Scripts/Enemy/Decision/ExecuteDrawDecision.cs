@@ -11,7 +11,7 @@ public class ExecuteDrawDecision : IFSMDecision
     [SerializeField] private EnemyCore _enemy_core;
     public override bool Decision()
     {
-        Debug.Log("Execute Draw Decision");
+        //Debug.Log("Execute Draw Decision");
         if (_controller._card_drawn_amount <= 0)
         {
             // Change to Draw Phase

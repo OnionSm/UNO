@@ -6,7 +6,7 @@ public class EndStateDecision : IFSMDecision
 {
     public override bool Decision()
     {
-        Debug.Log("Execute End State Decision");
+        //Debug.Log("Execute End State Decision");
         return true;
     }
 

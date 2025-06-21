@@ -11,7 +11,7 @@ public class DrawDecision : IFSMDecision
     [SerializeField] private EnemyCore _enemy_core;
     public override bool Decision()
     {
-        Debug.Log("Draw Decision");
+        //Debug.Log("Draw Decision");
         CardType card_type = _controller.CurrentCardType;
         CardSymbol card_symbol = _controller.CurrentCardSymbol;
         CardColor card_color = _controller.CurrentColor;

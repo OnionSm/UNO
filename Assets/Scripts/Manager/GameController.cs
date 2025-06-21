@@ -102,7 +102,7 @@ public class GameController : MonoBehaviour, IPublisher
         _card_dealer.DistributeCard(_list_player, _card_in_deck_remain);
         InitFirstCard();
         _game_controller_ui_manager.SetCardAmountText(_card_in_deck_remain.Count);
-        Notify(CurrentTurn);
+        Notify();
         _game_controller_ui_manager.EnableLightBar(CurrentTurn);
     }
     private void Update()
@@ -259,7 +259,7 @@ public class GameController : MonoBehaviour, IPublisher
     public void ChangeTurn()
     {
         _current_turn = GetNextTurn();
-        Notify(_current_turn);
+        Notify();
         _game_controller_ui_manager.EnableLightBar(CurrentTurn);
         Debug.Log($"Current Turn: {_current_turn}");
     }
@@ -454,10 +454,10 @@ public class GameController : MonoBehaviour, IPublisher
         throw new System.NotImplementedException();
     }
 
-    public void Notify(int turn)
+    public void Notify()
     {
         //Debug.Log($"Notify current turn: {CurrentTurn} and has {_list_observer.Count} Observer");
-        _list_observer[CurrentTurn].Notify(turn);
+        _list_observer[CurrentTurn].Notify();
     }
     #endregion
 

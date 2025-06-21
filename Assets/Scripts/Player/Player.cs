@@ -99,7 +99,16 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         else
         {
             Debug.Log("Has not card to play");
-            this._can_draw = true;
+            if(this._has_drawn)
+            {
+                EndTurn();
+            }
+            else
+            {
+                this._can_draw = true;
+            }
+                
+
         }
     }
     
@@ -178,7 +187,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         _on_play_card_appear_btn_ev?.RaiseEvent(false);
     }
 
-    public void Notify(int turn)
+    public void Notify()
     {
         Debug.Log($"Number Card In Player Hand: {_list_card_in_hand.Count}");
         _on_drop_turn_appear_btn_ev?.RaiseEvent(true);

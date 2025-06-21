@@ -12,7 +12,7 @@ public class ExecuteDecision : IFSMDecision
 
     public override bool Decision()
     {
-        Debug.Log("Execute Decision");
+        //Debug.Log("Execute Decision");
         CardType card_type = _controller.CurrentCardType;
         CardSymbol card_symbol = _controller.CurrentCardSymbol;
         CardColor card_color = _controller.CurrentColor;

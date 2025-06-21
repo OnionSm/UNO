@@ -11,7 +11,7 @@ public class WaitTurnDecision : IFSMDecision
     [SerializeField] private EnemyCore _enemy_core;
     public override bool Decision()
     {
-        Debug.Log("Wait Turn Decision");
+        //Debug.Log("Wait Turn Decision");
         if (_controller.CurrentTurn != _enemy_core.turn_id)
         {
             return true;

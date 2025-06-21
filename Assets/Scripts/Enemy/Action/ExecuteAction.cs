@@ -13,7 +13,7 @@ public class ExecuteAction : IFSMAction
 
     public override void Action()
     {
-        Debug.Log("Execute Action");
+        //Debug.Log("Execute Action");
         CardType card_type = _controller.CurrentCardType;
         CardSymbol card_symbol = _controller.CurrentCardSymbol;
         CardColor card_color = _controller.CurrentColor;

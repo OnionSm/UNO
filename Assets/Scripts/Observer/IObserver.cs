@@ -4,5 +4,5 @@ using UnityEngine;
 
 interface IObserver
 {
-    void Notify(int turn);
+    void Notify();
 }

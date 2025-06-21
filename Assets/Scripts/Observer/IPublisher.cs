@@ -6,5 +6,5 @@ interface IPublisher
 {
     void AddObserver();
     void RemoveObserver();
-    void Notify(int turn);
+    void Notify();
 }
