@@ -81,11 +81,11 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     }
 
-    public void OnPlayerTurn()
-    {
-        _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
-        CheckAnyAvailbleCard();
-    }
+    //public void OnPlayerTurn()
+    //{
+    //    _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
+    //    CheckAnyAvailbleCard();
+    //}
 
     public void CheckAnyAvailbleCard()
     {
@@ -99,7 +99,16 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         else
         {
             Debug.Log("Has not card to play");
-            this._can_draw = true;
+            if(this._has_drawn)
+            {
+                EndTurn();
+            }
+            else
+            {
+                this._can_draw = true;
+            }
+                
+
         }
     }
     
@@ -163,13 +172,14 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
             _current_card_selected.GetComponent<BaseCard>()?.Play();
             _list_card_in_hand.Remove(_current_card_selected.transform);
             //Debug.Log("Play card");
-            _current_card_selected = null;
+            
             EndTurn();
         }
         
     }
-    private void EndTurn()
+    public void EndTurn()
     {
+        _current_card_selected = null;
         _game_controller.ChangeTurn();
         _has_drawn = false;
         _on_drop_turn_appear_btn_ev?.RaiseEvent(false);
@@ -177,10 +187,20 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         _on_play_card_appear_btn_ev?.RaiseEvent(false);
     }
 
-    public void Notify(int turn)
+    public void Notify()
     {
+        int draw_amount = _game_controller._card_drawn_amount;
+        if (draw_amount > 0)
+        {
+            _can_draw = true;
+            Draw(draw_amount);
+            EndTurn();
+            return;
+        }
         Debug.Log($"Number Card In Player Hand: {_list_card_in_hand.Count}");
         _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
         CheckAnyAvailbleCard();
     }
+
+ 
 }

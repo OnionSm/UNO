@@ -13,12 +13,13 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     private int _current_turn;
 
     [Header("Thinking Time")]
-    [SerializeField] private float _min_thinking_time = 0.5f;
-    [SerializeField] private float _max_thinking_time = 1f;
+    [SerializeField] private float _min_thinking_time = 1f;
+    [SerializeField] private float _max_thinking_time = 2f;
 
 
     private List<GameObject> list_player;
     private List<CardDeck> _deck_card;
+    
     
 
     public RectTransform Card_Pos
@@ -27,8 +28,11 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
         set { _card_pos = value; }
     }
     public List<Transform> _list_card_in_hand { get; set; }
+    public List<Transform> _list_card_can_play { get; set; }
+    public List<Transform> _list_card_draw_this_turn { get; set; }
 
     [SerializeField] public int turn_id { get ; set; }
+
     [SerializeField] private int TurnID;
 
     public List<FSMState> _list_states = new List<FSMState>();
@@ -37,9 +41,14 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     private FSMState _current_state;
 
     public bool _has_drawn_card_by_effect { get; set; } = false;
+
+    private Coroutine _bot;
+
     private void Awake()      
     {
         _list_card_in_hand = new List<Transform>();
+        _list_card_can_play = new List<Transform>();
+        _list_card_draw_this_turn = new List<Transform>();
     }
 
     void Start()
@@ -85,6 +94,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             list_card_got.ForEach(card =>
             {
                 _list_card_in_hand?.Add(card);
+                _list_card_draw_this_turn?.Add(card);
                 RectTransform card_rect = card.gameObject.GetComponent<RectTransform>();
                 _game_controller.SetPositionForCard(card_rect, _card_pos);
             });
@@ -132,17 +142,16 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             }
         }
     }
-    public void Notify(int turn)
+    public void Notify()
     {
-        // Get card amount in each player hand
-        //GetCardAmountInEachPlayer();
-        // Calculate the left amount of each card symbol
-        //ReCalculateCardDeck();
-        _current_turn = turn;
-        if (turn_id == _current_turn)
+        Debug.Log($"Notify {turn_id} called");
+
+        if (_bot != null)
         {
-            StartCoroutine(BotTurnRoutine());
+            StopCoroutine(_bot);
+            _bot = null;
         }
+        _bot = StartCoroutine(BotTurnRoutine()); 
     }
 
     private FSMState GetStateByName(string state_name)
@@ -185,16 +194,22 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             float wait = Random.Range(_min_thinking_time, _max_thinking_time);
             yield return new WaitForSeconds(wait);
 
-         
-            if (_current_turn != turn_id)
-            {
-                Debug.Log("Coroutine stop");
-                yield break;
-            }
-                
-
             ExecuteState();
-            //Debug.Log("Execute State");
+        }
+    }
+
+    public void EndTurn()
+    {
+        _has_drawn_card_by_effect = false;
+        _game_controller.ChangeTurn();
+       
+        _list_card_can_play.Clear();
+        _list_card_draw_this_turn.Clear();
+        if (_bot != null)
+        {
+            StopCoroutine(_bot);
+            _bot = null;
+            Debug.Log($"Bot coroutine stopped (not {turn_id} turn).");
         }
     }
 }

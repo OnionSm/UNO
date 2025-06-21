@@ -10,12 +10,6 @@ using static UnityEditor.Progress;
 
 public class GameController : MonoBehaviour, IPublisher
 {
-    [Header("Game Event")]
-    [SerializeField] private GameEvent _on_player_turn_changed_ev;
-    ////[SerializeField] private IntEvent _change_turn_event;
-    //[SerializeField] private BoolEvent _play_card_btn_appearance_ev;
-    //[SerializeField] private BoolEvent _drop_card_btn_appearance_ev;
-    //[SerializeField] private BoolEvent _available_play_card_btn_ev;
 
     [Header("Game Controller UI Manager")]
     [SerializeField] private GameControllerUIManager _game_controller_ui_manager;
@@ -106,14 +100,10 @@ public class GameController : MonoBehaviour, IPublisher
         AddObserver();
 
         _card_dealer.DistributeCard(_list_player, _card_in_deck_remain);
-        if(_current_turn == 0)
-        {
-            _on_player_turn_changed_ev?.RaiseEvent();
-            CheckAvailableCard();
-        }
         InitFirstCard();
         _game_controller_ui_manager.SetCardAmountText(_card_in_deck_remain.Count);
-        _on_player_turn_changed_ev?.RaiseEvent();
+        Notify();
+        _game_controller_ui_manager.EnableLightBar(CurrentTurn);
     }
     private void Update()
     {
@@ -123,10 +113,7 @@ public class GameController : MonoBehaviour, IPublisher
     #region Load Component
     private void LoadComponent()
     {
-        this._card_drawn_amount = 0;
-        this._can_execute_after_draw = true;
-        this.turn_change = 1;
-        this._turn_direction = 1;
+        LoadBasicProperties();
         this._list_observer = new List<IObserver>();
         this._list_color_config = GameManager.Instance.GetColorConfigs();
         this._list_card_configs = GameManager.Instance.GetListCardConfigs();
@@ -136,6 +123,12 @@ public class GameController : MonoBehaviour, IPublisher
         LoadCardConfigMap();
         LoadDeckConfigMap();
         LoadDeck();
+    }
+    public void LoadBasicProperties()
+    {
+        this._card_drawn_amount = 0;
+        this.turn_change = 1;
+        this._turn_direction = 1;
     }
     private void LoadCardConfigMap()
     {
@@ -269,13 +262,9 @@ public class GameController : MonoBehaviour, IPublisher
     public void ChangeTurn()
     {
         _current_turn = GetNextTurn();
-        //_change_turn_event?.RaiseEvent(_current_turn);
-        //if (_current_turn == 0)
-        //{
-        //    //_on_player_turn_changed_ev?.RaiseEvent();
-        //}
-        Notify(_current_turn);
-
+        this.turn_change = 1;
+        Notify();
+        _game_controller_ui_manager.EnableLightBar(CurrentTurn);
         Debug.Log($"Current Turn: {_current_turn}");
     }
 
@@ -469,10 +458,10 @@ public class GameController : MonoBehaviour, IPublisher
         throw new System.NotImplementedException();
     }
 
-    public void Notify(int turn)
+    public void Notify()
     {
         //Debug.Log($"Notify current turn: {CurrentTurn} and has {_list_observer.Count} Observer");
-        _list_observer[CurrentTurn].Notify(turn);
+        _list_observer[CurrentTurn].Notify();
     }
     #endregion
 
@@ -481,10 +470,10 @@ public class GameController : MonoBehaviour, IPublisher
         yield return new WaitForSeconds(3f);
     }
 
-    private void CheckAvailableCard()
-    {
+    //private void CheckAvailableCard()
+    //{
 
-    }
+    //}
    
 
 
