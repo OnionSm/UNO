@@ -3774,7 +3774,6 @@ GameObject:
   - component: {fileID: 1158664604}
   - component: {fileID: 1158664606}
   - component: {fileID: 1158664605}
-  - component: {fileID: 1158664612}
   - component: {fileID: 1158664614}
   - component: {fileID: 1158664611}
   - component: {fileID: 1158664610}
@@ -3852,10 +3851,7 @@ MonoBehaviour:
     _list_transitions:
     - decide: {fileID: 1158664611}
       true_state: Execute
-      false_state: 
-    - decide: {fileID: 1158664612}
-      true_state: Draw
-      false_state: 
+      false_state: Draw
   - _state_name: Execute
     _list_actions:
     - {fileID: 1158664608}
@@ -3868,8 +3864,8 @@ MonoBehaviour:
     - {fileID: 1158664609}
     _list_transitions:
     - decide: {fileID: 1158664616}
-      true_state: Execute
-      false_state: End
+      true_state: End
+      false_state: Execute
   - _state_name: End
     _list_actions:
     - {fileID: 1158664615}
@@ -3942,20 +3938,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2a26eee72584b84db60b21e39654a84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _controller: {fileID: 1551789350}
-  _enemy_core: {fileID: 1158664606}
---- !u!114 &1158664612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158664603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e82562b8b35021b4b9c3871afd78b815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 1551789350}

@@ -11,7 +11,7 @@ public class DrawAction : IFSMAction
     [SerializeField] private EnemyCore _enemy_core;
     public override void Action()
     {
-        //Debug.Log("Execute Draw Action");
+        Debug.Log("Execute Draw Action");
         if (_controller._card_drawn_amount > 0)
         {
             _enemy_core.Draw(_controller._card_drawn_amount);

@@ -20,6 +20,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     private List<GameObject> list_player;
     private List<CardDeck> _deck_card;
     
+    
 
     public RectTransform Card_Pos
     {
@@ -27,6 +28,8 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
         set { _card_pos = value; }
     }
     public List<Transform> _list_card_in_hand { get; set; }
+    public List<Transform> _list_card_can_play { get; set; }
+    public List<Transform> _list_card_draw_this_turn { get; set; }
 
     [SerializeField] public int turn_id { get ; set; }
 
@@ -44,6 +47,8 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     private void Awake()      
     {
         _list_card_in_hand = new List<Transform>();
+        _list_card_can_play = new List<Transform>();
+        _list_card_draw_this_turn = new List<Transform>();
     }
 
     void Start()
@@ -89,6 +94,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             list_card_got.ForEach(card =>
             {
                 _list_card_in_hand?.Add(card);
+                _list_card_draw_this_turn?.Add(card);
                 RectTransform card_rect = card.gameObject.GetComponent<RectTransform>();
                 _game_controller.SetPositionForCard(card_rect, _card_pos);
             });
@@ -194,6 +200,11 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     public void EndTurn()
     {
+        _has_drawn_card_by_effect = true;
+        _game_controller.ChangeTurn();
+        _game_controller.turn_change = 1;
+        _list_card_can_play.Clear();
+        _list_card_draw_this_turn.Clear();
         if (_bot != null)
         {
             StopCoroutine(_bot);

@@ -189,6 +189,14 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     public void Notify()
     {
+        int draw_amount = _game_controller._card_drawn_amount;
+        if (draw_amount > 0)
+        {
+            _can_draw = true;
+            Draw(draw_amount);
+            EndTurn();
+            return;
+        }
         Debug.Log($"Number Card In Player Hand: {_list_card_in_hand.Count}");
         _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
         CheckAnyAvailbleCard();
