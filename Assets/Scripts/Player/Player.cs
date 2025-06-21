@@ -81,11 +81,11 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     }
 
-    public void OnPlayerTurn()
-    {
-        _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
-        CheckAnyAvailbleCard();
-    }
+    //public void OnPlayerTurn()
+    //{
+    //    _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
+    //    CheckAnyAvailbleCard();
+    //}
 
     public void CheckAnyAvailbleCard()
     {
@@ -163,13 +163,14 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
             _current_card_selected.GetComponent<BaseCard>()?.Play();
             _list_card_in_hand.Remove(_current_card_selected.transform);
             //Debug.Log("Play card");
-            _current_card_selected = null;
+            
             EndTurn();
         }
         
     }
-    private void EndTurn()
+    public void EndTurn()
     {
+        _current_card_selected = null;
         _game_controller.ChangeTurn();
         _has_drawn = false;
         _on_drop_turn_appear_btn_ev?.RaiseEvent(false);
@@ -183,4 +184,6 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
         CheckAnyAvailbleCard();
     }
+
+ 
 }

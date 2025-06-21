@@ -19,12 +19,23 @@ public class GameControllerUIManager : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private Image _color_selection_panel;
 
+    [Header("Player UI")]
+    [SerializeField] private List<GameObject> _list_light_bar;
+    private int _light_bar_amount;
 
+    private void Awake()
+    {
+        LoadComponent();
+    }
     void Start()
     {
         
     }
 
+    private void LoadComponent()
+    {
+        _light_bar_amount = _list_light_bar.Count;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -78,5 +89,19 @@ public class GameControllerUIManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void EnableLightBar(int turn_id)
+    {
+        for(int i = 0; i < _light_bar_amount; i++)
+        {
+            if(i == turn_id)
+            {
+                _list_light_bar[i].SetActive(true);
+            }
+            else
+            {
+                _list_light_bar[i].SetActive(false); 
+            }
+        }
+    }
     
 }

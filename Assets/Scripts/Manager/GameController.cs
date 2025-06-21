@@ -10,12 +10,6 @@ using static UnityEditor.Progress;
 
 public class GameController : MonoBehaviour, IPublisher
 {
-    [Header("Game Event")]
-    [SerializeField] private GameEvent _on_player_turn_changed_ev;
-    ////[SerializeField] private IntEvent _change_turn_event;
-    //[SerializeField] private BoolEvent _play_card_btn_appearance_ev;
-    //[SerializeField] private BoolEvent _drop_card_btn_appearance_ev;
-    //[SerializeField] private BoolEvent _available_play_card_btn_ev;
 
     [Header("Game Controller UI Manager")]
     [SerializeField] private GameControllerUIManager _game_controller_ui_manager;
@@ -106,14 +100,10 @@ public class GameController : MonoBehaviour, IPublisher
         AddObserver();
 
         _card_dealer.DistributeCard(_list_player, _card_in_deck_remain);
-        if(_current_turn == 0)
-        {
-            _on_player_turn_changed_ev?.RaiseEvent();
-            CheckAvailableCard();
-        }
         InitFirstCard();
         _game_controller_ui_manager.SetCardAmountText(_card_in_deck_remain.Count);
-        _on_player_turn_changed_ev?.RaiseEvent();
+        Notify(CurrentTurn);
+        _game_controller_ui_manager.EnableLightBar(CurrentTurn);
     }
     private void Update()
     {
@@ -269,13 +259,8 @@ public class GameController : MonoBehaviour, IPublisher
     public void ChangeTurn()
     {
         _current_turn = GetNextTurn();
-        //_change_turn_event?.RaiseEvent(_current_turn);
-        //if (_current_turn == 0)
-        //{
-        //    //_on_player_turn_changed_ev?.RaiseEvent();
-        //}
         Notify(_current_turn);
-
+        _game_controller_ui_manager.EnableLightBar(CurrentTurn);
         Debug.Log($"Current Turn: {_current_turn}");
     }
 
@@ -481,10 +466,10 @@ public class GameController : MonoBehaviour, IPublisher
         yield return new WaitForSeconds(3f);
     }
 
-    private void CheckAvailableCard()
-    {
+    //private void CheckAvailableCard()
+    //{
 
-    }
+    //}
    
 
 
