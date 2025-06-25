@@ -8,19 +8,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CardConfigs _card_configs;
     [SerializeField] private DeckConfigs _deck_configs;
     [SerializeField] private ColorConfigs _color_configs;
+    [SerializeField] private AudioConfigs _audio_configs;
+
+    [SerializeField] public int current_stage { get; set; } = 1;
 
     public static GameManager Instance;
 
-    private void Awake()
+    void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)              
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);  
         }
-        else
+        else if (Instance != this)         
         {
-            Destroy(gameObject);
-            Debug.Log("More than one Game Manager");
+            Destroy(gameObject);           
+            Debug.Log("More than one GameManager");
         }
     }
     public List<CardConfig> GetListCardConfigs()
@@ -41,4 +45,11 @@ public class GameManager : MonoBehaviour
     {
         return _color_configs.all_color_configs;
     }
+
+    public List<AudioConfig> GetAudioConfigs() 
+    {
+        return _audio_configs._all_audio_configs;
+    }
+
+
 }
