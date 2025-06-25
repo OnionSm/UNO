@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99458cbd98627cc4582283f46e466095, type: 3}
+  m_Name: AudioConfigs
+  m_EditorClassIdentifier: 
+  _all_audio_configs:
+  - id: 0
+    name: Celebration_1
+    audio_clip: {fileID: 8300000, guid: 63213f43a4aabad4e8b28941eb796c27, type: 3}
+  - id: 1
+    name: Celebration_2
+    audio_clip: {fileID: 8300000, guid: e3f7779a76d2aaa4588b4bf86dec1a23, type: 3}
+  - id: 2
+    name: Contemplation_1
+    audio_clip: {fileID: 8300000, guid: d104f497a52543c4bb71dabbe7a24f02, type: 3}
+  - id: 3
+    name: Contemplation_2
+    audio_clip: {fileID: 8300000, guid: 321d3bdf3bca9f146bbb84a4c67c6ec4, type: 3}
+  - id: 4
+    name: Hanging_Out_1
+    audio_clip: {fileID: 8300000, guid: 19e0c8947f68b394995570c6d3972db6, type: 3}
+  - id: 5
+    name: Hanging_Out_2
+    audio_clip: {fileID: 8300000, guid: 14974d3ed7bf2ba49ade5b7ef4e35113, type: 3}
+  - id: 6
+    name: Let_Play_1
+    audio_clip: {fileID: 8300000, guid: 9fee840c6c4779b4892ca623cecdc53a, type: 3}
+  - id: 7
+    name: Let_Play_2
+    audio_clip: {fileID: 8300000, guid: e1fd87da1616a2a4eb46c00f69714798, type: 3}
+  - id: 8
+    name: Lounging_1
+    audio_clip: {fileID: 8300000, guid: df6e1055d6b71aa409406b750e03e349, type: 3}
+  - id: 9
+    name: Lounging_2
+    audio_clip: {fileID: 8300000, guid: 309fdecd23b74764b88f69e3b0a33829, type: 3}
+  - id: 10
+    name: Shuffile_Up
+    audio_clip: {fileID: 8300000, guid: 449ddad2e7f823345a563547f0198176, type: 3}
+  - id: 11
+    name: What_Next
+    audio_clip: {fileID: 8300000, guid: c42ef29360fb2f443a3e9ad7ae13ab95, type: 3}
+  - id: 12
+    name: Wonderful_1
+    audio_clip: {fileID: 8300000, guid: d6464ead099bbcb42b875b91875822ab, type: 3}
+  - id: 13
+    name: Wonderful_2
+    audio_clip: {fileID: 8300000, guid: d08779bcb522d924dbb958b26f734eb8, type: 3}
