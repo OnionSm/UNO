@@ -200,6 +200,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
             Debug.Log("Player Draw");
             _can_draw = true;
             Draw(draw_amount);
+            _game_controller._card_drawn_amount = 0;
             EndTurn();
             return;
         }

@@ -146,12 +146,12 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     {
         Debug.Log($"Notify {turn_id} called");
 
-        if (_bot != null)
-        {
-            Debug.Log("Bot is not null");
-            StopCoroutine(_bot);
-            _bot = null;
-        }
+        //if (_bot != null)
+        //{
+        //    Debug.Log("Bot is not null");
+        //    StopCoroutine(_bot);
+        //    _bot = null;
+        //}
         _bot = StartCoroutine(BotTurnRoutine()); 
     }
 
@@ -201,18 +201,19 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     public void EndTurn()
     {
-        Winning();
-        _has_drawn_card_by_effect = false;
-        _game_controller.ChangeTurn();
-       
-        _list_card_can_play.Clear();
-        _list_card_draw_this_turn.Clear();
         if (_bot != null)
         {
             StopCoroutine(_bot);
             _bot = null;
             Debug.Log($"Bot coroutine stopped (not {turn_id} turn).");
         }
+        Winning();
+        _has_drawn_card_by_effect = false;
+        _game_controller.ChangeTurn();
+       
+        _list_card_can_play.Clear();
+        _list_card_draw_this_turn.Clear();
+        
     }
 
     public void Winning()
