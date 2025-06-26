@@ -123,6 +123,7 @@ public class GameController : MonoBehaviour, IPublisher
     private void LoadComponent()
     {
         LoadBasicProperties();
+        _game_controller_ui_manager.InitPanelUIState();
         this._list_observer = new List<IObserver>();
         this._list_color_config = GameManager.Instance.GetColorConfigs();
         this._list_card_configs = GameManager.Instance.GetListCardConfigs();
@@ -481,9 +482,9 @@ public class GameController : MonoBehaviour, IPublisher
         yield return new WaitForSeconds(3f);
     }
 
-    public void EndMatch()
+    public void EndMatch(int player_id)
     {
-
+        
     }
 
 

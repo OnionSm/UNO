@@ -179,6 +179,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
     }
     public void EndTurn()
     {
+        Winning();
         _current_card_selected = null;
         _game_controller.ChangeTurn();
         _has_drawn = false;
@@ -202,5 +203,23 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         CheckAnyAvailbleCard();
     }
 
- 
+    public void Winning()
+    {
+        if (CheckWinCondition())
+        {
+            _game_controller.EndMatch(turn_id);
+        }
+    }
+
+    public bool CheckWinCondition()
+    {
+        if (_list_card_in_hand.Count <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

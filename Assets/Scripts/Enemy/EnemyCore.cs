@@ -200,6 +200,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     public void EndTurn()
     {
+        Winning();
         _has_drawn_card_by_effect = false;
         _game_controller.ChangeTurn();
        
@@ -210,6 +211,26 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             StopCoroutine(_bot);
             _bot = null;
             Debug.Log($"Bot coroutine stopped (not {turn_id} turn).");
+        }
+    }
+
+    public void Winning()
+    {
+        if (CheckWinCondition())
+        {
+            _game_controller.EndMatch(TurnID);
+        }
+    }
+
+    public bool CheckWinCondition()
+    {
+        if(_list_card_in_hand.Count <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
