@@ -171,8 +171,8 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         {
             _current_card_selected.GetComponent<BaseCard>()?.Play();
             _list_card_in_hand.Remove(_current_card_selected.transform);
-            //Debug.Log("Play card");
-            
+            Debug.Log("Play card");
+
             EndTurn();
         }
         

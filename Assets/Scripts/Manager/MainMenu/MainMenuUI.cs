@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
 {
-
+    [SerializeField] private GameObject _setting_panel;
     
     // Start is called before the first frame update
     void Start()
@@ -16,5 +16,16 @@ public class MainMenuUI : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void OpenSettingPanel() 
+    {
+        _setting_panel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+    public void CloseSettingPanel()
+    {
+        Time.timeScale = 1f;
+        _setting_panel?.SetActive(false);
     }
 }
