@@ -73,15 +73,15 @@ public class GameControllerUIManager : MonoBehaviour
     }
     public void SetAppearancePlayCardButton(bool state)
     {
-        //Debug.Log("Play card called");
+        Debug.Log("Play card called");
         _play_card_button?.gameObject.SetActive(state);
         SetAvailablePlayCardButton(false);
 
     }
-    public void SetAppearanceDropTurnButton(bool state)
-    {
-        _drop_turn_button?.gameObject.SetActive(state);
-    }
+    //public void SetAppearanceDropTurnButton(bool state)
+    //{
+    //    _drop_turn_button?.gameObject.SetActive(state);
+    //}
 
     public void SetCurrentTurnText(int current_turn)
     {

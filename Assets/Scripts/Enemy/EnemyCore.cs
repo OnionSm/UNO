@@ -148,6 +148,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
         if (_bot != null)
         {
+            Debug.Log("Bot is not null");
             StopCoroutine(_bot);
             _bot = null;
         }

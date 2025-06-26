@@ -180,10 +180,14 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
     public void EndTurn()
     {
         Winning();
+        DisablePlayerUI();
         _current_card_selected = null;
         _game_controller.ChangeTurn();
         _has_drawn = false;
-        _on_drop_turn_appear_btn_ev?.RaiseEvent(false);
+    }
+
+    public void DisablePlayerUI()
+    {
         _on_available_play_card_btn_ev?.RaiseEvent(false);
         _on_play_card_appear_btn_ev?.RaiseEvent(false);
     }
@@ -193,6 +197,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         int draw_amount = _game_controller._card_drawn_amount;
         if (draw_amount > 0)
         {
+            Debug.Log("Player Draw");
             _can_draw = true;
             Draw(draw_amount);
             EndTurn();

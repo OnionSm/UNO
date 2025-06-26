@@ -484,7 +484,8 @@ public class GameController : MonoBehaviour, IPublisher
 
     public void EndMatch(int player_id)
     {
-        
+        Debug.Log($"Player {player_id} win");
+        _game_controller_ui_manager.OpenWinPanel();
     }
 
 
