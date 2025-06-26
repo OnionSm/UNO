@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -32,5 +33,14 @@ public class MainMenuManager : MonoBehaviour
         {
             Invoke("PlayBGMSound", 0.5f);
         }
+    }
+
+    public void ChooseStage(int stage)
+    {
+        GameManager.Instance.current_stage = stage;
+        GameManager.Instance.SetStageConfig();
+        SceneManager.LoadSceneAsync("SampleScene");
+
+        Debug.Log($"Choose stage: {stage}");
     }
 }

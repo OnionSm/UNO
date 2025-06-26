@@ -9,8 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DeckConfigs _deck_configs;
     [SerializeField] private ColorConfigs _color_configs;
     [SerializeField] private AudioConfigs _audio_configs;
-
-    [SerializeField] public int current_stage { get; set; } = 1;
+    [SerializeField] private StageConfigs _stage_configs;
+    public int current_stage { get; set; } = 0;
+    public StageConfig current_stage_config { get; set; }
 
     public static GameManager Instance;
 
@@ -51,5 +52,26 @@ public class GameManager : MonoBehaviour
         return _audio_configs._all_audio_configs;
     }
 
+    public List<StageConfig> GetStageConfigs()
+    {
+        return _stage_configs.all_stage_configs;
+    }
 
+    public StageConfig GetStageConfigById(int id)
+    {
+        foreach(StageConfig config in _stage_configs.all_stage_configs)
+        {
+            if(config.stage_id == id)
+            {
+                return config;
+            }
+        }
+        return null;
+    }
+
+    public bool SetStageConfig()
+    {
+        current_stage_config = GetStageConfigById(current_stage);
+        return current_stage_config != null ? true : false;
+    }
 }

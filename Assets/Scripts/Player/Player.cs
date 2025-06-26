@@ -171,18 +171,23 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         {
             _current_card_selected.GetComponent<BaseCard>()?.Play();
             _list_card_in_hand.Remove(_current_card_selected.transform);
-            //Debug.Log("Play card");
-            
+            Debug.Log("Play card");
+
             EndTurn();
         }
         
     }
     public void EndTurn()
     {
+        Winning();
+        DisablePlayerUI();
         _current_card_selected = null;
         _game_controller.ChangeTurn();
         _has_drawn = false;
-        _on_drop_turn_appear_btn_ev?.RaiseEvent(false);
+    }
+
+    public void DisablePlayerUI()
+    {
         _on_available_play_card_btn_ev?.RaiseEvent(false);
         _on_play_card_appear_btn_ev?.RaiseEvent(false);
     }
@@ -192,8 +197,10 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         int draw_amount = _game_controller._card_drawn_amount;
         if (draw_amount > 0)
         {
+            Debug.Log("Player Draw");
             _can_draw = true;
             Draw(draw_amount);
+            _game_controller._card_drawn_amount = 0;
             EndTurn();
             return;
         }
@@ -202,5 +209,23 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         CheckAnyAvailbleCard();
     }
 
- 
+    public void Winning()
+    {
+        if (CheckWinCondition())
+        {
+            _game_controller.EndMatch(turn_id);
+        }
+    }
+
+    public bool CheckWinCondition()
+    {
+        if (_list_card_in_hand.Count <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

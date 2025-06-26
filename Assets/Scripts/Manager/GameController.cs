@@ -33,9 +33,11 @@ public class GameController : MonoBehaviour, IPublisher
     private List<IObserver> _list_observer = new List<IObserver>();
 
     #region Properties
+    private StageConfig _stage_config;
     public CardColor CurrentColor { get; set; }
     public CardType CurrentCardType { get; set; }
     public CardSymbol CurrentCardSymbol { get; set; }
+    public int pre_player_id { get; set; } = -1;
 
     public int _card_drawn_amount { get; set; }
         
@@ -61,7 +63,7 @@ public class GameController : MonoBehaviour, IPublisher
     //[SerializeField] private List<Transform> _deck;
     private List<GameObject> _list_card_played = new List<GameObject>();
 
-    private int _player_count = 3;
+    private int _enemy_count;
     private int _current_turn;
     public int CurrentTurn
     {
@@ -95,6 +97,7 @@ public class GameController : MonoBehaviour, IPublisher
 
     private void Start()
     {
+        LoadStageConfig();
         InitPlayer();
         LoadComponent();
         AddObserver();
@@ -111,9 +114,16 @@ public class GameController : MonoBehaviour, IPublisher
     }
 
     #region Load Component
+
+    private void LoadStageConfig()
+    {
+        this._stage_config = GameManager.Instance.current_stage_config;
+        this._enemy_count = _stage_config.num_player - 1;
+    }
     private void LoadComponent()
     {
         LoadBasicProperties();
+        _game_controller_ui_manager.InitPanelUIState();
         this._list_observer = new List<IObserver>();
         this._list_color_config = GameManager.Instance.GetColorConfigs();
         this._list_card_configs = GameManager.Instance.GetListCardConfigs();
@@ -212,7 +222,7 @@ public class GameController : MonoBehaviour, IPublisher
     private void InitPlayer()
     {
 
-        for (int i = 0; i < _player_count; i++)
+        for (int i = 0; i < _enemy_count; i++)
         {
             Transform new_player = EnemySpawner.Instance.Spawn("Enemy");
             IObserver observer = new_player.gameObject.GetComponent<IObserver>();
@@ -262,10 +272,11 @@ public class GameController : MonoBehaviour, IPublisher
     public void ChangeTurn()
     {
         _current_turn = GetNextTurn();
+        Debug.Log($"Current Turn: {_current_turn}");
         this.turn_change = 1;
         Notify();
         _game_controller_ui_manager.EnableLightBar(CurrentTurn);
-        Debug.Log($"Current Turn: {_current_turn}");
+        
     }
 
     // Get the index player that they has turn
@@ -273,11 +284,12 @@ public class GameController : MonoBehaviour, IPublisher
     {
         //Debug.Log($"Player count: {_player_count}");
         int temp = _current_turn +  (turn_change * _turn_direction);
+        Debug.Log($"Temp turn: {temp}");
         if (temp < 0)
         {
-            temp += (_player_count + 1);
+            temp += (_enemy_count + 1);
         }
-        temp %= (_player_count + 1);
+        temp %= (_enemy_count + 1);
         return temp;
     }
 
@@ -470,27 +482,11 @@ public class GameController : MonoBehaviour, IPublisher
         yield return new WaitForSeconds(3f);
     }
 
-    //private void CheckAvailableCard()
-    //{
-
-    //}
-   
-
-
-    //public GameObject GetNextTurnPlayer()
-    //{
-    //    int next_turn = GetNextTurn(1);
-    //    return _list_player[next_turn];
-    //}
-    public void EndMatch()
+    public void EndMatch(int player_id)
     {
-
+        Debug.Log($"Player {player_id} win");
+        _game_controller_ui_manager.OpenWinPanel();
     }
 
-    //public void PlayCard(GameObject card)
-    //{
-    //    _list_card_played.Add(card);
 
-
-    //}
 }

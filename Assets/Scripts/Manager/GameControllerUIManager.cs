@@ -18,10 +18,13 @@ public class GameControllerUIManager : MonoBehaviour
 
     [Header("Panels")]
     [SerializeField] private Image _color_selection_panel;
+    [SerializeField] private GameObject _win_panel;
+    [SerializeField] private GameObject _loss_panel;
 
     [Header("Player UI")]
     [SerializeField] private List<GameObject> _list_light_bar;
     private int _light_bar_amount;
+
 
     private void Awake()
     {
@@ -31,7 +34,6 @@ public class GameControllerUIManager : MonoBehaviour
     {
         
     }
-
     private void LoadComponent()
     {
         _light_bar_amount = _list_light_bar.Count;
@@ -48,6 +50,15 @@ public class GameControllerUIManager : MonoBehaviour
             CloseColorSelectionPanel();
         }
     }
+
+    public void InitPanelUIState()
+    {
+        _color_selection_panel.gameObject.SetActive(false);
+        _win_panel.SetActive(false);
+        _loss_panel.SetActive(false);   
+
+    }
+
     public void SetCardAmountText(int card_amount)
     {
         _card_amount_text.text = $"{card_amount}";
@@ -62,15 +73,15 @@ public class GameControllerUIManager : MonoBehaviour
     }
     public void SetAppearancePlayCardButton(bool state)
     {
-        //Debug.Log("Play card called");
+        Debug.Log("Play card called");
         _play_card_button?.gameObject.SetActive(state);
         SetAvailablePlayCardButton(false);
 
     }
-    public void SetAppearanceDropTurnButton(bool state)
-    {
-        _drop_turn_button?.gameObject.SetActive(state);
-    }
+    //public void SetAppearanceDropTurnButton(bool state)
+    //{
+    //    _drop_turn_button?.gameObject.SetActive(state);
+    //}
 
     public void SetCurrentTurnText(int current_turn)
     {
@@ -104,4 +115,24 @@ public class GameControllerUIManager : MonoBehaviour
         }
     }
     
+    public void OpenWinPanel()
+    {
+        _win_panel.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+    }
+    public void CloseWinPanel()
+    {
+        Time.timeScale = 1f;
+        _win_panel?.gameObject.SetActive(false);
+    }
+    public void OpenLossPanel()
+    {
+        _loss_panel.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+    }
+    public void CloseLossPanel()
+    {
+        Time.timeScale = 1f;
+        _loss_panel?.gameObject.SetActive(false);
+    }
 }
