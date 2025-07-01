@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8843457636341233937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5442558596959075143}
+  - component: {fileID: 7512648665642232576}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5442558596959075143
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8843457636341233937}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.0049592, y: 0.81197214, z: 3.9005382}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7512648665642232576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8843457636341233937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00492c9c17c9a054aadb5796be501ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _card_configs: {fileID: 11400000, guid: 6d8e68dd1261f404fa64b54a5ed9cf3a, type: 2}
+  _deck_configs: {fileID: 11400000, guid: 9765c666ca5520a418eaae330464a81f, type: 2}
+  _color_configs: {fileID: 11400000, guid: d55af4d81d373504ca213ac9d2da9d09, type: 2}
+  _audio_configs: {fileID: 11400000, guid: 3d1e51d10cf59cf48884649b9e005e85, type: 2}
+  _stage_configs: {fileID: 11400000, guid: cd53b44c89a626444b990c8a13587d65, type: 2}
+  _sfx_sound_configs: {fileID: 11400000, guid: e419d5c84aca2b2419161254cc9e4e63, type: 2}

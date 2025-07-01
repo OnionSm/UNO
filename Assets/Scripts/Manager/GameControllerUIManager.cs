@@ -1,8 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameControllerUIManager : MonoBehaviour
@@ -73,7 +74,7 @@ public class GameControllerUIManager : MonoBehaviour
     }
     public void SetAppearancePlayCardButton(bool state)
     {
-        Debug.Log("Play card called");
+        //Debug.Log("Play card called");
         _play_card_button?.gameObject.SetActive(state);
         SetAvailablePlayCardButton(false);
 

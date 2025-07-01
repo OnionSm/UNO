@@ -6,19 +6,19 @@ using UnityEngine;
 
 public class AddTwo : BaseCard
 {
-    public override bool CanPlay()
-    {
-        GameObject latest_card = Controller.GetLatestCard();
-        if(latest_card == null )
-        {
-            return true;
-        }
-        if (Color == Controller.CurrentColor)
-        {
-            return true;
-        }
-        return false;
-    }
+    //public override bool CanPlay()
+    //{
+    //    GameObject latest_card = Controller.GetLatestCard();
+    //    if(latest_card == null )
+    //    {
+    //        return true;
+    //    }
+    //    if (Color == Controller.CurrentColor)
+    //    {
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
     public override void Play()
     {

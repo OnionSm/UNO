@@ -12,4 +12,13 @@ public class ColorConfig
 {
     public CardColor type_color;
     public string color;
+
+    public ColorConfig Clone()
+    {
+        return new ColorConfig
+        {
+            type_color = this.type_color,
+            color = this.color
+        };
+    }
 }

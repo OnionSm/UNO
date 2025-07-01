@@ -10,17 +10,13 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     [SerializeField] private RectTransform _card_pos;
     [SerializeField] private GameController _game_controller;
 
-    private int _current_turn;
-
     [Header("Thinking Time")]
     [SerializeField] private float _min_thinking_time = 1f;
     [SerializeField] private float _max_thinking_time = 2f;
 
-
-    private List<GameObject> list_player;
     private List<CardDeck> _deck_card;
-    
-    
+
+
 
     public RectTransform Card_Pos
     {
@@ -31,20 +27,19 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     public List<Transform> _list_card_can_play { get; set; }
     public List<Transform> _list_card_draw_this_turn { get; set; }
 
-    [SerializeField] public int turn_id { get ; set; }
-
-    [SerializeField] private int TurnID;
+    [SerializeField] public int turn_id { get; set; }
+    [SerializeField] public int Turn_Id;
 
     public List<FSMState> _list_states = new List<FSMState>();
 
-    private string _current_state_name = "Waiting";
+    private string _init_state_name = "Waiting";
     private FSMState _current_state;
 
     public bool _has_drawn_card_by_effect { get; set; } = false;
 
     private Coroutine _bot;
 
-    private void Awake()      
+    private void Awake()
     {
         _list_card_in_hand = new List<Transform>();
         _list_card_can_play = new List<Transform>();
@@ -64,23 +59,22 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     }
     void LoadComponent()
     {
-        this.list_player = new List<GameObject>();
+        //this.list_player = new List<GameObject>();
         this._deck_card = new List<CardDeck>();
         this._deck_card = GameManager.Instance.GetDecks();
-        this.TurnID = this.turn_id;
     }
 
     void LoadInitState()
     {
-        _current_state = GetStateByName(_current_state_name);
+        _current_state = GetStateByName(_init_state_name);
     }
 
-    void CheckCardsInHand()     
+    void CheckCardsInHand()
     {
         if (_list_card_in_hand.Count < 7)
         {
-            Invoke(nameof(CheckCardsInHand), 0.25f);  
-            return; 
+            Invoke(nameof(CheckCardsInHand), 0.25f);
+            return;
         }
         _enemy_ui.SetCardLeftText(_list_card_in_hand.Count);
         //Debug.Log($"Set up card amount text {_list_card_in_hand.Count} ");
@@ -88,7 +82,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     public void Draw(int amount)
     {
-        List<Transform> list_card_got = _game_controller?.GetCard(amount);  
+        List<Transform> list_card_got = _game_controller?.GetCard(amount);
         if (list_card_got != null)
         {
             list_card_got.ForEach(card =>
@@ -105,61 +99,17 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             Debug.LogError("list_card_got is null");
         }
     }
-
-
-    void GetCardAmountInEachPlayer()
-    {
-        List<GameObject> list_player_temp = new List<GameObject>();
-        list_player_temp = _game_controller.ListPlayer;
-        List<int> list_card_amount  = new List<int>();
-
-        if (list_player == null || list_player.Count <= 0)
-            return;
-
-        foreach (GameObject player in list_player)
-        {
-            EnemyCore core = player.GetComponent<EnemyCore>();
-            if (core != null)
-                return;
-            int amount = core._list_card_in_hand.Count;
-            list_card_amount.Add(amount);
-        }
-        list_player.Clear();
-        list_player = list_player_temp;
-    }
-    void ReCalculateCardDeck()
-    {
-        GameObject latest_card = _game_controller.GetLatestCard();
-        if (latest_card == null)
-            return;
-
-        BaseCard base_card = latest_card.GetComponent<BaseCard>();
-        for(int i = 0; i < _deck_card.Count; i++)
-        {
-            if (_deck_card[i].card_id == base_card.card_id)
-            {
-                _deck_card[i].amount = _deck_card[i].amount > 0 ? _deck_card[i].amount -- : 0;
-            }
-        }
-    }
     public void Notify()
     {
         Debug.Log($"Notify {turn_id} called");
-
-        //if (_bot != null)
-        //{
-        //    Debug.Log("Bot is not null");
-        //    StopCoroutine(_bot);
-        //    _bot = null;
-        //}
-        _bot = StartCoroutine(BotTurnRoutine()); 
+        _bot = StartCoroutine(BotTurnRoutine());
     }
 
     private FSMState GetStateByName(string state_name)
     {
-        foreach(FSMState state in _list_states)
+        foreach (FSMState state in _list_states)
         {
-            if(state._state_name == state_name)
+            if (state._state_name == state_name)
             {
                 return state;
             }
@@ -178,10 +128,9 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     }
     private void ExecuteState()
     {
-        if(CanExecuteState())
-        {
-            _current_state.UpdateState(this);
-        }
+        
+        _current_state.UpdateState(this);
+      
     }
     private bool CanExecuteState()
     {
@@ -190,7 +139,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     private IEnumerator BotTurnRoutine()
     {
-        while (true)                         
+        while (true)
         {
             float wait = Random.Range(_min_thinking_time, _max_thinking_time);
             yield return new WaitForSeconds(wait);
@@ -207,26 +156,33 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             _bot = null;
             Debug.Log($"Bot coroutine stopped (not {turn_id} turn).");
         }
-        Winning();
         _has_drawn_card_by_effect = false;
-        _game_controller.ChangeTurn();
-       
         _list_card_can_play.Clear();
         _list_card_draw_this_turn.Clear();
-        
+
+        if (CheckWinCondition())
+        {
+            Winning();
+        }
+        else
+        {
+            _game_controller.ChangeTurn();
+        }
     }
 
     public void Winning()
     {
         if (CheckWinCondition())
         {
-            _game_controller.EndMatch(TurnID);
+            _game_controller.EndMatch(turn_id);
+            Debug.Log($"-------- Player {turn_id} Win -----------");
         }
     }
 
     public bool CheckWinCondition()
     {
-        if(_list_card_in_hand.Count <= 0)
+        Debug.Log($"player {turn_id} has {_list_card_in_hand.Count} card");
+        if (_list_card_in_hand.Count <= 0)
         {
             return true;
         }
@@ -234,7 +190,42 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
         {
             return false;
         }
+        
     }
+
+    #region ResetEnemyCore
+    public void DespawnAllCard()
+    {
+        foreach(Transform card in _list_card_in_hand)
+        {
+            CardSpawner.Instance.Despawn(card);
+        }
+        _list_card_in_hand?.Clear();
+    }
+    public void ResetEnemyCore()
+    {
+        //if (_bot != null)
+        //{
+        //    StopCoroutine(_bot);
+        //    _bot = null;
+        //}
+        StopAllCoroutines();
+        _has_drawn_card_by_effect = false;
+
+        DespawnAllCard();
+        _list_card_can_play?.Clear();
+        _list_card_draw_this_turn?.Clear();
+
+
+        //if (_enemy_ui != null)
+        //    _enemy_ui.SetCardLeftText(0);
+
+        _current_state = null;
+    }
+
+    #endregion
+
+
 }
 // Nếu trên tay có nhiều hơn 1 lá bài có thể đánh được thì sẽ ưu tiên 
 // chọn lá bài số để đánh vì xác suất gặp số là 1/10 còn gặp màu là 1/4

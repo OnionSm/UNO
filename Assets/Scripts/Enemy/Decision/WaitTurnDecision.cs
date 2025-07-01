@@ -12,7 +12,7 @@ public class WaitTurnDecision : IFSMDecision
     public override bool Decision()
     {
         Debug.Log("Wait Turn Decision");
-        if (_controller.CurrentTurn != _enemy_core.turn_id)
+        if (_controller._current_turn != _enemy_core.turn_id)
         {
             return true;
         }

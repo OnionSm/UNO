@@ -13,5 +13,15 @@ public class StageConfig
     public int stage_id;
     public Mode mode;
     public int num_player;
+
+    public StageConfig Clone()
+    {
+        return new StageConfig
+        {
+            stage_id = this.stage_id,
+            mode = this.mode,
+            num_player = this.num_player
+        };
+    }
 }
 

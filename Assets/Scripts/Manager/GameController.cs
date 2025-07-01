@@ -1,16 +1,14 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class GameController : MonoBehaviour, IPublisher
 {
-
+    #region UI and Component
     [Header("Game Controller UI Manager")]
     [SerializeField] private GameControllerUIManager _game_controller_ui_manager;
 
@@ -30,6 +28,13 @@ public class GameController : MonoBehaviour, IPublisher
     [Header("Card Color Manager")]
     [SerializeField] private CardColorManager _card_color_manager;
 
+    [Header("Card Holder")]
+    [SerializeField] private GameObject _card_holder;
+
+    [Header("On Back Home Event")]
+    [SerializeField] private GameEvent _on_back_home_game_event;
+    #endregion
+
     private List<IObserver> _list_observer = new List<IObserver>();
 
     #region Properties
@@ -37,81 +42,48 @@ public class GameController : MonoBehaviour, IPublisher
     public CardColor CurrentColor { get; set; }
     public CardType CurrentCardType { get; set; }
     public CardSymbol CurrentCardSymbol { get; set; }
-    public int pre_player_id { get; set; } = -1;
+    public int pre_player_id { get; set; }
 
     public int _card_drawn_amount { get; set; }
-        
-    public bool _can_execute_after_draw { get; set; }
 
     public int turn_change {  get; set; }
 
-    private int _turn_direction;
-    public int TurnDirection
-    {
-        get { return _turn_direction; }
-        set { _turn_direction = value; }
-    }
+    public int _turn_direction { get; set; }
+  
+    [SerializeField] private GameObject _main_player;
     
     [SerializeField] private List<GameObject> _list_player;
-    public List<GameObject> ListPlayer
-    {
-        get { return _list_player; }
-        set { _list_player = value; }
-    }
-    [SerializeField] private GameObject _card_holder;
 
-    //[SerializeField] private List<Transform> _deck;
     private List<GameObject> _list_card_played = new List<GameObject>();
 
     private int _enemy_count;
-    private int _current_turn;
-    public int CurrentTurn
-    {
-        get { return _current_turn; }
-        set { _current_turn = value; }
-    }
+    public int _current_turn { get; set; }
+    public bool turn_finished; 
 
-    private GameObject _current_card;
-
-    private ICardFactory _cardFactory;
     #endregion
 
     #region CardConfig
-    [SerializeField] private List<CardConfig> _list_card_configs = new List<CardConfig>();
-    [SerializeField] private List<CardDeck> _deck_config = new List<CardDeck>();
+    private List<CardConfig> _list_card_configs = new List<CardConfig>();
+    private List<CardDeck> _deck_config = new List<CardDeck>();
     private List<ColorConfig> _list_color_config = new List<ColorConfig>();
     private Dictionary<string, CardConfig> _card_config_map = new Dictionary<string, CardConfig>();
     private Dictionary<string, CardDeck> _deck_config_map = new Dictionary<string, CardDeck>();
     private Sprite _protecter;
     #endregion
 
+    #region Deck
+
     private List<CardConfig> _card_in_deck_remain = new List<CardConfig>();
 
-    private bool _game_started = false;
-    public bool GameStarted
-    {
-        get { return _game_started; }
-        set { _game_started = value; }
-    }
+    #endregion
+
 
 
     private void Start()
     {
-        LoadStageConfig();
-        InitPlayer();
         LoadComponent();
-        AddObserver();
+    }
 
-        _card_dealer.DistributeCard(_list_player, _card_in_deck_remain);
-        InitFirstCard();
-        _game_controller_ui_manager.SetCardAmountText(_card_in_deck_remain.Count);
-        Notify();
-        _game_controller_ui_manager.EnableLightBar(CurrentTurn);
-    }
-    private void Update()
-    {
-        
-    }
 
     #region Load Component
 
@@ -120,15 +92,12 @@ public class GameController : MonoBehaviour, IPublisher
         this._stage_config = GameManager.Instance.current_stage_config;
         this._enemy_count = _stage_config.num_player - 1;
     }
-    private void LoadComponent()
+    private void LoadConfig()
     {
-        LoadBasicProperties();
-        _game_controller_ui_manager.InitPanelUIState();
-        this._list_observer = new List<IObserver>();
-        this._list_color_config = GameManager.Instance.GetColorConfigs();
-        this._list_card_configs = GameManager.Instance.GetListCardConfigs();
-        this._deck_config = GameManager.Instance.GetDecks();
-        this._protecter = GameManager.Instance.GetProtecter();
+        _list_color_config = GameManager.Instance.GetColorConfigs();
+        _list_card_configs = GameManager.Instance.GetListCardConfigs();
+        _deck_config = GameManager.Instance.GetDecks();
+        _protecter = GameManager.Instance.GetProtecter();
 
         LoadCardConfigMap();
         LoadDeckConfigMap();
@@ -136,10 +105,34 @@ public class GameController : MonoBehaviour, IPublisher
     }
     public void LoadBasicProperties()
     {
-        this._card_drawn_amount = 0;
-        this.turn_change = 1;
-        this._turn_direction = 1;
+        pre_player_id = -1;
+        _card_drawn_amount = 0;
+        turn_change = 1;
+        _turn_direction = 1;
+        _current_turn = 0;
+        turn_finished = false;
     }
+    private void LoadComponent()
+    {
+        LoadStageConfig();
+        InitPlayer();
+        InitEnemy();
+
+        LoadBasicProperties();
+        LoadConfig();
+        
+        _game_controller_ui_manager.InitPanelUIState();
+
+        AddObserver();
+
+        _card_dealer.DistributeCard(_list_player, _card_in_deck_remain);
+        InitFirstCard();
+        _game_controller_ui_manager.SetCardAmountText(_card_in_deck_remain.Count);
+        Notify();
+        _game_controller_ui_manager.EnableLightBar(_current_turn);
+
+    }
+    
     private void LoadCardConfigMap()
     {
         if (_list_card_configs == null)
@@ -186,6 +179,7 @@ public class GameController : MonoBehaviour, IPublisher
             }
         }
         SuffleDeck();
+        //Debug.Log($"Card in deck reamin: {_card_in_deck_remain.Count}");
         //_game_controller_ui_manager.SetCardAmountText(_card_in_deck_remain.Count);
     }
     #endregion
@@ -221,18 +215,23 @@ public class GameController : MonoBehaviour, IPublisher
 
     private void InitPlayer()
     {
+        _list_player = new List<GameObject>();
+        _list_player.Add(_main_player);
+    }
+    private void InitEnemy()
+    {
 
         for (int i = 0; i < _enemy_count; i++)
         {
             Transform new_player = EnemySpawner.Instance.Spawn("Enemy");
             IObserver observer = new_player.gameObject.GetComponent<IObserver>();
-            //_list_observer.Add(observer);
             EnemyUI enemyUI = new_player.gameObject.GetComponent<EnemyUI>();
             EnemyCore enemyCore = new_player.gameObject.GetComponent<EnemyCore>();
             ITurn turnComponent = new_player.gameObject.GetComponent<ITurn>();
             if (turnComponent != null)
             {
                 turnComponent.turn_id = i + 1;
+                enemyCore.Turn_Id = turnComponent.turn_id;
             }
             enemyUI.Card_Text_Left = _list_enemy_ui[i]._card_amount;
             enemyUI.Cash_Text = _list_enemy_ui[i]._cash_amount;
@@ -271,12 +270,17 @@ public class GameController : MonoBehaviour, IPublisher
     // Change turn to current turn + value
     public void ChangeTurn()
     {
+        if(!turn_finished)
+        {
+            Invoke(nameof(ChangeTurn), 0.5f);
+            return;
+        }
         _current_turn = GetNextTurn();
         Debug.Log($"Current Turn: {_current_turn}");
         this.turn_change = 1;
         Notify();
-        _game_controller_ui_manager.EnableLightBar(CurrentTurn);
-        
+        _game_controller_ui_manager.EnableLightBar(_current_turn);
+        turn_finished = false;
     }
 
     // Get the index player that they has turn
@@ -320,11 +324,6 @@ public class GameController : MonoBehaviour, IPublisher
         return list_cards_player_get;
     }
 
-    public GameObject GetLatestCard()
-    {
-        return _current_card;
-    }
-
     public void SuffleDeck()
     {
         _card_in_deck_remain = _card_in_deck_remain.OrderBy(go => Random.value).ToList();
@@ -345,34 +344,16 @@ public class GameController : MonoBehaviour, IPublisher
             seq.OnComplete(() =>
             {
                 SetCardSprite(card.transform);
-                _list_card_played.Add(card);
+                CardSpawner.Instance.Despawn(card.transform);
+                card.gameObject.SetActive(false);
+                _list_card_played.Add(card); // dùng khi mà có tính năng xem các lá bài đã chơi
                 SetCurrentAttributes(card);
-
+                turn_finished = true;
             });
 
 
         }
     }
-    
-    //public void PlayNumberCard(GameObject card)
-    //{
-    //    _list_card_played.Add(card);
-    //    SetCurrentAttributes(card);
-    //    Debug.Log($"Current card {CurrentColor} {CurrentCardSymbol} {CurrentCardType}");
-    //}
-
-    //public void PlayWildCard(CardColor color)
-    //{
-    //    if (_current_turn == 0)
-    //    {
-    //        _game_controller_ui_manager.OpenColorSelectionPanel();
-    //    }
-    //    else
-    //    {
-    //        CardColor new_color = GenerateColor();
-    //        SetCurrentColorAttributes(new_color);
-    //    }
-    //}
 
     #endregion
 
@@ -384,7 +365,7 @@ public class GameController : MonoBehaviour, IPublisher
             Debug.LogError($"BaseCard missing on {card.name}");
             return;
         }
-
+        Debug.Log($"Origin color {baseCard.Color}");
         SetCurrentColorAttributes(baseCard.Color);
         CurrentCardType = baseCard.Type;
         CurrentCardSymbol = baseCard.Symbol;
@@ -397,8 +378,10 @@ public class GameController : MonoBehaviour, IPublisher
     }
     public void SetCurrentColorAttributes(CardColor card_color)
     {
+        Debug.Log($"Card Color {card_color}");
         if(card_color == CardColor.Black)
         {
+            Debug.Log($"Black Card and Turn {_current_turn}");
             if (_current_turn == 0)
             {
                 _game_controller_ui_manager.OpenColorSelectionPanel();
@@ -424,16 +407,15 @@ public class GameController : MonoBehaviour, IPublisher
 
     public void SetPositionForCard(RectTransform card, RectTransform parent)
     {
-        // Bảo đảm thứ tự: gán cha trước, sau đó mới copy các thuộc tính
-        card.SetParent(parent, false);          // worldPositionStays = false
+        card.SetParent(parent, false);      
 
         // Sao chép toàn bộ thông số RectTransform
         card.anchorMin = parent.anchorMin;
         card.anchorMax = parent.anchorMax;
         card.pivot = parent.pivot;
         card.sizeDelta = parent.sizeDelta;
-        card.anchoredPosition = parent.anchoredPosition;   // Giữ nguyên offset nếu có
-        card.localPosition = parent.localPosition;      // Trường hợp không dùng anchoring
+        card.anchoredPosition = parent.anchoredPosition;   
+        card.localPosition = parent.localPosition;     
         card.localRotation = parent.localRotation;
         card.localScale = parent.localScale;
     }
@@ -448,8 +430,6 @@ public class GameController : MonoBehaviour, IPublisher
     {
         var card_sprite = card.GetComponentInChildren<CardModel>()?.card_image;
         _played_zone.sprite = card_sprite;
-        CardSpawner.Instance.Despawn(card);
-        card.gameObject.SetActive(false);
     }
 
     #endregion 
@@ -472,8 +452,8 @@ public class GameController : MonoBehaviour, IPublisher
 
     public void Notify()
     {
-        //Debug.Log($"Notify current turn: {CurrentTurn} and has {_list_observer.Count} Observer");
-        _list_observer[CurrentTurn].Notify();
+        //Debug.Log($"Notify current turn: {_current_turn}");
+        _list_observer[_current_turn].Notify();
     }
     #endregion
 
@@ -484,9 +464,56 @@ public class GameController : MonoBehaviour, IPublisher
 
     public void EndMatch(int player_id)
     {
-        Debug.Log($"Player {player_id} win");
-        _game_controller_ui_manager.OpenWinPanel();
+        //Debug.Log($"Player {player_id} win");
+        if (player_id == 0)
+        {
+            _game_controller_ui_manager.OpenWinPanel();
+        }
+        else
+        {
+            _game_controller_ui_manager.OpenLossPanel();
+        }
+        
     }
 
+    #region Reset Game
+    public void DespawnBot()
+    {
+        for(int i = 1; i < _list_player.Count; i ++)
+        {
+            EnemySpawner.Instance.Despawn(_list_player[i].transform);
+        }
+        //_list_player.Clear();
+    }
 
+    public void ResetGameController()
+    {
+        StopAllCoroutines();
+        DespawnBot();
+
+        _list_observer?.Clear();
+        _list_player?.Clear();
+        _list_card_played?.Clear();
+        _card_in_deck_remain?.Clear();
+        Debug.Log("GameController has been reset.");
+    }
+
+    #endregion
+
+    public void BackToHome()
+    {
+        _on_back_home_game_event?.RaiseEvent();
+        ResetGameController();
+        StartCoroutine(SwitchSceneCoroutine());
+    }
+
+    IEnumerator SwitchSceneCoroutine()
+    {
+
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Additive);
+        while (!loadOp.isDone) yield return null;
+
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync("SampleScene");
+        while (!unloadOp.isDone) yield return null;
+    }
 }

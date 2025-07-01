@@ -32,7 +32,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     public void Draw(int amount)
     {
-        if(_game_controller.CurrentTurn != 0 || _has_drawn || !_can_draw)
+        if(_game_controller._current_turn != 0 || _has_drawn || !_can_draw)
         {
             return;
         }
@@ -48,7 +48,6 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
                 card.SetParent(_player_hand_group_layout.transform, false);
                 card.GetComponentInChildren<CardModel>().StartFlipUp();
                 _has_drawn = true;
-                //Debug.Log(card);
             });
         }
         else
@@ -63,8 +62,6 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     }
     
-    
-    public void Update() { }
 
     private void LoadComponent()
     {
@@ -72,20 +69,6 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         this._has_drawn = false;
     }
 
-    private void CanDraw()
-    {
-        
-    }
-    public void ClickCard()
-    {
-
-    }
-
-    //public void OnPlayerTurn()
-    //{
-    //    _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
-    //    CheckAnyAvailbleCard();
-    //}
 
     public void CheckAnyAvailbleCard()
     {
@@ -99,8 +82,10 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         else
         {
             Debug.Log("Has not card to play");
+            Debug.Log($"Has drawn: {_has_drawn}");
             if(this._has_drawn)
             {
+                _game_controller.turn_finished = true;
                 EndTurn();
             }
             else
@@ -194,6 +179,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     public void Notify()
     {
+        _has_drawn = false;
         int draw_amount = _game_controller._card_drawn_amount;
         if (draw_amount > 0)
         {
@@ -201,6 +187,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
             _can_draw = true;
             Draw(draw_amount);
             _game_controller._card_drawn_amount = 0;
+            _game_controller.turn_finished = true;
             EndTurn();
             return;
         }
@@ -227,5 +214,21 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         {
             return false;
         }
+    }
+
+    public void DespawnAllCard()
+    {
+        foreach (Transform card in _list_card_in_hand)
+        {
+            CardSpawner.Instance.Despawn(card);
+        }
+        _list_card_in_hand?.Clear();
+    }
+    public void ResetPlayer()
+    {
+        StopAllCoroutines();
+        DespawnAllCard();
+        _current_card_selected = null;
+
     }
 }

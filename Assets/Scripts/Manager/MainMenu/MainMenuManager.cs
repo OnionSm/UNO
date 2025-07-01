@@ -5,12 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] private int _bgm_sound_id = 0;
-    // Start is called before the first frame update
+    [Header("Main Menu UI")]
+    [SerializeField] private MainMenuUI _main_menu_ui;
+
+    [SerializeField] private int _bgm_sound_id = 10;
+    [SerializeField] private float _init_music_volume = 0.25f;
+    [SerializeField] private float _init_sfx_music = 0.75f;
+
+    private int _sfx_sound_id = 0;
+
     void Start()
     {
         LoadComponent();
         PlayBGMSound();
+        SetInitVolume();
     }
 
     // Update is called once per frame
@@ -42,5 +50,17 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadSceneAsync("SampleScene");
 
         Debug.Log($"Choose stage: {stage}");
+    }
+
+    public void SetInitVolume()
+    {
+        AudioManager.Instance.ChangeMusicVolume( _init_music_volume );
+        AudioManager.Instance.ChangeSFXVolume( _init_sfx_music );
+        _main_menu_ui.SetUIMusicSlider(_init_music_volume);
+        _main_menu_ui.SetUISFXSlider(_init_sfx_music);  
+    }
+    public void PlaySFXSound()
+    {
+
     }
 }

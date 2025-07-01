@@ -34,11 +34,13 @@ public class FinishDrawDecision : IFSMDecision
             }
             else
             {
+                _controller.turn_finished = true;
                 return true;  // Change to End Phase
             }
         }
         else
         {
+            _controller.turn_finished = true;
             return true;  // Change to End Phase
         }
     }

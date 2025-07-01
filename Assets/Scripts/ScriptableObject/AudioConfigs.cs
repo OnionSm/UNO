@@ -14,4 +14,14 @@ public class AudioConfig
     public int id;
     public string name;
     public AudioClip audio_clip;
+
+    public AudioConfig Clone()
+    {
+        return new AudioConfig
+        {
+            id = this.id,
+            name = this.name,
+            audio_clip = this.audio_clip
+        };
+    }
 }

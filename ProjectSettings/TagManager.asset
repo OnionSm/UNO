@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Avatar
+    uniqueID: 1398928029
+    locked: 0
+  - name: Frame
+    uniqueID: 321918573
+    locked: 0

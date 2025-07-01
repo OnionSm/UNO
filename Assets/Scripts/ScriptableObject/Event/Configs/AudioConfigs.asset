@@ -55,3 +55,9 @@ MonoBehaviour:
   - id: 13
     name: Wonderful_2
     audio_clip: {fileID: 8300000, guid: d08779bcb522d924dbb958b26f734eb8, type: 3}
+  - id: 14
+    name: Loss
+    audio_clip: {fileID: 8300000, guid: 2b68aee0cf437da44a23816e9b84263a, type: 3}
+  - id: 15
+    name: Win
+    audio_clip: {fileID: 8300000, guid: 012dafe6eae212741a80ea278437b33c, type: 3}
