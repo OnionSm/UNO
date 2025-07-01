@@ -1,13 +1,10 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class GameController : MonoBehaviour, IPublisher
 {
@@ -61,6 +58,7 @@ public class GameController : MonoBehaviour, IPublisher
 
     private int _enemy_count;
     public int _current_turn { get; set; }
+    public bool turn_finished; 
 
     #endregion
 
@@ -112,6 +110,7 @@ public class GameController : MonoBehaviour, IPublisher
         turn_change = 1;
         _turn_direction = 1;
         _current_turn = 0;
+        turn_finished = false;
     }
     private void LoadComponent()
     {
@@ -271,12 +270,17 @@ public class GameController : MonoBehaviour, IPublisher
     // Change turn to current turn + value
     public void ChangeTurn()
     {
+        if(!turn_finished)
+        {
+            Invoke(nameof(ChangeTurn), 0.5f);
+            return;
+        }
         _current_turn = GetNextTurn();
         Debug.Log($"Current Turn: {_current_turn}");
         this.turn_change = 1;
         Notify();
         _game_controller_ui_manager.EnableLightBar(_current_turn);
-        
+        turn_finished = false;
     }
 
     // Get the index player that they has turn
@@ -344,7 +348,7 @@ public class GameController : MonoBehaviour, IPublisher
                 card.gameObject.SetActive(false);
                 _list_card_played.Add(card); // dùng khi mà có tính năng xem các lá bài đã chơi
                 SetCurrentAttributes(card);
-
+                turn_finished = true;
             });
 
 
@@ -361,7 +365,7 @@ public class GameController : MonoBehaviour, IPublisher
             Debug.LogError($"BaseCard missing on {card.name}");
             return;
         }
-
+        Debug.Log($"Origin color {baseCard.Color}");
         SetCurrentColorAttributes(baseCard.Color);
         CurrentCardType = baseCard.Type;
         CurrentCardSymbol = baseCard.Symbol;
@@ -374,8 +378,10 @@ public class GameController : MonoBehaviour, IPublisher
     }
     public void SetCurrentColorAttributes(CardColor card_color)
     {
+        Debug.Log($"Card Color {card_color}");
         if(card_color == CardColor.Black)
         {
+            Debug.Log($"Black Card and Turn {_current_turn}");
             if (_current_turn == 0)
             {
                 _game_controller_ui_manager.OpenColorSelectionPanel();
@@ -446,7 +452,7 @@ public class GameController : MonoBehaviour, IPublisher
 
     public void Notify()
     {
-        Debug.Log($"Notify current turn: {_current_turn}");
+        //Debug.Log($"Notify current turn: {_current_turn}");
         _list_observer[_current_turn].Notify();
     }
     #endregion
@@ -458,7 +464,7 @@ public class GameController : MonoBehaviour, IPublisher
 
     public void EndMatch(int player_id)
     {
-        Debug.Log($"Player {player_id} win");
+        //Debug.Log($"Player {player_id} win");
         if (player_id == 0)
         {
             _game_controller_ui_manager.OpenWinPanel();

@@ -85,6 +85,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
             Debug.Log($"Has drawn: {_has_drawn}");
             if(this._has_drawn)
             {
+                _game_controller.turn_finished = true;
                 EndTurn();
             }
             else
@@ -186,6 +187,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
             _can_draw = true;
             Draw(draw_amount);
             _game_controller._card_drawn_amount = 0;
+            _game_controller.turn_finished = true;
             EndTurn();
             return;
         }

@@ -22,7 +22,7 @@ public class DrawAction : IFSMAction
         {
             _enemy_core.Draw(1);
         }
-    }
+    }   
 
    
 }

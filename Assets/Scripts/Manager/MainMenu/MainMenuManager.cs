@@ -8,9 +8,9 @@ public class MainMenuManager : MonoBehaviour
     [Header("Main Menu UI")]
     [SerializeField] private MainMenuUI _main_menu_ui;
 
-    [SerializeField] private int _bgm_sound_id = 0;
-    [SerializeField] private float _init_music_volume = 0.5f;
-    [SerializeField] private float _init_sfx_music = 0.5f;
+    [SerializeField] private int _bgm_sound_id = 10;
+    [SerializeField] private float _init_music_volume = 0.25f;
+    [SerializeField] private float _init_sfx_music = 0.75f;
 
     private int _sfx_sound_id = 0;
 
