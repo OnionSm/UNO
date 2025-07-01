@@ -8,34 +8,30 @@ public class MainMenuManager : MonoBehaviour
     [Header("Main Menu UI")]
     [SerializeField] private MainMenuUI _main_menu_ui;
 
-    [SerializeField] private int _bgm_sound_id = 10;
-    [SerializeField] private float _init_music_volume = 0.25f;
-    [SerializeField] private float _init_sfx_music = 0.75f;
-
-    private int _sfx_sound_id = 0;
+    [Header("Event")]
+    [SerializeField] private GameEvent _on_load_volume_setting;
+    [SerializeField] private FloatEvent _on_change_value_sound;
+    [SerializeField] private FloatEvent _on_change_value_sfx;
 
     void Start()
     {
         LoadComponent();
         PlayBGMSound();
-        SetInitVolume();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
     private void LoadComponent()
     {
-
+        float music_volume = GameManager.Instance.current_sound_volume;
+        float sfx_volume = GameManager.Instance.current_sfx_volume;
+        AudioManager.Instance.ChangeMusicVolume(music_volume);
+        AudioManager.Instance.ChangeSFXVolume(sfx_volume);
     }
+
     void PlayBGMSound()
     {
         if (AudioManager.Instance.AudioLoaded)
         {
-            AudioManager.Instance.PlayBGM(_bgm_sound_id);
+            AudioManager.Instance.PlayBGM(GameManager.Instance.current_music_sound_id);
         }
         else
         {
@@ -47,20 +43,19 @@ public class MainMenuManager : MonoBehaviour
     {
         GameManager.Instance.current_stage = stage;
         GameManager.Instance.SetStageConfig();
+        //StartCoroutine(SwitchSceneCoroutine());
         SceneManager.LoadSceneAsync("SampleScene");
 
         Debug.Log($"Choose stage: {stage}");
     }
 
-    public void SetInitVolume()
-    {
-        AudioManager.Instance.ChangeMusicVolume( _init_music_volume );
-        AudioManager.Instance.ChangeSFXVolume( _init_sfx_music );
-        _main_menu_ui.SetUIMusicSlider(_init_music_volume);
-        _main_menu_ui.SetUISFXSlider(_init_sfx_music);  
-    }
-    public void PlaySFXSound()
+    IEnumerator SwitchSceneCoroutine()
     {
 
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync("SampleScene");
+        while (!loadOp.isDone) yield return null;
+
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync("MainScene");
+        while (!unloadOp.isDone) yield return null;
     }
 }

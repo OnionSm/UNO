@@ -26,6 +26,8 @@ public class GameControllerUIManager : MonoBehaviour
     [SerializeField] private List<GameObject> _list_light_bar;
     private int _light_bar_amount;
 
+    [Header("Event")]
+    [SerializeField] private GameEvent _on_load_volume_setting;
 
     private void Awake()
     {
@@ -33,7 +35,7 @@ public class GameControllerUIManager : MonoBehaviour
     }
     void Start()
     {
-        
+        _on_load_volume_setting?.RaiseEvent();
     }
     private void LoadComponent()
     {
@@ -136,4 +138,5 @@ public class GameControllerUIManager : MonoBehaviour
         Time.timeScale = 1f;
         _loss_panel?.gameObject.SetActive(false);
     }
+
 }
