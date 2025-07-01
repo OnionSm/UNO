@@ -1,5 +1,9 @@
 <a id="readme-top"></a>
 
+## Project: UNO - A Turn-based Card Game
+
+## DownLoad Game
+- [Download Game](https://drive.google.com/drive/folders/18lC7HeYdLNmGzrbZR_tnbNCnmHKQQoQe?usp=sharing)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -12,32 +16,12 @@ UNO is a fast-paced shedding-type card game first created in 1971 by American ba
 [![.NET](https://img.shields.io/badge/-.NET%208.0-blueviolet?logo=dotnet)](https://dotnet.microsoft.com/en-us)
 
 
-## Flow
-```
-[waiting]
-    |
-    v
-[standby]
-   /       \
-  v         v
-[allow draw]   [Execute action]
-   |                 |
-   v                 v
-[Draw]         [Execute]
-   |                 |
-   v                 v
-[Finish draw]   [Finish Execute]
-   |                 |
-   v                 v
-  End               End
-
-```
-
-### Top contributors:
-
-<a href="https://github.com/<OWNER>/<REPO>/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=OnionSm/UNO&max=12&columns=6" />
-</a>
+## Demo
+<p align="center">
+    <img src="demo/demo1.png" alt="Demo 1">
+    <img src="demo/demo2.png" alt="Demo 2">
+    <img src="demo/demo3.png" alt="Demo 3">
+</p>
 
 
 ## Contact
