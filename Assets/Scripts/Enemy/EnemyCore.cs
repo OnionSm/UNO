@@ -10,14 +10,10 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     [SerializeField] private RectTransform _card_pos;
     [SerializeField] private GameController _game_controller;
 
-    //private int _current_turn;
-
     [Header("Thinking Time")]
     [SerializeField] private float _min_thinking_time = 1f;
     [SerializeField] private float _max_thinking_time = 2f;
 
-
-    //private List<GameObject> list_player;
     private List<CardDeck> _deck_card;
 
 
@@ -202,12 +198,12 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     }
     public void ResetEnemyCore()
     {
-        if (_bot != null)
-        {
-            StopCoroutine(_bot);
-            _bot = null;
-        }
-
+        //if (_bot != null)
+        //{
+        //    StopCoroutine(_bot);
+        //    _bot = null;
+        //}
+        StopAllCoroutines();
         _has_drawn_card_by_effect = false;
 
         DespawnAllCard();

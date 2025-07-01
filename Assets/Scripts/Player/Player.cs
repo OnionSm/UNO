@@ -32,7 +32,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     public void Draw(int amount)
     {
-        if(_game_controller.CurrentTurn != 0 || _has_drawn || !_can_draw)
+        if(_game_controller._current_turn != 0 || _has_drawn || !_can_draw)
         {
             return;
         }
@@ -48,7 +48,6 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
                 card.SetParent(_player_hand_group_layout.transform, false);
                 card.GetComponentInChildren<CardModel>().StartFlipUp();
                 _has_drawn = true;
-                //Debug.Log(card);
             });
         }
         else
@@ -63,8 +62,6 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     }
     
-    
-    public void Update() { }
 
     private void LoadComponent()
     {
@@ -72,20 +69,6 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         this._has_drawn = false;
     }
 
-    private void CanDraw()
-    {
-        
-    }
-    public void ClickCard()
-    {
-
-    }
-
-    //public void OnPlayerTurn()
-    //{
-    //    _on_drop_turn_appear_btn_ev?.RaiseEvent(true);
-    //    CheckAnyAvailbleCard();
-    //}
 
     public void CheckAnyAvailbleCard()
     {
@@ -227,5 +210,21 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         {
             return false;
         }
+    }
+
+    public void DespawnAllCard()
+    {
+        foreach (Transform card in _list_card_in_hand)
+        {
+            CardSpawner.Instance.Despawn(card);
+        }
+        _list_card_in_hand?.Clear();
+    }
+    public void ResetPlayer()
+    {
+        StopAllCoroutines();
+        DespawnAllCard();
+        _current_card_selected = null;
+
     }
 }
