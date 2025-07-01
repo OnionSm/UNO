@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -31,36 +32,37 @@ public class GameManager : MonoBehaviour
     }
     public List<CardConfig> GetListCardConfigs()
     {
-        return _card_configs.configs;
+        return _card_configs.configs.Select(card => card.Clone()).ToList();
     }
+
 
     public Sprite GetProtecter()
     {
-        return _card_configs._card_protecter;
+        return _card_configs._card_protecter; 
     }
 
     public List<CardDeck> GetDecks()
     {
-        return _deck_configs._deck_configs;
+        return _deck_configs._deck_configs.Select(card_deck => card_deck.Clone()).ToList(); ;
     }
     public List <ColorConfig> GetColorConfigs()
     {
-        return _color_configs.all_color_configs;
+        return _color_configs.all_color_configs.Select(color_config => color_config.Clone()).ToList();
     }
 
     public List<AudioConfig> GetAudioConfigs() 
     {
-        return _audio_configs._all_audio_configs;
+        return _audio_configs._all_audio_configs.Select(audio_config => audio_config.Clone()).ToList();
     }
 
     public List<StageConfig> GetStageConfigs()
     {
-        return _stage_configs.all_stage_configs;
+        return _stage_configs.all_stage_configs.Select(stage_config => stage_config.Clone()).ToList();
     }
 
     public List<AudioConfig> GetSFXAudioConfigs()
     {
-        return _sfx_sound_configs._all_audio_configs;
+        return _sfx_sound_configs._all_audio_configs.Select(audio_config => audio_config.Clone()).ToList();
     }
 
     public StageConfig GetStageConfigById(int id)
@@ -69,7 +71,7 @@ public class GameManager : MonoBehaviour
         {
             if(config.stage_id == id)
             {
-                return config;
+                return config.Clone();
             }
         }
         return null;

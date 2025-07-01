@@ -15,4 +15,13 @@ public class CardDeck
     public string card_id;
     [Header("Card Amount")]
     public int amount;
+
+    public CardDeck Clone()
+    {
+        return new CardDeck
+        {
+            card_id = this.card_id,
+            amount = this.amount
+        };
+    }
 }

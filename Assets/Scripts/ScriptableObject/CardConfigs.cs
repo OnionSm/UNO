@@ -19,6 +19,16 @@ public class CardConfig
     public CardSymbol card_symbol;
     public Sprite card_image;
 
+    public CardConfig Clone()
+    {
+        return new CardConfig
+        {
+            card_id = this.card_id,
+            card_color = this.card_color,
+            card_type = this.card_type,
+            card_symbol = this.card_symbol,
+            card_image = this.card_image
+        };
+    }
 }
-
 

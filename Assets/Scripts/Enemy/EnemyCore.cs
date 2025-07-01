@@ -35,7 +35,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     public List<FSMState> _list_states = new List<FSMState>();
 
-    private string _current_state_name = "Waiting";
+    private string _init_state_name = "Waiting";
     private FSMState _current_state;
 
     public bool _has_drawn_card_by_effect { get; set; } = false;
@@ -69,7 +69,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     void LoadInitState()
     {
-        _current_state = GetStateByName(_current_state_name);
+        _current_state = GetStateByName(_init_state_name);
     }
 
     void CheckCardsInHand()
@@ -102,43 +102,6 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             Debug.LogError("list_card_got is null");
         }
     }
-
-
-    //void GetCardAmountInEachPlayer()
-    //{
-    //    List<GameObject> list_player_temp = new List<GameObject>();
-    //    list_player_temp = _game_controller.ListPlayer;
-    //    List<int> list_card_amount = new List<int>();
-
-    //    if (list_player == null || list_player.Count <= 0)
-    //        return;
-
-    //    foreach (GameObject player in list_player)
-    //    {
-    //        EnemyCore core = player.GetComponent<EnemyCore>();
-    //        if (core != null)
-    //            return;
-    //        int amount = core._list_card_in_hand.Count;
-    //        list_card_amount.Add(amount);
-    //    }
-    //    list_player.Clear();
-    //    list_player = list_player_temp;
-    //}
-    //void ReCalculateCardDeck()
-    //{
-    //    GameObject latest_card = _game_controller.GetLatestCard();
-    //    if (latest_card == null)
-    //        return;
-
-    //    BaseCard base_card = latest_card.GetComponent<BaseCard>();
-    //    for (int i = 0; i < _deck_card.Count; i++)
-    //    {
-    //        if (_deck_card[i].card_id == base_card.card_id)
-    //        {
-    //            _deck_card[i].amount = _deck_card[i].amount > 0 ? _deck_card[i].amount-- : 0;
-    //        }
-    //    }
-    //}
     public void Notify()
     {
         Debug.Log($"Notify {turn_id} called");
@@ -227,6 +190,16 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
             return false;
         }
     }
+
+    #region ResetEnemyCore
+    public void DespawnAllCard()
+    {
+        foreach(Transform card in _list_card_in_hand)
+        {
+            CardSpawner.Instance.Despawn(card);
+        }
+        _list_card_in_hand?.Clear();
+    }
     public void ResetEnemyCore()
     {
         if (_bot != null)
@@ -237,19 +210,19 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
         _has_drawn_card_by_effect = false;
 
-        _list_card_in_hand?.Clear();
+        DespawnAllCard();
         _list_card_can_play?.Clear();
         _list_card_draw_this_turn?.Clear();
-        _list_states?.Clear();
-        //list_player?.Clear();
-        //_deck_card?.Clear();
 
-        if (_enemy_ui != null)
-            _enemy_ui.SetCardLeftText(0);
+
+        //if (_enemy_ui != null)
+        //    _enemy_ui.SetCardLeftText(0);
 
         _current_state = null;
-        _current_state_name = "Waiting";
     }
+
+    #endregion
+
 
 }
 // Nếu trên tay có nhiều hơn 1 lá bài có thể đánh được thì sẽ ưu tiên 

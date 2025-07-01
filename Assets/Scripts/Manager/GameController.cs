@@ -343,6 +343,8 @@ public class GameController : MonoBehaviour, IPublisher
             seq.OnComplete(() =>
             {
                 SetCardSprite(card.transform);
+                CardSpawner.Instance.Despawn(card.transform);
+                card.gameObject.SetActive(false);
                 _list_card_played.Add(card);
                 SetCurrentAttributes(card);
 
@@ -425,8 +427,6 @@ public class GameController : MonoBehaviour, IPublisher
     {
         var card_sprite = card.GetComponentInChildren<CardModel>()?.card_image;
         _played_zone.sprite = card_sprite;
-        CardSpawner.Instance.Despawn(card);
-        card.gameObject.SetActive(false);
     }
 
     #endregion 
