@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StageConfigs _stage_configs;
     [SerializeField] private AudioConfigs _sfx_sound_configs;
     public int current_stage { get; set; } = 0;
+    public float current_sound_volume = 0.25f;
+    public float current_sfx_volume = 0.5f;
+    public int current_music_sound_id = 10;
     public StageConfig current_stage_config { get; set; }
 
     public static GameManager Instance;

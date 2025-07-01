@@ -106,11 +106,13 @@ public class AudioManager : MonoBehaviour
 
     public void ChangeMusicVolume(float value)
     {
+        GameManager.Instance.current_sound_volume = value;
         _audio_source_bgm.volume = value;
     }
 
     public void ChangeSFXVolume(float value)
     {
+        GameManager.Instance.current_sfx_volume = value;
         _audio_source_fx.volume = value;
     }
 }

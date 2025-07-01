@@ -33,6 +33,11 @@ public class GameController : MonoBehaviour, IPublisher
 
     [Header("On Back Home Event")]
     [SerializeField] private GameEvent _on_back_home_game_event;
+
+    [Header("Volume Event")]
+    [SerializeField] private FloatEvent _on_change_value_sound;
+    [SerializeField] private FloatEvent _on_change_value_sfx;
+
     #endregion
 
     private List<IObserver> _list_observer = new List<IObserver>();
@@ -112,8 +117,16 @@ public class GameController : MonoBehaviour, IPublisher
         _current_turn = 0;
         turn_finished = false;
     }
+    public void LoadAudioSetting()
+    {
+        float music_volume = GameManager.Instance.current_sound_volume;
+        float sfx_volume = GameManager.Instance.current_sfx_volume;
+        AudioManager.Instance.ChangeMusicVolume(music_volume);
+        AudioManager.Instance.ChangeSFXVolume(sfx_volume);
+    }
     private void LoadComponent()
     {
+        LoadAudioSetting();
         LoadStageConfig();
         InitPlayer();
         InitEnemy();
@@ -504,13 +517,14 @@ public class GameController : MonoBehaviour, IPublisher
     {
         _on_back_home_game_event?.RaiseEvent();
         ResetGameController();
-        StartCoroutine(SwitchSceneCoroutine());
+        SceneManager.LoadSceneAsync("MainMenu");
+        //StartCoroutine(SwitchSceneCoroutine());
     }
 
     IEnumerator SwitchSceneCoroutine()
     {
 
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Additive);
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync("MainMenu");
         while (!loadOp.isDone) yield return null;
 
         AsyncOperation unloadOp = SceneManager.UnloadSceneAsync("SampleScene");
