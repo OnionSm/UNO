@@ -11,5 +11,4 @@ public abstract class BaseCard : MonoBehaviour
     public GameController Controller { get; set; }
     public GameControllerUIManager GameControllerUIManager { get; set; }
     public abstract void Play();
-    //public abstract bool CanPlay();
 }

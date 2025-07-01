@@ -105,6 +105,14 @@ public class GameController : MonoBehaviour, IPublisher
         LoadDeckConfigMap();
         LoadDeck();
     }
+    public void LoadBasicProperties()
+    {
+        pre_player_id = -1;
+        _card_drawn_amount = 0;
+        turn_change = 1;
+        _turn_direction = 1;
+        _current_turn = 0;
+    }
     private void LoadComponent()
     {
         LoadStageConfig();
@@ -125,14 +133,7 @@ public class GameController : MonoBehaviour, IPublisher
         _game_controller_ui_manager.EnableLightBar(_current_turn);
 
     }
-    public void LoadBasicProperties()
-    {
-        pre_player_id = -1;
-        _card_drawn_amount = 0;
-        turn_change = 1;
-       _turn_direction = 1;
-        _current_turn = 0;
-    }
+    
     private void LoadCardConfigMap()
     {
         if (_list_card_configs == null)
@@ -215,6 +216,7 @@ public class GameController : MonoBehaviour, IPublisher
 
     private void InitPlayer()
     {
+        _list_player = new List<GameObject>();
         _list_player.Add(_main_player);
     }
     private void InitEnemy()
@@ -230,6 +232,7 @@ public class GameController : MonoBehaviour, IPublisher
             if (turnComponent != null)
             {
                 turnComponent.turn_id = i + 1;
+                enemyCore.Turn_Id = turnComponent.turn_id;
             }
             enemyUI.Card_Text_Left = _list_enemy_ui[i]._card_amount;
             enemyUI.Cash_Text = _list_enemy_ui[i]._cash_amount;
@@ -443,7 +446,7 @@ public class GameController : MonoBehaviour, IPublisher
 
     public void Notify()
     {
-        //Debug.Log($"Notify current turn: {CurrentTurn} and has {_list_observer.Count} Observer");
+        Debug.Log($"Notify current turn: {_current_turn}");
         _list_observer[_current_turn].Notify();
     }
     #endregion
@@ -456,7 +459,15 @@ public class GameController : MonoBehaviour, IPublisher
     public void EndMatch(int player_id)
     {
         Debug.Log($"Player {player_id} win");
-        _game_controller_ui_manager.OpenWinPanel();
+        if (player_id == 0)
+        {
+            _game_controller_ui_manager.OpenWinPanel();
+        }
+        else
+        {
+            _game_controller_ui_manager.OpenLossPanel();
+        }
+        
     }
 
     #region Reset Game
@@ -478,15 +489,6 @@ public class GameController : MonoBehaviour, IPublisher
         _list_player?.Clear();
         _list_card_played?.Clear();
         _card_in_deck_remain?.Clear();
-        //_deck_config_map?.Clear();
-        //_card_config_map?.Clear();
-        //_list_color_config?.Clear();
-        //_deck_config?.Clear();
-        //_list_card_configs?.Clear();
-
-        //_current_turn = 0;
-        //_turn_direction = 0;
-
         Debug.Log("GameController has been reset.");
     }
 
@@ -496,11 +498,8 @@ public class GameController : MonoBehaviour, IPublisher
     {
         _on_back_home_game_event?.RaiseEvent();
         ResetGameController();
-        //SceneManager.LoadSceneAsync("MainMenu");
         StartCoroutine(SwitchSceneCoroutine());
     }
-
-
 
     IEnumerator SwitchSceneCoroutine()
     {

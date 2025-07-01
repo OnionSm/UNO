@@ -82,6 +82,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
         else
         {
             Debug.Log("Has not card to play");
+            Debug.Log($"Has drawn: {_has_drawn}");
             if(this._has_drawn)
             {
                 EndTurn();
@@ -177,6 +178,7 @@ public class Player : MonoBehaviour, IDrawable, ITurn, IObserver
 
     public void Notify()
     {
+        _has_drawn = false;
         int draw_amount = _game_controller._card_drawn_amount;
         if (draw_amount > 0)
         {

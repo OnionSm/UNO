@@ -28,6 +28,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     public List<Transform> _list_card_draw_this_turn { get; set; }
 
     [SerializeField] public int turn_id { get; set; }
+    [SerializeField] public int Turn_Id;
 
     public List<FSMState> _list_states = new List<FSMState>();
 
@@ -127,10 +128,9 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
     }
     private void ExecuteState()
     {
-        if (CanExecuteState())
-        {
-            _current_state.UpdateState(this);
-        }
+        
+        _current_state.UpdateState(this);
+      
     }
     private bool CanExecuteState()
     {
@@ -150,20 +150,24 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     public void EndTurn()
     {
-        Winning();
         if (_bot != null)
         {
             StopCoroutine(_bot);
             _bot = null;
             Debug.Log($"Bot coroutine stopped (not {turn_id} turn).");
         }
-        
         _has_drawn_card_by_effect = false;
         _list_card_can_play.Clear();
         _list_card_draw_this_turn.Clear();
-        
-        _game_controller.ChangeTurn();
 
+        if (CheckWinCondition())
+        {
+            Winning();
+        }
+        else
+        {
+            _game_controller.ChangeTurn();
+        }
     }
 
     public void Winning()
@@ -177,6 +181,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
 
     public bool CheckWinCondition()
     {
+        Debug.Log($"player {turn_id} has {_list_card_in_hand.Count} card");
         if (_list_card_in_hand.Count <= 0)
         {
             return true;
@@ -185,6 +190,7 @@ public class EnemyCore : MonoBehaviour, IDrawable, IObserver, ITurn
         {
             return false;
         }
+        
     }
 
     #region ResetEnemyCore
