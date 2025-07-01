@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     }
 
     [SerializeField] private List<AudioConfig> _list_audio_configs;
+    [SerializeField] private List<AudioConfig> _list_sfx_configs;
     public bool AudioLoaded = false;
 
     public static AudioManager Instance;
@@ -46,6 +47,7 @@ public class AudioManager : MonoBehaviour
     private void LoadComponent()
     {
         this._list_audio_configs = GameManager.Instance.GetAudioConfigs();
+        this._list_sfx_configs = GameManager.Instance.GetSFXAudioConfigs();
         AudioLoaded = true;
     }
 
@@ -58,7 +60,7 @@ public class AudioManager : MonoBehaviour
         }
         Debug.Log($"Audio count: {this._list_audio_configs.Count}");
 
-        AudioClip audioClip = GetAudioClip(audio_id);
+        AudioClip audioClip = GetAudioClip(_list_audio_configs, audio_id);
 
         if (audioClip == null)
         {
@@ -77,7 +79,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        AudioClip audioClip = GetAudioClip(audio_id);
+        AudioClip audioClip = GetAudioClip(_list_sfx_configs, audio_id);
 
         if (audioClip == null)
         {
@@ -88,9 +90,9 @@ public class AudioManager : MonoBehaviour
         _audio_source_fx.Play();
     }
 
-    public AudioClip GetAudioClip(int audio_id)
+    public AudioClip GetAudioClip(List<AudioConfig> list_audio_configs, int audio_id)
     {
-        foreach (AudioConfig config in _list_audio_configs)
+        foreach (AudioConfig config in list_audio_configs)
         {
             if (config.id == audio_id)
             {
@@ -98,5 +100,17 @@ public class AudioManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+
+
+    public void ChangeMusicVolume(float value)
+    {
+        _audio_source_bgm.volume = value;
+    }
+
+    public void ChangeSFXVolume(float value)
+    {
+        _audio_source_fx.volume = value;
     }
 }

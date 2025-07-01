@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99458cbd98627cc4582283f46e466095, type: 3}
-  m_Name: AudioConfigs 1
+  m_Name: SFXConfigs
   m_EditorClassIdentifier: 
   _all_audio_configs:
   - id: 0
-    name: hehe
-    audio_clip: {fileID: 8300000, guid: c42ef29360fb2f443a3e9ad7ae13ab95, type: 3}
+    name: chocolate_expand
+    audio_clip: {fileID: 8300000, guid: a7bc70a5125f2a44ab9e807137883ee5, type: 3}

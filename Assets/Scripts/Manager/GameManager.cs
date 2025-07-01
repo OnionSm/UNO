@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ColorConfigs _color_configs;
     [SerializeField] private AudioConfigs _audio_configs;
     [SerializeField] private StageConfigs _stage_configs;
+    [SerializeField] private AudioConfigs _sfx_sound_configs;
     public int current_stage { get; set; } = 0;
     public StageConfig current_stage_config { get; set; }
 
@@ -55,6 +56,11 @@ public class GameManager : MonoBehaviour
     public List<StageConfig> GetStageConfigs()
     {
         return _stage_configs.all_stage_configs;
+    }
+
+    public List<AudioConfig> GetSFXAudioConfigs()
+    {
+        return _sfx_sound_configs._all_audio_configs;
     }
 
     public StageConfig GetStageConfigById(int id)
