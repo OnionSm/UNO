@@ -2690,6 +2690,10 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SettingPanelUI, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3597429926531115963, guid: e8b36a60929293343b50d48f616854dd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -419.01
+      objectReference: {fileID: 0}
     - target: {fileID: 4334499730277597218, guid: e8b36a60929293343b50d48f616854dd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2698,9 +2702,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6132231691139589467, guid: e8b36a60929293343b50d48f616854dd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -199.31506
+      objectReference: {fileID: 0}
     - target: {fileID: 6997706215264977118, guid: e8b36a60929293343b50d48f616854dd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7278129786878074427, guid: e8b36a60929293343b50d48f616854dd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -7.5001526
       objectReference: {fileID: 0}
     - target: {fileID: 8746856960684158926, guid: e8b36a60929293343b50d48f616854dd, type: 3}
       propertyPath: m_Name
